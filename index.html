@@ -191,7 +191,7 @@
         <div class="faq-item"><div class="faq-q">Quelles technologies utilisez-vous ?</div><div class="faq-a">HTML, CSS et JavaScript pour des sites rapides et légers. Je peux aussi utiliser WordPress selon vos besoins.</div></div>
         <div class="faq-item"><div class="faq-q">Le site sera-t-il adapté aux mobiles ?</div><div class="faq-a">Oui, tous mes sites sont 100% responsives et s'adaptent aux smartphones, tablettes et ordinateurs.</div></div>
         <div class="faq-item"><div class="faq-q">Puis-je modifier le contenu moi-même ?</div><div class="faq-a">Oui ! Chaque site est livré avec un panneau d'administration simple pour modifier textes, images et projets.</div></div>
-        <div class="faq-item"><div class="faq-q">Comment se déroule le paiement ?</div><div class="faq-a">50% d'acompte au démarrage, 50% à la livraison du site.</div></div>
+        <div class="faq-item"><div class="faq-q">Comment se déroule le paiement ?</div><div class="faq-a">Le paiement se fait en une fois par carte bancaire ou PayPal avant le démarrage du projet.</div></div>
         <div class="faq-item"><div class="faq-q">Hébergement et nom de domaine inclus ?</div><div class="faq-a">Non, mais je vous accompagne pour les configurer. L'hébergement est gratuit sur Netlify.</div></div>
     </section>
 
@@ -242,7 +242,7 @@
                     <div class="fg"><label>Décrivez votre projet <span class="req">*</span></label><textarea name="desc" required placeholder="À quoi sert le site, quel contenu, quel style..."></textarea></div>
                     <div class="fg"><label>Nom de domaine (si vous en avez un)</label><input type="text" name="domaine" placeholder="monsite.com"></div>
                     <button type="submit" class="btn btn-p btn-full" id="btnStep1">Continuer vers le paiement →</button>
-                    <div class="info-line" style="justify-content:center">Acompte de 50% — Solde à la livraison</div>
+                    <div class="info-line" style="justify-content:center">Paiement sécurisé</div>
                 </form>
             </div>
         </div>
@@ -254,11 +254,10 @@
             </div>
             <div class="d-card">
                 <div class="pay-info">
-                    <h2>Acompte — 50%</h2>
+                    <h2>Paiement</h2>
                     <p>Formule <strong id="payFormule">—</strong></p>
                 </div>
                 <div class="pay-big" id="payAmount">—</div>
-                <div class="pay-note">Les 50% restants seront à régler à la livraison</div>
                 <div class="pay-btns">
                     <a href="#" class="pb pb-stripe" id="btnStripe" target="_blank">Carte bancaire</a>
                     <div class="or">ou</div>
@@ -305,10 +304,10 @@ const STRIPE = {
 
 // LIENS PAYPAL (remplace TONPSEUDO)
 const PAYPAL = {
-    'Landing Page':  'https://paypal.me/TONPSEUDO/24.50',
-    'Portfolio':     'https://paypal.me/TONPSEUDO/49.50',
-    'Site Vitrine':  'https://paypal.me/TONPSEUDO/74.50',
-    'Site Premium':  'https://paypal.me/TONPSEUDO/124.50'
+    'Landing Page':  'https://paypal.me/KazoxXiii/49',
+    'Portfolio':     'https://paypal.me/KazoxXiii/99',
+    'Site Vitrine':  'https://paypal.me/KazoxXiii/149',
+    'Site Premium':  'https://paypal.me/KazoxXiii/249'
 };
 
 const FORMSPREE = 'https://formspree.io/f/mdajgayy';
@@ -405,7 +404,7 @@ document.getElementById('devisForm').addEventListener('submit', async (e) => {
                 'Téléphone': fd.get('tel') || 'Non renseigné',
                 'Entreprise': fd.get('entreprise') || 'Non renseigné',
                 'Formule': formuleNom + ' — ' + f.prix + '€',
-                'Acompte': (f.prix/2) + '€',
+                'Prix': f.prix + '€',
                 'Description': fd.get('desc'),
                 'Nom de domaine': fd.get('domaine') || 'Non renseigné'
             })
@@ -413,9 +412,8 @@ document.getElementById('devisForm').addEventListener('submit', async (e) => {
     } catch {}
 
     // Paiement
-    const half = (f.prix / 2).toFixed(2).replace('.',',');
     document.getElementById('payFormule').textContent = formuleNom + ' — ' + f.prix + '€';
-    document.getElementById('payAmount').textContent = half + '€';
+    document.getElementById('payAmount').textContent = f.prix + '€';
     document.getElementById('btnStripe').href = STRIPE[formuleNom] || '#';
     document.getElementById('btnPaypal').href = PAYPAL[formuleNom] || '#';
 
