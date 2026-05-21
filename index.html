@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MALTY — Création de sites web</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --bg2: #111111;
+            --bg3: #1a1a1a;
+            --text: #f0f0f0;
+            --text2: #888888;
+            --muted: #555555;
+            --accent: #3b82f6;
+            --accent-h: #60a5fa;
+            --border: #2a2a2a;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --fh: 'Space Grotesk', sans-serif;
+            --fb: 'Inter', sans-serif;
+        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:var(--fb);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+        /* NAV */
+        nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:18px 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(10,10,10,0.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.05)}
+        .logo{font-family:var(--fh);font-size:1.4rem;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:-0.5px}
+        .logo span{color:var(--accent)}
+        .nav-links{display:flex;gap:28px;list-style:none}
+        .nav-links a{color:var(--text2);text-decoration:none;font-size:0.85rem;font-weight:500;letter-spacing:0.5px;text-transform:uppercase;transition:color 0.3s}
+        .nav-links a:hover{color:var(--accent)}
+        .nav-toggle{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px}
+        .nav-toggle span{display:block;width:24px;height:2px;background:var(--text)}
+
+        /* PAGES */
+        .page{display:none;min-height:100vh}
+        .page.active{display:block}
+
+        /* ===== TARIFS ===== */
+        .hero-tarifs{min-height:50vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px 40px 40px}
+        .hero-tarifs .label{font-size:0.85rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+        .hero-tarifs h1{font-family:var(--fh);font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;line-height:1.1;letter-spacing:-2px;margin-bottom:16px}
+        .hero-tarifs p{color:var(--text2);font-size:1.05rem;max-width:600px}
+
+        .pricing{max-width:1200px;margin:0 auto;padding:40px 40px 100px}
+        .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+
+        .p-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:32px 28px;display:flex;flex-direction:column;transition:all 0.3s;position:relative}
+        .p-card:hover{transform:translateY(-6px);border-color:rgba(59,130,246,0.3);box-shadow:0 20px 60px rgba(0,0,0,0.4)}
+        .p-card.featured{border-color:var(--accent);background:linear-gradient(180deg,rgba(59,130,246,0.08) 0%,var(--bg3) 40%)}
+        .badge{position:absolute;top:-12px;right:20px;background:var(--accent);color:#000;font-size:0.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:20px}
+        .p-icon{font-size:1.8rem;margin-bottom:14px}
+        .p-name{font-family:var(--fh);font-size:1.25rem;font-weight:700;margin-bottom:6px}
+        .p-desc{color:var(--text2);font-size:0.88rem;margin-bottom:20px;line-height:1.6}
+        .p-price{font-family:var(--fh);font-size:2.6rem;font-weight:700;margin-bottom:2px;letter-spacing:-1px}
+        .p-price span{font-size:0.95rem;color:var(--muted);font-weight:400}
+        .p-note{color:var(--muted);font-size:0.78rem;margin-bottom:24px}
+        .p-features{list-style:none;margin-bottom:28px;flex-grow:1}
+        .p-features li{display:flex;align-items:flex-start;gap:8px;padding:7px 0;font-size:0.88rem;color:var(--text2);border-bottom:1px solid rgba(255,255,255,0.03)}
+        .p-features li:last-child{border:none}
+        .p-features li::before{content:'✓';color:var(--accent);font-weight:700;flex-shrink:0}
+
+        .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 28px;font-family:var(--fb);font-size:0.9rem;font-weight:600;text-decoration:none;border-radius:6px;transition:all 0.3s;cursor:pointer;letter-spacing:0.5px;border:none}
+        .btn-p{background:var(--accent);color:#000}
+        .btn-p:hover{background:var(--accent-h);transform:translateY(-2px);box-shadow:0 8px 30px rgba(59,130,246,0.3)}
+        .btn-o{background:transparent;color:var(--text);border:1px solid var(--border)}
+        .btn-o:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+        .btn-full{width:100%}
+        .btn:disabled{opacity:0.5;cursor:not-allowed;transform:none!important}
+
+        /* FAQ */
+        .faq{max-width:800px;margin:0 auto;padding:0 40px 100px}
+        .faq h2{font-family:var(--fh);font-size:2.4rem;font-weight:700;text-align:center;margin-bottom:40px;letter-spacing:-1px}
+        .faq-item{border-bottom:1px solid var(--border);padding:22px 0}
+        .faq-q{font-family:var(--fh);font-size:1rem;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px}
+        .faq-q::after{content:'+';font-size:1.3rem;color:var(--accent);transition:transform 0.3s}
+        .faq-item.open .faq-q::after{transform:rotate(45deg)}
+        .faq-a{max-height:0;overflow:hidden;transition:max-height 0.4s,padding 0.4s;color:var(--text2);font-size:0.92rem;line-height:1.7}
+        .faq-item.open .faq-a{max-height:200px;padding-top:14px}
+
+        /* CTA */
+        .cta{text-align:center;padding:60px 40px 100px;max-width:600px;margin:0 auto}
+        .cta h2{font-family:var(--fh);font-size:2.4rem;font-weight:700;letter-spacing:-1px;margin-bottom:12px}
+        .cta p{color:var(--text2);margin-bottom:28px;font-size:1rem}
+
+        /* Footer */
+        footer{padding:40px;text-align:center;border-top:1px solid var(--border);color:var(--muted);font-size:0.85rem}
+
+        /* ===== DEVIS ===== */
+        .devis-wrap{max-width:600px;margin:0 auto;padding:120px 40px 80px}
+        .devis-header{text-align:center;margin-bottom:36px}
+        .devis-header .label{font-size:0.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:inline-block;background:rgba(59,130,246,0.15);padding:5px 14px;border-radius:20px}
+        .devis-header h1{font-family:var(--fh);font-size:2.2rem;font-weight:700;letter-spacing:-1px;margin-bottom:8px}
+        .devis-header p{color:var(--text2);font-size:0.95rem}
+
+        .steps-bar{display:flex;justify-content:center;gap:8px;margin-bottom:32px}
+        .dot{width:10px;height:10px;border-radius:50%;background:var(--border);transition:all 0.3s}
+        .dot.on{background:var(--accent);width:32px;border-radius:5px}
+        .dot.done{background:var(--success)}
+
+        .d-card{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:36px}
+
+        .fg{margin-bottom:20px}
+        .fg label{display:block;font-size:0.85rem;font-weight:600;margin-bottom:7px}
+        .fg .req{color:var(--danger)}
+        .fg input,.fg select,.fg textarea{width:100%;padding:13px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--fb);font-size:0.93rem;outline:none;transition:border-color 0.3s}
+        .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--accent)}
+        .fg select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+        .fg select option{background:var(--bg3)}
+        .fg textarea{resize:vertical;min-height:100px}
+        .f-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+        .formule-box{background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:10px;padding:14px 18px;margin-bottom:20px;display:none;justify-content:space-between;align-items:center}
+        .formule-box.show{display:flex}
+        .formule-box .fn{font-family:var(--fh);font-weight:600}
+        .formule-box .fp{font-family:var(--fh);font-weight:700;font-size:1.15rem;color:var(--accent)}
+
+        .pay-info{text-align:center;margin-bottom:24px}
+        .pay-info h2{font-family:var(--fh);font-size:1.4rem;font-weight:700;margin-bottom:6px}
+        .pay-info p{color:var(--text2);font-size:0.9rem}
+        .pay-big{font-family:var(--fh);font-size:2.4rem;font-weight:700;color:var(--accent);text-align:center;margin:16px 0}
+        .pay-note{text-align:center;color:var(--muted);font-size:0.8rem;margin-bottom:24px}
+
+        .pay-btns{display:flex;flex-direction:column;gap:10px}
+        .pb{display:flex;align-items:center;justify-content:center;gap:10px;padding:15px;border-radius:8px;font-family:var(--fb);font-size:0.95rem;font-weight:600;text-decoration:none;transition:all 0.3s;cursor:pointer;border:none}
+        .pb-stripe{background:#635bff;color:#fff}
+        .pb-stripe:hover{background:#7a73ff;transform:translateY(-2px)}
+        .pb-paypal{background:#0070ba;color:#fff}
+        .pb-paypal:hover{background:#005ea6;transform:translateY(-2px)}
+        .pb-off{background:var(--border);color:var(--muted);cursor:not-allowed}
+        .or{text-align:center;color:var(--muted);font-size:0.78rem;text-transform:uppercase;letter-spacing:2px}
+
+        .confirm{text-align:center;padding:20px 0}
+        .confirm .ci{font-size:4rem;margin-bottom:16px}
+        .confirm h2{font-family:var(--fh);font-size:1.8rem;font-weight:700;margin-bottom:10px}
+        .confirm p{color:var(--text2);margin-bottom:24px;line-height:1.7}
+
+        .step{display:none}.step.active{display:block}
+
+        .info-line{font-size:0.8rem;color:var(--muted);margin-top:16px;display:flex;align-items:center;gap:8px}
+
+        /* RETOUR */
+        .back-link{color:var(--text2);text-decoration:none;font-size:0.88rem;transition:color 0.3s;display:inline-flex;align-items:center;gap:6px;margin-bottom:20px}
+        .back-link:hover{color:var(--accent)}
+
+        /* RESPONSIVE */
+        @media(max-width:768px){
+            nav{padding:14px 20px}
+            .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:rgba(10,10,10,0.95);backdrop-filter:blur(20px);padding:20px;gap:16px;border-bottom:1px solid var(--border)}
+            .nav-links.open{display:flex}
+            .nav-toggle{display:flex}
+            .pricing,.devis-wrap,.faq,.cta{padding-left:20px;padding-right:20px}
+            .hero-tarifs{padding:100px 20px 30px}
+            .pricing-grid{grid-template-columns:1fr}
+            .d-card{padding:24px}
+            .f-row{grid-template-columns:1fr}
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="#" class="logo" onclick="showPage('tarifs')">MALTY<span>.</span></a>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#" onclick="showPage('tarifs')">Tarifs</a></li>
+        <li><a href="#" onclick="showPage('devis')">Devis</a></li>
+    </ul>
+    <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<!-- ===================== PAGE TARIFS ===================== -->
+<div class="page active" id="page-tarifs">
+
+    <section class="hero-tarifs">
+        <span class="label">Création de sites web</span>
+        <h1>Tarifs</h1>
+        <p>Des sites web modernes, rapides et optimisés. Choisissez la formule qui vous correspond.</p>
+    </section>
+
+    <section class="pricing">
+        <div class="pricing-grid" id="pricingGrid"></div>
+    </section>
+
+    <section class="faq">
+        <h2>Questions fréquentes</h2>
+        <div class="faq-item"><div class="faq-q">Quelles technologies utilisez-vous ?</div><div class="faq-a">HTML, CSS et JavaScript pour des sites rapides et légers. Je peux aussi utiliser WordPress selon vos besoins.</div></div>
+        <div class="faq-item"><div class="faq-q">Le site sera-t-il adapté aux mobiles ?</div><div class="faq-a">Oui, tous mes sites sont 100% responsives et s'adaptent aux smartphones, tablettes et ordinateurs.</div></div>
+        <div class="faq-item"><div class="faq-q">Puis-je modifier le contenu moi-même ?</div><div class="faq-a">Oui ! Chaque site est livré avec un panneau d'administration simple pour modifier textes, images et projets.</div></div>
+        <div class="faq-item"><div class="faq-q">Comment se déroule le paiement ?</div><div class="faq-a">50% d'acompte au démarrage, 50% à la livraison du site.</div></div>
+        <div class="faq-item"><div class="faq-q">Hébergement et nom de domaine inclus ?</div><div class="faq-a">Non, mais je vous accompagne pour les configurer. L'hébergement est gratuit sur Netlify.</div></div>
+    </section>
+
+    <section class="cta">
+        <h2>Prêt à lancer votre projet ?</h2>
+        <p>Devis gratuit et sans engagement.</p>
+        <button class="btn btn-p" onclick="showPage('devis')">Demander un devis</button>
+    </section>
+
+    <footer><p>© 2026 MALTY. Tous droits réservés.</p></footer>
+</div>
+
+<!-- ===================== PAGE DEVIS ===================== -->
+<div class="page" id="page-devis">
+
+    <div class="devis-wrap">
+
+        <div class="steps-bar">
+            <div class="dot on" id="d1"></div>
+            <div class="dot" id="d2"></div>
+            <div class="dot" id="d3"></div>
+        </div>
+
+        <!-- STEP 1 : FORMULAIRE -->
+        <div class="step active" id="s1">
+            <a href="#" class="back-link" onclick="showPage('tarifs')">← Retour aux tarifs</a>
+            <div class="devis-header">
+                <span class="label">Devis gratuit</span>
+                <h1>Votre projet</h1>
+                <p>Remplissez le formulaire puis procédez au paiement.</p>
+            </div>
+            <div class="formule-box" id="fBox"><span class="fn" id="fName"></span><span class="fp" id="fPrice"></span></div>
+            <div class="d-card">
+                <form id="devisForm">
+                    <div class="f-row">
+                        <div class="fg"><label>Nom <span class="req">*</span></label><input type="text" name="nom" required placeholder="Jean Dupont"></div>
+                        <div class="fg"><label>Email <span class="req">*</span></label><input type="email" name="email" required placeholder="jean@email.com"></div>
+                    </div>
+                    <div class="f-row">
+                        <div class="fg"><label>Téléphone</label><input type="tel" name="tel" placeholder="06 12 34 56 78"></div>
+                        <div class="fg"><label>Entreprise</label><input type="text" name="entreprise" placeholder="Votre activité"></div>
+                    </div>
+                    <div class="fg"><label>Formule <span class="req">*</span></label>
+                        <select name="formule" id="selFormule" required>
+                            <option value="" disabled selected>Choisissez</option>
+                        </select>
+                    </div>
+                    <div class="fg"><label>Décrivez votre projet <span class="req">*</span></label><textarea name="desc" required placeholder="À quoi sert le site, quel contenu, quel style..."></textarea></div>
+                    <div class="fg"><label>Nom de domaine (si vous en avez un)</label><input type="text" name="domaine" placeholder="monsite.com"></div>
+                    <button type="submit" class="btn btn-p btn-full" id="btnStep1">Continuer vers le paiement →</button>
+                    <div class="info-line" style="justify-content:center">Acompte de 50% — Solde à la livraison</div>
+                </form>
+            </div>
+        </div>
+
+        <!-- STEP 2 : PAIEMENT -->
+        <div class="step" id="s2">
+            <div class="devis-header">
+                <h1>Paiement</h1>
+            </div>
+            <div class="d-card">
+                <div class="pay-info">
+                    <h2>Acompte — 50%</h2>
+                    <p>Formule <strong id="payFormule">—</strong></p>
+                </div>
+                <div class="pay-big" id="payAmount">—</div>
+                <div class="pay-note">Les 50% restants seront à régler à la livraison</div>
+                <div class="pay-btns">
+                    <a href="#" class="pb pb-stripe" id="btnStripe" target="_blank">Carte bancaire</a>
+                    <div class="or">ou</div>
+                    <a href="#" class="pb pb-paypal" id="btnPaypal" target="_blank">PayPal</a>
+                </div>
+            </div>
+            <button class="btn btn-p btn-full" style="margin-top:16px" onclick="goStep(3)">J'ai payé ✓</button>
+        </div>
+
+        <!-- STEP 3 : CONFIRMATION -->
+        <div class="step" id="s3">
+            <div class="d-card">
+                <div class="confirm">
+                    <div class="ci"></div>
+                    <h2>C'est validé !</h2>
+                    <p>Merci pour votre confiance.<br>Je commence le développement de votre site.<br>Vous recevrez un aperçu par email.</p>
+                    <button class="btn btn-p" onclick="showPage('tarifs')">← Retour aux tarifs</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+// ==========================================
+// CONFIG — Modifie ici
+// ==========================================
+
+const FORMULES = [
+    { nom:'Landing Page',  prix:49,  desc:'Une page unique, percutante et optimisée pour convertir vos visiteurs.', delai:'3-5 jours', features:['1 page responsive','Design sur-mesure','Optimisation mobile','Formulaire de contact','Animations modernes','1 révision incluse'], icon:'', featured:false },
+    { nom:'Portfolio',     prix:99,  desc:'Un site portfolio pour mettre en valeur vos créations avec vidéos et galeries.', delai:'5-7 jours', features:['Jusqu\'à 3 pages','Galerie photo / vidéo','Design sur-mesure','Optimisation mobile','Lecteur vidéo','Animations modernes','Formulaire de contact','Panneau d\'administration','2 révisions incluses'], icon:'', featured:false },
+    { nom:'Site Vitrine',  prix:149, desc:'Un site complet pour présenter votre activité, vos services et vos projets.', delai:'7-10 jours', features:['Jusqu\'à 5 pages','Design sur-mesure','Optimisation mobile','Formulaire de contact','Réseaux sociaux','Animations modernes','SEO de base','Panneau d\'administration','2 révisions incluses'], icon:'', featured:true },
+    { nom:'Site Premium',  prix:249, desc:'Solution complète avec fonctionnalités avancées et accompagnement personnalisé.', delai:'14-21 jours', features:['Pages illimitées','Design sur-mesure','Optimisation mobile','Formulaire de contact','Réseaux sociaux','Animations modernes','SEO avancé','Blog / Galerie','Panneau d\'administration','3 révisions incluses','Support 30 jours'], icon:'', featured:false }
+];
+
+// LIENS STRIPE (remplace par tes vrais liens)
+const STRIPE = {
+    'Landing Page':  'https://buy.stripe.com/TON_LIEN_LP',
+    'Portfolio':     'https://buy.stripe.com/TON_LIEN_PF',
+    'Site Vitrine':  'https://buy.stripe.com/TON_LIEN_SV',
+    'Site Premium':  'https://buy.stripe.com/TON_LIEN_SP'
+};
+
+// LIENS PAYPAL (remplace TONPSEUDO)
+const PAYPAL = {
+    'Landing Page':  'https://paypal.me/TONPSEUDO/24.50',
+    'Portfolio':     'https://paypal.me/TONPSEUDO/49.50',
+    'Site Vitrine':  'https://paypal.me/TONPSEUDO/74.50',
+    'Site Premium':  'https://paypal.me/TONPSEUDO/124.50'
+};
+
+const FORMSPREE = 'https://formspree.io/f/mdajgayy';
+
+// ==========================================
+// CONSTRUIRE LES CARTES TARIFS
+// ==========================================
+const grid = document.getElementById('pricingGrid');
+const sel = document.getElementById('selFormule');
+
+FORMULES.forEach(f => {
+    // Carte tarifs
+    grid.innerHTML += `
+        <div class="p-card${f.featured?' featured':''}">
+            ${f.featured?'<div class="badge">Populaire</div>':''}
+            <div class="p-icon">${f.icon}</div>
+            <div class="p-name">${f.nom}</div>
+            <div class="p-desc">${f.desc}</div>
+            <div class="p-price">${f.prix}€ <span>/ projet</span></div>
+            <div class="p-note">Livraison sous ${f.delai}</div>
+            <ul class="p-features">${f.features.map(ft=>'<li>'+ft+'</li>').join('')}</ul>
+            <button class="btn ${f.featured?'btn-p':'btn-o'} btn-full" onclick="selectFormule('${f.nom}')">Demander un devis</button>
+        </div>`;
+
+    // Option select
+    sel.innerHTML += `<option value="${f.nom}">${f.nom} — ${f.prix}€</option>`;
+});
+
+// ==========================================
+// PAGES
+// ==========================================
+function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('navLinks').classList.remove('open');
+    if (name === 'devis') goStep(1);
+}
+
+function selectFormule(nom) {
+    showPage('devis');
+    sel.value = nom;
+    showFormuleBox(nom);
+}
+
+function showFormuleBox(nom) {
+    const f = FORMULES.find(x => x.nom === nom);
+    if (!f) return;
+    document.getElementById('fName').textContent = f.nom;
+    document.getElementById('fPrice').textContent = f.prix + '€';
+    document.getElementById('fBox').classList.add('show');
+}
+
+sel.addEventListener('change', function() { showFormuleBox(this.value); });
+
+// ==========================================
+// ÉTAPES
+// ==========================================
+function goStep(n) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById('s' + n).classList.add('active');
+    document.querySelectorAll('.dot').forEach((d,i) => {
+        d.classList.remove('on','done');
+        if (i+1 < n) d.classList.add('done');
+        if (i+1 === n) d.classList.add('on');
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ==========================================
+// FORMULAIRE → PAIEMENT
+// ==========================================
+document.getElementById('devisForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('btnStep1');
+    btn.textContent = 'Envoi...';
+    btn.disabled = true;
+
+    const fd = new FormData(e.target);
+    const nom = fd.get('nom');
+    const formuleNom = fd.get('formule');
+    const f = FORMULES.find(x => x.nom === formuleNom);
+
+    if (!f) { alert('Choisissez une formule.'); btn.textContent='Continuer vers le paiement →'; btn.disabled=false; return; }
+
+    // Envoyer email
+    try {
+        await fetch(FORMSPREE, {
+            method:'POST',
+            headers:{'Content-Type':'application/json','Accept':'application/json'},
+            body: JSON.stringify({
+                'Nom': nom,
+                'Email': fd.get('email'),
+                'Téléphone': fd.get('tel') || 'Non renseigné',
+                'Entreprise': fd.get('entreprise') || 'Non renseigné',
+                'Formule': formuleNom + ' — ' + f.prix + '€',
+                'Acompte': (f.prix/2) + '€',
+                'Description': fd.get('desc'),
+                'Nom de domaine': fd.get('domaine') || 'Non renseigné'
+            })
+        });
+    } catch {}
+
+    // Paiement
+    const half = (f.prix / 2).toFixed(2).replace('.',',');
+    document.getElementById('payFormule').textContent = formuleNom + ' — ' + f.prix + '€';
+    document.getElementById('payAmount').textContent = half + '€';
+    document.getElementById('btnStripe').href = STRIPE[formuleNom] || '#';
+    document.getElementById('btnPaypal').href = PAYPAL[formuleNom] || '#';
+
+    btn.textContent = 'Continuer vers le paiement →';
+    btn.disabled = false;
+    goStep(2);
+});
+
+// ==========================================
+// FAQ
+// ==========================================
+document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => q.parentElement.classList.toggle('open'));
+});
+
+// ==========================================
+// PRÉ-REMPLIR DEPUIS URL
+// ==========================================
+const params = new URLSearchParams(window.location.search);
+if (params.get('formule')) {
+    const nom = params.get('formule');
+    sel.value = nom;
+    showFormuleBox(nom);
+}
+if (params.get('page') === 'devis') showPage('devis');
+</script>
+
+</body>
+</html>
