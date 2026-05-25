@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
+    <meta name="description" content="Digital Flow - Agence de croissance digitale haute performance.">
+    <title>Digital Flow | Agence de Croissance Digitale</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --blue: #0070ff; --dark: #050505; --light: #ffffff; }
+        body { font-family: 'Inter', sans-serif; background: var(--dark); color: var(--light); margin: 0; line-height: 1.6; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 40px; }
+        header { padding: 40px 0; display: flex; justify-content: space-between; align-items: center; }
+        .hero { padding: 160px 0; text-align: center; background-size: cover; background-position: center; border-radius: 20px; margin-bottom: 60px; }
+        .hero-content { background: rgba(0,0,0,0.7); padding: 40px; display: inline-block; border-radius: 20px; backdrop-filter: blur(5px); }
+        h1 { font-size: clamp(2.5rem, 8vw, 4rem); margin-bottom: 20px; }
+        .btn { padding: 15px 30px; background: var(--blue); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; transition: 0.3s; }
+        .btn:hover { background: #0056cc; transform: translateY(-2px); }
+        .services { padding: 100px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .card { background: #111; padding: 30px; border-radius: 15px; border: 1px solid #222; transition: 0.3s; }
+        .card:hover { border-color: var(--blue); transform: translateY(-10px); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div style="font-weight: 800; font-size: 1.5rem;">DIGITAL FLOW</div>
+            <nav>Services • À propos • Contact</nav>
+        </header>
+    <main>
+        <section class="hero" style="background-image: url('https://picsum.photos/1200/600?grayscale');">
+            <div class="hero-content">
+                <h1>Propulsez votre <span style="color:var(--blue)">Business</span>.</h1>
+                <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto 40px;">Agence spécialisée en acquisition client et performance digitale.</p>
+                <a href="#contact" class="btn">Demander un audit</a>
+            </div>
+        </section>
+        
+        <section style="padding: 60px 0; border-top: 1px solid #222; text-align: center;">
+            <div class="services" style="grid-template-columns: repeat(3, 1fr); padding: 0;">
+                <div><h3 style="font-size: 2.5rem; color: var(--blue);">+150%</h3><p>Croissance moyenne</p></div>
+                <div><h3 style="font-size: 2.5rem; color: var(--blue);">45+</h3><p>Projets livrés</p></div>
+                <div><h3 style="font-size: 2.5rem; color: var(--blue);">5/5</h3><p>Note satisfaction</p></div>
+            </div>
+        </section>
+
+        <section class="services" id="services" style="padding-top: 0;">
+            <article class="card">
+                <img src="https://picsum.photos/400/200?random=1" alt="Stratégie" style="width: 100%; border-radius: 10px; margin-bottom: 15px;">
+                <h3>Stratégie d'Acquisition</h3>
+                <p>Analyse de vos tunnels, audit SEO et campagne d'ads ciblée.</p>
+            </article>
+            <article class="card">
+                <img src="https://picsum.photos/400/200?random=2" alt="Design" style="width: 100%; border-radius: 10px; margin-bottom: 15px;">
+                <h3>Design & Conversion</h3>
+                <p>UI/UX design haute performance axé sur l'engagement.</p>
+            </article>
+            <article class="card">
+                <img src="https://picsum.photos/400/200?random=3" alt="Automation" style="width: 100%; border-radius: 10px; margin-bottom: 15px;">
+                <h3>Automation</h3>
+                <p>Mise en place de systèmes automatiques pour gagner 10h/semaine.</p>
+            </article>
+        </section>
+
+        <section id="contact" style="padding: 100px 0; border-top: 1px solid #222;">
+            <h2>Parlons de votre projet</h2>
+            <form style="display: flex; flex-direction: column; gap: 20px; max-width: 500px; margin-top: 30px;">
+                <input type="text" placeholder="Votre nom" style="padding: 15px; border-radius: 8px; border: 1px solid #333; background: #111; color: white;">
+                <input type="email" placeholder="Votre email" style="padding: 15px; border-radius: 8px; border: 1px solid #333; background: #111; color: white;">
+                <textarea placeholder="Votre message" style="padding: 15px; border-radius: 8px; border: 1px solid #333; background: #111; color: white; height: 150px;"></textarea>
+                <button type="submit" class="btn" style="border: none; cursor: pointer;">Envoyer ma demande</button>
+            </form>
+        </section>
+    </main>
+    <footer style="padding: 60px 0; text-align: center; color: #555; border-top: 1px solid #222;">
+        <p>12 Rue du Digital, 75001 Paris | contact@digitalflow.com</p>
+        <p style="margin-top: 20px;">LinkedIn • Twitter • GitHub</p>
+    </footer>
+    </div>
+</body>
+</html>
