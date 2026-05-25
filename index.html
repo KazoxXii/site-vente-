@@ -690,19 +690,6 @@
         </div>
     </footer>
 
-    <div class="malty-ai">
-        <div class="malty-bubble" id="malty-toggle" role="button" aria-label="Ouvrir l'assistant IA Malty" tabindex="0">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.821.487 3.53 1.338 5L2 22l5-1.338C8.47 21.513 10.179 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.477 0-2.872-.375-4.088-1.033l-.294-.158-2.618.7.7-2.618-.158-.294A7.957 7.957 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
-        </div>
-        <div class="malty-window" id="malty-window" aria-hidden="true">
-            <div class="malty-header" role="heading" aria-level="2">Malty AI Assistant</div>            <div id="malty-messages" style="flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;"></div>
-            <div style="padding: 20px; border-top: 1px solid var(--card-border); display: flex; gap: 10px;">
-                <input type="text" id="malty-input" style="flex-grow: 1; background: var(--bg); border: 1px solid var(--card-border); padding: 10px; color: white;" placeholder="Posez votre question...">
-                <button id="malty-send" class="btn btn-primary" style="padding: 10px 15px;">></button>
-            </div>
-        </div>
-    </div>
-
     <script>
         const getConfig = () => window.MALTY_CONFIG || {};
 
@@ -865,62 +852,6 @@
                 btn.disabled = false;
                 btn.textContent = originalText;
             }
-        }
-
-        const maltyToggle = document.getElementById('malty-toggle');
-        const maltyWindow = document.getElementById('malty-window');
-        const maltyInput = document.getElementById('malty-input');
-        const maltySend = document.getElementById('malty-send');
-        const maltyMessages = document.getElementById('malty-messages');
-
-        if(maltyToggle) {
-            maltyToggle.addEventListener('click', () => {
-                const isActive = maltyWindow.classList.toggle('active');
-                maltyWindow.setAttribute('aria-hidden', !isActive);
-                if (isActive && maltyMessages.children.length === 0) {
-                    const CONFIG = getConfig();
-                    setTimeout(() => addMsg(CONFIG.ai.intro, 'bot'), 400);
-                }
-            });
-        }
-
-        function addMsg(txt, type) {
-            const div = document.createElement('div');
-            div.style.marginBottom = '15px';
-            div.style.padding = '15px';
-            div.style.borderRadius = '16px';
-            div.style.fontSize = '0.9rem';
-            div.style.maxWidth = '85%';
-            if(type === 'bot') {
-                div.style.background = 'var(--bg-alt)';
-                div.style.border = '1px solid var(--card-border)';
-                div.style.alignSelf = 'flex-start';
-                div.innerHTML = `<span style="color: var(--accent); font-weight: 800; font-size: 0.65rem; text-transform: uppercase;">AI // Assistant</span><br>${txt}`;
-            } else {
-                div.style.background = 'var(--accent)';
-                div.style.color = 'white';
-                div.style.alignSelf = 'flex-end';
-                div.innerHTML = txt;
-            }
-            if(maltyMessages) {
-                maltyMessages.appendChild(div);
-                maltyMessages.scrollTop = maltyMessages.scrollHeight;
-            }
-        }
-
-        if(maltySend) {
-            maltySend.addEventListener('click', () => {
-                const CONFIG = getConfig();
-                const txt = maltyInput.value.trim();
-                if(!txt || !CONFIG.ai) return;
-                addMsg(txt, 'user');
-                maltyInput.value = '';
-                setTimeout(() => addMsg(CONFIG.ai.getBestResponse(txt), 'bot'), 600);
-            });
-        }
-
-        if(maltyInput) {
-            maltyInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') maltySend.click(); });
         }
 
         window.addEventListener('load', () => {
