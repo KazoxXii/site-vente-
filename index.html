@@ -349,12 +349,109 @@
             flex-direction: column;
             backdrop-filter: blur(10px);
             position: relative;
+            overflow: hidden;
         }
         .card:hover {
             background: rgba(255, 255, 255, 0.04);
             border-color: rgba(0, 112, 255, 0.4);
             transform: translateY(-12px);
             box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        }
+        .card-recommended {
+            border-color: var(--accent);
+            box-shadow: 0 0 40px var(--accent-glow);
+        }
+        .card-recommended:hover {
+            border-color: var(--accent);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 0 60px var(--accent-glow);
+        }
+        .recommended-badge {
+            position: absolute;
+            top: 20px;
+            right: -32px;
+            background: var(--accent);
+            color: white;
+            padding: 6px 40px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transform: rotate(45deg);
+        }
+        .ventes-count {
+            font-size: 0.75rem;
+            color: var(--success);
+            font-weight: 600;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* --- Portfolio --- */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+        .portfolio-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: var(--transition);
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+        .portfolio-card:hover {
+            transform: translateY(-12px);
+            border-color: rgba(0, 112, 255, 0.4);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        }
+        .portfolio-visual {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .portfolio-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .portfolio-info {
+            padding: 30px;
+        }
+        .portfolio-info h3 {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+        .portfolio-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        .portfolio-tag {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .portfolio-card:hover .portfolio-tag {
+            text-decoration: underline;
         }
         .card h3 { font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 16px; letter-spacing: -0.5px; }
         .price { font-family: var(--font-heading); font-size: 3.5rem; font-weight: 700; margin-bottom: 24px; letter-spacing: -2px; color: var(--accent); }
@@ -533,6 +630,47 @@
                 </div>
             </section>
 
+            <section id="portfolio" class="reveal-on-scroll" style="padding-bottom: 0;">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>Réalisations Récentes</h2>
+                        <p>Des sites livrés clés en main à des professionnels ambitieux.</p>
+                    </div>
+                    <div class="portfolio-grid">
+                        <a href="digitalflow.html" target="_blank" class="portfolio-card">
+                            <div class="portfolio-visual" style="background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);">
+                                <div class="portfolio-icon">DF</div>
+                            </div>
+                            <div class="portfolio-info">
+                                <h3>Digital Flow</h3>
+                                <p>Agence de marketing digital — Site Vitrine</p>
+                                <span class="portfolio-tag">Voir le site →</span>
+                            </div>
+                        </a>
+                        <a href="marioconsulting.html" target="_blank" class="portfolio-card">
+                            <div class="portfolio-visual" style="background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);">
+                                <div class="portfolio-icon">MC</div>
+                            </div>
+                            <div class="portfolio-info">
+                                <h3>Mario Consulting</h3>
+                                <p>Consultante indépendante — Portfolio Premium</p>
+                                <span class="portfolio-tag">Voir le site →</span>
+                            </div>
+                        </a>
+                        <a href="shopeco.html" target="_blank" class="portfolio-card">
+                            <div class="portfolio-visual" style="background: linear-gradient(135deg, #0b1d28, #1a4a3a, #2d6a4f);">
+                                <div class="portfolio-icon">SE</div>
+                            </div>
+                            <div class="portfolio-info">
+                                <h3>Shop Eco</h3>
+                                <p>E-commerçant — Landing Page Vendeuse</p>
+                                <span class="portfolio-tag">Voir le site →</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
             <section id="tarifs" class="reveal-on-scroll">
                 <div class="container">
                     <div class="section-header">
@@ -644,7 +782,7 @@
                                 </div>
                                 <div style="display: flex; gap: 15px; margin-top: 40px; flex-wrap: wrap;">
                                     <button type="submit" class="btn btn-primary" style="flex: 1;">Envoyer ma demande</button>
-                                    <a href="#" class="btn btn-outline" onclick="const sel = document.getElementById('formule-select'); if(sel && sel.value && sel.value !== 'Je ne sais pas encore') { showPaymentStep(sel.value); } else { alert('Veuillez d\'abord sélectionner un pack.'); } return false;">Je veux payer directement →</a>
+                                    <a href="#" class="btn btn-outline" onclick="directPayment(); return false;">Je veux payer directement →</a>
                                 </div>
                             </form>
                         </div>
@@ -654,7 +792,7 @@
                             <p style="color: var(--text-secondary); margin-bottom: 30px;">Vous savez exactement ce que vous voulez ? Commandez directement.</p>
                             <div id="pay-amount" style="font-family: var(--font-heading); font-size: 7rem; font-weight: 900; color: var(--accent); line-height: 1;"></div>
                             <div style="display: flex; gap: 20px; justify-content: center; margin-top: 60px;">
-                                <a href="#" class="btn btn-primary" id="btn-stripe" target="_blank">Payer par Stripe</a>
+                                <a href="#" class="btn btn-primary" id="btn-stripe" target="_blank">Payer par Carte</a>
                                 <a href="#" class="btn btn-outline" id="btn-paypal" target="_blank">Payer par PayPal</a>
                             </div>
                             <p style="margin-top: 40px; color: var(--text-secondary); font-size: 0.9rem;">Une fois le paiement effectué, cliquez ci-dessous pour m'envoyer votre brief.</p>
@@ -717,6 +855,7 @@
 
     <script>
         const getConfig = () => window.MALTY_CONFIG || {};
+        const getWebhookUrl = () => getConfig().webhookUrl || 'https://formspree.io/f/xredyerp';
 
         // --- Header Scroll Effect ---
         const header = document.getElementById('main-header');
@@ -744,12 +883,15 @@
             if(!CONFIG.formules || !container) return;
             
             container.innerHTML = CONFIG.formules.map((f, i) => `
-                <div class="card reveal-on-scroll">
+                <div class="card reveal-on-scroll${f.recommended ? ' card-recommended' : ''}">
+                    ${f.recommended ? '<div class="recommended-badge">Recommandé</div>' : ''}
                     <div style="font-size: 0.6rem; letter-spacing: 2px; color: var(--accent); font-weight: 800; margin-bottom: 20px; text-transform: uppercase;">Pack Produit // 0${i+1}</div>
                     <h3>${f.nom}</h3>
                     <div class="price">${f.prix}€</div>
-                    <ul class="features-list">${f.features.map(ft => `<li>${ft}</li>`).join('')}</ul>
-                    <button class="btn btn-primary" style="width: 100%" onclick="selectPlan('${f.nom}')">Acheter ce pack</button>
+                    <div class="ventes-count">✓ ${f.ventes}+ vendus</div>
+                    <ul class="features-list" style="margin-top: 20px;">${f.features.map(ft => `<li>${ft}</li>`).join('')}</ul>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="selectPlan('${f.nom}')">Acheter ce pack</button>
+                    <p style="font-size: 0.7rem; color: var(--text-secondary); text-align: center; margin-top: 12px;">⏱ Livré sous ${f.delai}</p>
                 </div>
             `).join('');
             
@@ -838,6 +980,29 @@
 
         let pendingOrderData = null;
 
+        async function directPayment() {
+            const sel = document.getElementById('formule-select');
+            if (!sel || !sel.value || sel.value === 'Je ne sais pas encore') {
+                alert('Veuillez d\'abord sélectionner un pack.');
+                return;
+            }
+            const form = document.getElementById('devis-form');
+            if (form) {
+                const fd = new FormData(form);
+                const data = Object.fromEntries(fd);
+                data._subject = "Nouvelle commande MALTY - " + (data.nom || "Client");
+                data._replyto = data.email;
+                try {
+                    await fetch(getWebhookUrl(), {
+                        method: "POST",
+                        headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                        body: JSON.stringify(data)
+                    });
+                } catch(err) {}
+            }
+            showPaymentStep(sel.value);
+        }
+
         function showPaymentStep(formuleNom, formData = null) {
             const CONFIG = getConfig();
             const mapFormuleToId = { "Landing Page": "landing", "Portfolio": "portfolio", "Vitrine": "vitrine", "Premium": "premium" };
@@ -877,7 +1042,7 @@
                     btn.disabled = true;
                     btn.textContent = "Envoi...";
                     try {
-                        const res = await fetch("https://formspree.io/f/xredyerp", {
+                        const res = await fetch(getWebhookUrl(), {
                             method: "POST",
                             headers: { "Accept": "application/json", "Content-Type": "application/json" },
                             body: JSON.stringify(data)
@@ -896,7 +1061,26 @@
                     return;
                 }
 
-                // Sinon → flow paiement
+                // Envoyer le formulaire à Formspree immédiatement
+                const data = Object.fromEntries(fd);
+                data._subject = "Nouvelle commande MALTY - " + (data.nom || "Client");
+                data._replyto = data.email;
+                const btn = e.target.querySelector('button[type="submit"]');
+                const original = btn.textContent;
+                btn.disabled = true;
+                btn.textContent = "Envoi...";
+                try {
+                    await fetch(getWebhookUrl(), {
+                        method: "POST",
+                        headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                        body: JSON.stringify(data)
+                    });
+                } catch(err) {
+                    // On continue même si l'envoi échoue
+                }
+                btn.disabled = false;
+                btn.textContent = original;
+                // Puis afficher l'étape de paiement
                 showPaymentStep(formuleNom, fd);
             });
         }
@@ -913,12 +1097,11 @@
             
             const CONFIG = getConfig();
             // On s'assure que l'URL est bien celle fournie
-            const formspreeUrl = "https://formspree.io/f/xredyerp";            
             pendingOrderData.status_paiement = "CONFIRMÉ PAR CLIENT";
             pendingOrderData._subject = "Nouvelle Commande MALTY - " + (pendingOrderData.nom || "Client");
 
             try {
-                const response = await fetch(formspreeUrl, {
+                const response = await fetch(getWebhookUrl(), {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',

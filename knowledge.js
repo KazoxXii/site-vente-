@@ -6,7 +6,8 @@
 
 window.MALTY_CONFIG = {
     // --- CONFIGURATION EXTERNE ---
-    formspree: 'https://formspree.io/f/xredyerp',
+    // Mets ici l'URL de ton webhook Google Apps Script une fois déployé
+    webhookUrl: 'https://script.google.com/macros/s/AKfycbxQEV9C2XvMGJuStVEEBSP8kqCH8zFWUCvsxS1QBiVAkeY77EdxpgQN35Btjpvi20h4/exec',
 
     // --- CATALOGUE DE PRODUITS WEB ---
     formules: [
@@ -18,7 +19,8 @@ window.MALTY_CONFIG = {
             desc: 'Achetez votre machine à prospects. Une page unique ultra-optimisée pour transformer vos publicités en ventes réelles.',
             features: ['Structure de Vente Psychologique', 'Vitesse Éclair (Score 100)', 'Design Mobile-First', 'Optimisé pour tout Hébergeur', 'Livraison Code Source sous 5j'],
             stripe: 'https://buy.stripe.com/14A8wJ6Jtgd17I48RS0oM05',
-            paypal: 'https://paypal.me/Maltyzz/99'
+            paypal: 'https://paypal.me/Maltyzz/99',
+            ventes: 203
         },
         { 
             id: 'portfolio', 
@@ -28,7 +30,8 @@ window.MALTY_CONFIG = {
             desc: 'Achetez votre vitrine de prestige. Le choix des créatifs et freelances qui veulent vendre leurs services avec élégance.',
             features: ['Design Cinématique Premium', 'Galeries Immersives', 'SEO Orienté Image', 'Code Ultra-Léger ES6+', 'Fichiers Prêts à Déployer'],
             stripe: 'https://buy.stripe.com/aFa00d4Bl1i78M8c440oM06',
-            paypal: 'https://paypal.me/Maltyzz/249'
+            paypal: 'https://paypal.me/Maltyzz/249',
+            ventes: 89
         },
         { 
             id: 'vitrine', 
@@ -38,7 +41,9 @@ window.MALTY_CONFIG = {
             desc: 'Achetez votre autorité digitale. Une présence complète et robuste pour asseoir votre marque et capturer des leads qualifiés.',
             features: ['Multi-pages Stratégiques', 'Architecture SEO Puissante', 'Blog / Actualités intégrés', 'Intégration CRM & Socials', 'Code Source Complet & Pro'],
             stripe: 'https://buy.stripe.com/dRm8wJaZJ8KzgeA4BC0oM07',
-            paypal: 'https://paypal.me/Maltyzz/449'
+            paypal: 'https://paypal.me/Maltyzz/449',
+            recommended: true,
+            ventes: 127
         },
         { 
             id: 'premium', 
@@ -48,7 +53,8 @@ window.MALTY_CONFIG = {
             desc: 'Achetez l\'excellence totale. Un site unique conçu sans aucune limite technique pour propulser votre business au sommet.',
             features: ['Design Exclusif & Signature', 'SEO Puissance Maximale', 'Fonctionnalités Métier Pro', 'Documentation Déploiement', 'Performance Élite Native'],
             stripe: 'https://buy.stripe.com/7sY9AN8RB8Kz0fC4BC0oM08',
-            paypal: 'https://paypal.me/Maltyzz/899'
+            paypal: 'https://paypal.me/Maltyzz/899',
+            ventes: 42
         }
     ],
 
