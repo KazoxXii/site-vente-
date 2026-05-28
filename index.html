@@ -644,7 +644,7 @@
                                 </div>
                                 <div style="display: flex; gap: 15px; margin-top: 40px; flex-wrap: wrap;">
                                     <button type="submit" class="btn btn-primary" style="flex: 1;">Envoyer ma demande</button>
-                                    <a href="#" class="btn btn-outline" onclick="document.getElementById('step-2').classList.add('active'); document.getElementById('step-1').classList.remove('active'); window.scrollTo({top: 0, behavior: 'smooth'}); return false;">Je veux payer directement →</a>
+                                    <a href="#" class="btn btn-outline" onclick="const sel = document.getElementById('formule-select'); if(sel && sel.value && sel.value !== 'Je ne sais pas encore') { showPaymentStep(sel.value); } else { alert('Veuillez d\'abord sélectionner un pack.'); } return false;">Je veux payer directement →</a>
                                 </div>
                             </form>
                         </div>
@@ -827,10 +827,38 @@
         function selectPlan(nom) { 
             navigateTo('devis'); 
             const sel = document.getElementById('formule-select'); 
-            if(sel) sel.value = nom; 
+            const map = {
+                "Pack Landing Page Vendeuse": "Landing Page",
+                "Pack Portfolio d'Image": "Portfolio",
+                "Pack Site Vitrine Business": "Vitrine",
+                "Solution Web Sur-Mesure": "Premium"
+            };
+            if(sel) sel.value = map[nom] || nom; 
         }
 
         let pendingOrderData = null;
+
+        function showPaymentStep(formuleNom, formData = null) {
+            const CONFIG = getConfig();
+            const mapFormuleToId = { "Landing Page": "landing", "Portfolio": "portfolio", "Vitrine": "vitrine", "Premium": "premium" };
+            const f = CONFIG.formules.find(x => x.id === mapFormuleToId[formuleNom]);
+            if (!f) { alert("Pack non trouvé"); return false; }
+            if (formData) {
+                pendingOrderData = Object.fromEntries(formData);
+                pendingOrderData.formule_prix = `${f.prix}€`;
+            }
+            const payAmt = document.getElementById('pay-amount');
+            const btnStripe = document.getElementById('btn-stripe');
+            const btnPaypal = document.getElementById('btn-paypal');
+            if(payAmt) payAmt.textContent = `${f.prix}€`;
+            if(btnStripe) btnStripe.href = f.stripe || '#';
+            if(btnPaypal) btnPaypal.href = f.paypal || '#';
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            const step2 = document.getElementById('step-2');
+            if(step2) step2.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return true;
+        }
 
         const devisForm = document.getElementById('devis-form');
         if(devisForm) {
@@ -869,22 +897,7 @@
                 }
 
                 // Sinon → flow paiement
-                const CONFIG = getConfig();
-                const mapFormuleToId = { "Landing Page": "landing", "Portfolio": "portfolio", "Vitrine": "vitrine", "Premium": "premium" };
-                const f = CONFIG.formules.find(x => x.id === mapFormuleToId[formuleNom]);
-                if (!f) { alert("Pack non trouvé"); return; }
-                pendingOrderData = Object.fromEntries(fd);
-                pendingOrderData.formule_prix = `${f.prix}€`;
-                const payAmt = document.getElementById('pay-amount');
-                const btnStripe = document.getElementById('btn-stripe');
-                const btnPaypal = document.getElementById('btn-paypal');
-                if(payAmt) payAmt.textContent = `${f.prix}€`;
-                if(btnStripe) btnStripe.href = f.stripe || '#';
-                if(btnPaypal) btnPaypal.href = f.paypal || '#';
-                document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-                const step2 = document.getElementById('step-2');
-                if(step2) step2.classList.add('active');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                showPaymentStep(formuleNom, fd);
             });
         }
 
