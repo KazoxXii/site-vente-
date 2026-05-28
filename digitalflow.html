@@ -73,10 +73,10 @@
 
         <section id="contact" style="padding: 100px 0; border-top: 1px solid #222;">
             <h2>Parlons de votre projet</h2>
-            <form style="display: flex; flex-direction: column; gap: 20px; max-width: 500px; margin-top: 30px;">
-                <input type="text" placeholder="Votre nom" style="padding: 15px; border-radius: 8px; border: 1px solid #333; background: #111; color: white;">
-                <input type="email" placeholder="Votre email" style="padding: 15px; border-radius: 8px; border: 1px solid #333; background: #111; color: white;">
-                <textarea placeholder="Votre message" style="padding: 15px; border-radius: 8px; border: 1px solid #333; background: #111; color: white; height: 150px;"></textarea>
+            <form action="https://formspree.io/f/xredyerp" method="POST" style="display: flex; flex-direction: column; gap: 20px; max-width: 500px; margin-top: 30px;">
+                <input type="text" name="nom" placeholder="Votre nom" style="padding: 15px; border-radius: 8px; border: 1px solid #333; background: #111; color: white;" required>
+                <input type="email" name="email" placeholder="Votre email" style="padding: 15px; border-radius: 8px; border: 1px solid #333; background: #111; color: white;" required>
+                <textarea name="message" placeholder="Votre message" style="padding: 15px; border-radius: 8px; border: 1px solid #333; background: #111; color: white; height: 150px;" required></textarea>
                 <button type="submit" class="btn" style="border: none; cursor: pointer;">Envoyer ma demande</button>
             </form>
         </section>

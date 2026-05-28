@@ -56,9 +56,9 @@
 
         <section id="contact" style="padding: 100px 10%;">
             <h2>Entretien confidentiel</h2>
-            <form style="max-width: 600px; margin: 30px auto; display: flex; flex-direction: column; gap: 20px;">
-                <input type="text" placeholder="Nom du dirigeant" style="padding: 15px; border: 1px solid #ddd;">
-                <textarea placeholder="Brève description de votre enjeu..." style="padding: 15px; border: 1px solid #ddd; height: 100px;"></textarea>
+            <form action="https://formspree.io/f/xredyerp" method="POST" style="max-width: 600px; margin: 30px auto; display: flex; flex-direction: column; gap: 20px;">
+                <input type="text" name="nom_dirigeant" placeholder="Nom du dirigeant" style="padding: 15px; border: 1px solid #ddd;" required>
+                <textarea name="enjeu" placeholder="Brève description de votre enjeu..." style="padding: 15px; border: 1px solid #ddd; height: 100px;" required></textarea>
                 <button type="submit" class="btn">Soumettre une demande d'entretien</button>
             </form>
         </section>

@@ -63,8 +63,10 @@
         <section style="padding: 80px 5%; border-top: 1px solid #eee; text-align: center;">
             <h3>Restez informé</h3>
             <p>Inscrivez-vous à notre newsletter pour des conseils éco-responsables.</p>
-            <input type="email" placeholder="Votre email" style="padding: 10px; width: 250px; border: 1px solid #ccc;">
-            <button class="btn" style="border: none; cursor: pointer;">S'inscrire</button>
+            <form action="https://formspree.io/f/xredyerp" method="POST" style="display: inline-block;">
+                <input type="email" name="email" placeholder="Votre email" style="padding: 10px; width: 250px; border: 1px solid #ccc;" required>
+                <button type="submit" class="btn" style="border: none; cursor: pointer;">S'inscrire</button>
+            </form>
         </section>
     </main>
     <footer style="padding: 60px 5%; background: #222; color: #ccc; text-align: center;">

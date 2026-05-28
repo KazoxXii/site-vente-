@@ -6,7 +6,7 @@
 
 window.MALTY_CONFIG = {
     // --- CONFIGURATION EXTERNE ---
-    formspree: 'https://formspree.io/f/mdajgayy',
+    formspree: 'https://formspree.io/f/xredyerp',
 
     // --- CATALOGUE DE PRODUITS WEB ---
     formules: [
@@ -17,7 +17,7 @@ window.MALTY_CONFIG = {
             delai: '3 à 5 jours',
             desc: 'Achetez votre machine à prospects. Une page unique ultra-optimisée pour transformer vos publicités en ventes réelles.',
             features: ['Structure de Vente Psychologique', 'Vitesse Éclair (Score 100)', 'Design Mobile-First', 'Optimisé pour tout Hébergeur', 'Livraison Code Source sous 5j'],
-            stripe: 'https://buy.stripe.com/7sYdR3aZJe4T0fCc440oM02',
+            stripe: 'https://buy.stripe.com/14A8wJ6Jtgd17I48RS0oM05',
             paypal: 'https://paypal.me/Maltyzz/99'
         },
         { 
@@ -27,7 +27,7 @@ window.MALTY_CONFIG = {
             delai: '5 à 7 jours',
             desc: 'Achetez votre vitrine de prestige. Le choix des créatifs et freelances qui veulent vendre leurs services avec élégance.',
             features: ['Design Cinématique Premium', 'Galeries Immersives', 'SEO Orienté Image', 'Code Ultra-Léger ES6+', 'Fichiers Prêts à Déployer'],
-            stripe: 'https://buy.stripe.com/28EcMZgk31i7aUgc440oM01',
+            stripe: 'https://buy.stripe.com/aFa00d4Bl1i78M8c440oM06',
             paypal: 'https://paypal.me/Maltyzz/249'
         },
         { 
@@ -37,7 +37,7 @@ window.MALTY_CONFIG = {
             delai: '7 à 10 jours',
             desc: 'Achetez votre autorité digitale. Une présence complète et robuste pour asseoir votre marque et capturer des leads qualifiés.',
             features: ['Multi-pages Stratégiques', 'Architecture SEO Puissante', 'Blog / Actualités intégrés', 'Intégration CRM & Socials', 'Code Source Complet & Pro'],
-            stripe: 'https://buy.stripe.com/fZuaER3xhf8XgeA5FG0oM03',
+            stripe: 'https://buy.stripe.com/dRm8wJaZJ8KzgeA4BC0oM07',
             paypal: 'https://paypal.me/Maltyzz/449'
         },
         { 
@@ -47,7 +47,7 @@ window.MALTY_CONFIG = {
             delai: '14 à 21 jours',
             desc: 'Achetez l\'excellence totale. Un site unique conçu sans aucune limite technique pour propulser votre business au sommet.',
             features: ['Design Exclusif & Signature', 'SEO Puissance Maximale', 'Fonctionnalités Métier Pro', 'Documentation Déploiement', 'Performance Élite Native'],
-            stripe: 'https://buy.stripe.com/fZu6oBd7Rd0P0fC0lm0oM04',
+            stripe: 'https://buy.stripe.com/7sY9AN8RB8Kz0fC4BC0oM08',
             paypal: 'https://paypal.me/Maltyzz/899'
         }
     ],
