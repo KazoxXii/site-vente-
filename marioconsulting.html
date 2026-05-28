@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://picsum.photos data:;">
     <meta name="description" content="Mario Consulting - Stratégie exécutive pour dirigeants.">
     <title>Mario Consulting | Stratégie Exécutive</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -58,6 +58,7 @@
             <h2>Entretien confidentiel</h2>
             <form action="https://formspree.io/f/xredyerp" method="POST" style="max-width: 600px; margin: 30px auto; display: flex; flex-direction: column; gap: 20px;">
                 <input type="text" name="nom_dirigeant" placeholder="Nom du dirigeant" style="padding: 15px; border: 1px solid #ddd;" required>
+                <input type="email" name="email" placeholder="Votre email" style="padding: 15px; border: 1px solid #ddd;" required>
                 <textarea name="enjeu" placeholder="Brève description de votre enjeu..." style="padding: 15px; border: 1px solid #ddd; height: 100px;" required></textarea>
                 <button type="submit" class="btn">Soumettre une demande d'entretien</button>
             </form>

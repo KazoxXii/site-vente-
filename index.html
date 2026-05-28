@@ -6,6 +6,12 @@
     <meta name="description" content="MALTY — Développeur Web Freelance à Lyon. Sites vitrine, e-commerce et landing pages. Design d'élite et conversion maximale.">
     <title>MALTY | Développeur Web Freelance Lyon</title>
     <meta name="keywords" content="developpeur web lyon, creation site lyon, freelance web lyon, site vitrine lyon">
+    <meta property="og:title" content="MALTY | Développeur Web Freelance Lyon">
+    <meta property="og:description" content="Sites vitrine, e-commerce et landing pages pour les commerçants et entreprises lyonnaises. Design d'élite, performance maximale.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://malty.fr/">
+    <meta property="og:locale" content="fr_FR">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="canonical" href="https://malty.fr/">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -137,12 +143,11 @@
         .nav-links a:hover { color: var(--text-primary); }
 
         .header-cta {
-            opacity: 0;
-            transform: translateX(10px);
+            opacity: 1;
+            transform: translateX(0);
             transition: var(--transition-fast);
-            pointer-events: none;
+            pointer-events: auto;
         }
-        header.scrolled .header-cta { opacity: 1; transform: translateX(0); pointer-events: auto; }
 
         /* --- Hero Pro --- */
         .hero {
