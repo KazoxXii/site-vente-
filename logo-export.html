@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Exporter le logo MALTY</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #111; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; font-family: Arial, sans-serif; color: #fff; gap: 40px; padding: 40px; }
+  .preview { background: #080808; padding: 40px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); }
+  canvas { border-radius: 20px; box-shadow: 0 20px 60px rgba(0,112,255,0.2); }
+  .btn { 
+    background: #0070ff; color: #fff; border: none; padding: 16px 40px; border-radius: 12px; 
+    font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: 0.2s;
+  }
+  .btn:hover { background: #0056cc; transform: translateY(-2px); }
+  p { color: #aaa; font-size: 0.9rem; text-align: center; max-width: 500px; line-height: 1.6; }
+</style>
+</head>
+<body>
+  <div class="preview">
+    <canvas id="logoCanvas" width="400" height="400"></canvas>
+  </div>
+  <button class="btn" id="downloadBtn">📥 Télécharger PNG (400x400)</button>
+  <p>Logo social MALTY — utilise-le sur Instagram, X, LinkedIn, etc.</p>
+  <script>
+    const canvas = document.getElementById('logoCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function drawLogo() {
+      const w = 400, h = 400;
+      
+      // Background
+      ctx.fillStyle = '#080808';
+      ctx.fillRect(0, 0, w, h);
+
+      // Rounded rect with gradient
+      const x = 24, y = 24, rw = 352, rh = 352, radius = 84;
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + rw - radius, y);
+      ctx.quadraticCurveTo(x + rw, y, x + rw, y + radius);
+      ctx.lineTo(x + rw, y + rh - radius);
+      ctx.quadraticCurveTo(x + rw, y + rh, x + rw - radius, y + rh);
+      ctx.lineTo(x + radius, y + rh);
+      ctx.quadraticCurveTo(x, y + rh, x, y + rh - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.closePath();
+
+      const grad = ctx.createLinearGradient(24, 24, 376, 376);
+      grad.addColorStop(0, '#0070ff');
+      grad.addColorStop(1, '#003399');
+      ctx.fillStyle = grad;
+      ctx.shadowColor = 'rgba(0, 112, 255, 0.5)';
+      ctx.shadowBlur = 30;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      // Grid
+      ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+      ctx.lineWidth = 0.5;
+      for (let i = 40; i < 400; i += 40) {
+        ctx.beginPath(); ctx.moveTo(i, 20); ctx.lineTo(i, 380); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(20, i); ctx.lineTo(380, i); ctx.stroke();
+      }
+
+      // Shine
+      ctx.beginPath();
+      ctx.ellipse(100, 90, 140, 100, 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,0.06)';
+      ctx.fill();
+
+      // M letter
+      const text = 'M';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.font = '900 230px "Segoe UI", "Arial", sans-serif';
+      
+      const mGrad = ctx.createLinearGradient(0, 60, 0, 340);
+      mGrad.addColorStop(0, '#ffffff');
+      mGrad.addColorStop(1, '#cce0ff');
+      ctx.fillStyle = mGrad;
+      ctx.shadowColor = 'rgba(255,255,255,0.15)';
+      ctx.shadowBlur = 8;
+      ctx.fillText(text, 200, 215);
+      ctx.shadowBlur = 0;
+
+      // Accent dot
+      ctx.beginPath();
+      ctx.arc(290, 95, 8, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,0.9)';
+      ctx.shadowColor = '#0070ff';
+      ctx.shadowBlur = 12;
+      ctx.fill();
+    }
+
+    drawLogo();
+
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.download = 'malty-logo-social.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
+  </script>
+</body>
+</html>
