@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "digitalflow.html",
+  "entry": "digitalflow.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-06-06T22:01:19.445Z",
+  "updatedAt": "2026-06-06T22:01:19.445Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

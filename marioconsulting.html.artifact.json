@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "marioconsulting.html",
+  "entry": "marioconsulting.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-06-06T22:02:04.652Z",
+  "updatedAt": "2026-06-06T22:02:04.652Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

@@ -1,0 +1,576 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="MALTY — Développeur Web Freelance à Lyon. Sites vitrine, e-commerce et landing pages. Design d'élite, performance maximale.">
+  <title>MALTY | Développeur Web Freelance Lyon</title>
+  <meta property="og:title" content="MALTY | Développeur Web Freelance Lyon">
+  <meta property="og:description" content="Sites vitrine, e-commerce et landing pages — Design d'élite, performance maximale.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://malty.fr/">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:image" content="logo-social.svg">
+  <meta property="og:image:width" content="400">
+  <meta property="og:image:height" content="400">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="logo-social.svg">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="canonical" href="https://malty.fr/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: oklch(8% 0.01 250);
+      --surface: oklch(14% 0.015 250);
+      --fg: oklch(92% 0.005 250);
+      --muted: oklch(55% 0.02 250);
+      --border: oklch(25% 0.02 250);
+      --accent: oklch(62% 0.22 255);
+      --accent-10: oklch(62% 0.22 255 / 0.1);
+      --accent-20: oklch(62% 0.22 255 / 0.2);
+      --accent-50: oklch(62% 0.22 255 / 0.5);
+      --success: oklch(62% 0.17 145);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --nav-h: 72px;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out: cubic-bezier(0, 0, 0.2, 1);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font: 400 16px/1.6 var(--font);
+      letter-spacing: -0.01em;
+      overflow-x: hidden;
+    }
+    .container { width:100%; max-width:1200px; margin:0 auto; padding:0 32px; }
+    section { padding:140px 0; }
+    .section-header { text-align:center; margin-bottom:72px; }
+    .section-header h2 { font-size:clamp(2.2rem,5vw,3.6rem); font-weight:800; letter-spacing:-0.03em; line-height:1.1; margin-bottom:20px; }
+    .section-header p { color:var(--muted); font-size:1.1rem; max-width:560px; margin:0 auto; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:14px 28px; border-radius:var(--radius-sm); font-weight:600; font-size:.9rem; cursor:pointer; border:none; text-decoration:none; transition:all .3s var(--ease); position:relative; }
+    .btn-primary { background:var(--accent); color:#fff; box-shadow:0 4px 20px var(--accent-20); }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 30px var(--accent-20); }
+    .btn-outline { background:transparent; border:1px solid var(--border); color:var(--fg); }
+    .btn-outline:hover { border-color:var(--muted); background:var(--accent-10); }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:40px; transition:all .4s var(--ease); }
+    .card:hover { border-color:var(--accent-20); box-shadow:0 8px 40px var(--accent-10); transform:translateY(-4px); }
+    .reveal { opacity:0; transform:translateY(24px); transition:opacity .7s var(--ease),transform .7s var(--ease); }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .reveal-scale { opacity:0; transform:scale(.96); transition:opacity .6s var(--ease),transform .6s var(--ease); }
+    .reveal-scale.visible { opacity:1; transform:scale(1); }
+    .page { display:none; }
+    .page.active { display:block; animation:pageIn .5s var(--ease-out) both; }
+    @keyframes pageIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+    header { position:fixed; top:16px; left:50%; transform:translateX(-50%); width:calc(100% - 32px); max-width:1200px; height:var(--nav-h); background:rgba(12,14,20,.8); backdrop-filter:blur(20px) saturate(1.4); -webkit-backdrop-filter:blur(20px) saturate(1.4); border:1px solid var(--border); border-radius:100px; z-index:1000; transition:all .4s var(--ease); }
+    header.scrolled { top:12px; background:rgba(8,10,16,.92); border-color:var(--accent-20); box-shadow:0 4px 24px rgba(0,0,0,.4); height:60px; }
+    nav { display:flex; align-items:center; justify-content:space-between; height:100%; padding:0 24px; }
+    .logo { font-weight:800; font-size:1.5rem; text-decoration:none; color:var(--fg); letter-spacing:-0.5px; display:flex; align-items:center; gap:10px; flex-shrink:0; }
+    .logo svg { height:44px; width:auto; }
+    .logo span { color:var(--accent); font-size:1.5rem; }
+    .nav-links { display:flex; align-items:center; gap:24px; list-style:none; }
+    .nav-links a { color:var(--muted); text-decoration:none; font-size:.85rem; font-weight:500; transition:color .2s; }
+    .nav-links a:hover { color:var(--fg); }
+    .nav-cta { padding:8px 18px !important; font-size:.78rem !important; }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; }
+    .hamburger span { display:block; width:24px; height:2px; background:var(--fg); border-radius:2px; transition:all .3s var(--ease); }
+    .hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity:0; }
+    .hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+    .hero { padding:200px 0 100px; text-align:center; position:relative; overflow:hidden; }
+    .hero-glow { position:absolute; top:-30%; left:50%; transform:translateX(-50%); width:800px; height:600px; background:radial-gradient(ellipse,var(--accent-10) 0%,transparent 65%); pointer-events:none; z-index:-1; }
+    .hero-badge { display:inline-flex; align-items:center; gap:6px; padding:6px 14px; background:var(--accent-10); color:var(--accent); border-radius:100px; font-size:.8rem; font-weight:600; margin-bottom:24px; letter-spacing:.02em; }
+    .hero h1 { font-size:clamp(3rem,8vw,6rem); font-weight:900; letter-spacing:-0.04em; line-height:.92; margin-bottom:24px; background:linear-gradient(180deg,var(--fg) 50%,var(--accent)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .hero p { font-size:clamp(1rem,2vw,1.2rem); color:var(--muted); max-width:640px; margin:0 auto 36px; }
+    .hero-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+    .hero-tel { margin-top:20px; font-size:1.1rem; }
+    .hero-tel a { color:var(--accent); text-decoration:none; font-weight:600; }
+    .hero-stagger > * { opacity:0; transform:translateY(20px); animation:heroIn .7s var(--ease) forwards; }
+    .hero-stagger > *:nth-child(1) { animation-delay:.1s; }
+    .hero-stagger > *:nth-child(2) { animation-delay:.25s; }
+    .hero-stagger > *:nth-child(3) { animation-delay:.4s; }
+    .hero-stagger > *:nth-child(4) { animation-delay:.55s; }
+    .hero-stagger > *:nth-child(5) { animation-delay:.7s; }
+    @keyframes heroIn { to { opacity:1; transform:translateY(0); } }
+    .trust-bar { padding:48px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .trust-grid { display:flex; justify-content:space-around; align-items:center; flex-wrap:wrap; gap:32px; }
+    .trust-item { display:flex; flex-direction:column; align-items:center; gap:4px; }
+    .trust-item .num { font-size:2rem; font-weight:800; color:var(--accent); letter-spacing:-0.03em; }
+    .trust-item .label { font-size:.7rem; font-weight:600; text-transform:uppercase; letter-spacing:.15em; color:var(--muted); }
+    .tech-grid { display:flex; justify-content:center; flex-wrap:wrap; gap:48px; opacity:.35; transition:opacity .4s; }
+    .tech-grid:hover { opacity:.7; }
+    .tech-item { display:flex; flex-direction:column; align-items:center; gap:10px; }
+    .tech-item svg { width:28px; height:28px; fill:currentColor; }
+    .tech-item span { font-size:.65rem; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); }
+    .portfolio-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:20px; }
+    .portfolio-card { border-radius:var(--radius); overflow:hidden; border:1px solid var(--border); text-decoration:none; color:inherit; display:flex; flex-direction:column; transition:all .4s var(--ease); background:var(--surface); }
+    .portfolio-card:hover { transform:translateY(-6px); border-color:var(--accent-20); box-shadow:0 12px 40px var(--accent-10); }
+    .portfolio-visual { height:200px; display:flex; align-items:center; justify-content:center; position:relative; }
+    .portfolio-icon { width:72px; height:72px; border-radius:20px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:1.5rem; color:#fff; border:1px solid rgba(255,255,255,.15); backdrop-filter:blur(8px); }
+    .portfolio-body { padding:28px; }
+    .portfolio-body h3 { font-weight:700; font-size:1.15rem; margin-bottom:6px; }
+    .portfolio-body p { color:var(--muted); font-size:.9rem; margin-bottom:16px; }
+    .portfolio-cta { color:var(--accent); font-weight:600; font-size:.85rem; }
+    .pricing-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; }
+    .pricing-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:36px; display:flex; flex-direction:column; transition:all .4s var(--ease); position:relative; }
+    .pricing-card:hover { border-color:var(--accent-20); transform:translateY(-4px); box-shadow:0 8px 40px var(--accent-10); }
+    .pricing-card.recommended { border-color:var(--accent); box-shadow:0 0 0 1px var(--accent),0 8px 32px var(--accent-20); }
+    .pricing-card .badge { position:absolute; top:-1px; right:24px; background:var(--accent); color:#fff; padding:4px 16px; font-size:.65rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; border-radius:0 0 var(--radius-sm) var(--radius-sm); }
+    .pricing-card .tag { font-size:.6rem; letter-spacing:.15em; color:var(--accent); font-weight:700; text-transform:uppercase; margin-bottom:16px; }
+    .pricing-card h3 { font-size:1.3rem; font-weight:700; margin-bottom:4px; }
+    .pricing-card .price { font-size:2.8rem; font-weight:800; letter-spacing:-0.03em; color:var(--accent); margin-bottom:4px; }
+    .pricing-card .sales { font-size:.75rem; color:var(--success); font-weight:600; margin-bottom:20px; }
+    .pricing-card ul { list-style:none; flex:1; margin-bottom:24px; }
+    .pricing-card ul li { font-size:.85rem; color:var(--muted); padding:8px 0; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
+    .pricing-card ul li::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--accent); flex-shrink:0; }
+    .pricing-card ul li:last-child { border-bottom:none; }
+    .testimonials-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; }
+    .testimonial-card { display:flex; flex-direction:column; justify-content:space-between; }
+    .testimonial-card blockquote { color:var(--muted); font-size:.95rem; line-height:1.7; margin-bottom:24px; font-style:italic; }
+    .testimonial-author { display:flex; align-items:center; gap:12px; }
+    .testimonial-avatar { width:40px; height:40px; border-radius:50%; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.8rem; flex-shrink:0; }
+    .testimonial-author div { display:flex; flex-direction:column; }
+    .testimonial-author strong { font-size:.85rem; }
+    .testimonial-author span { font-size:.75rem; color:var(--muted); }
+    .testimonial-author a { color:var(--accent); text-decoration:none; }
+    .faq-list { max-width:800px; margin:0 auto; }
+    .faq-item { border-bottom:1px solid var(--border); }
+    .faq-trigger { width:100%; padding:28px 0; background:none; border:none; color:var(--fg); font-size:1.05rem; font-weight:600; cursor:pointer; display:flex; justify-content:space-between; align-items:center; text-align:left; transition:color .2s; }
+    .faq-trigger:hover { color:var(--accent); }
+    .faq-trigger .icon { font-size:1.3rem; color:var(--muted); transition:transform .3s var(--ease); flex-shrink:0; margin-left:16px; }
+    .faq-item.open .faq-trigger .icon { transform:rotate(45deg); color:var(--accent); }
+    .faq-panel { max-height:0; overflow:hidden; transition:max-height .5s var(--ease); }
+    .faq-panel p { padding:0 0 28px; color:var(--muted); font-size:.95rem; line-height:1.7; }
+    .cta-section { text-align:center; background:var(--surface); }
+    .cta-section h2 { font-size:clamp(2rem,5vw,3.2rem); font-weight:800; letter-spacing:-0.03em; margin-bottom:16px; }
+    .cta-section p { color:var(--muted); font-size:1.1rem; margin-bottom:40px; }
+    .cta-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+    .cta-actions .btn { padding:18px 36px; font-size:1rem; }
+    footer { padding:80px 0 40px; border-top:1px solid var(--border); }
+    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1.5fr; gap:48px; margin-bottom:48px; }
+    .footer-brand p { margin-top:16px; color:var(--muted); font-size:.9rem; line-height:1.6; }
+    .footer-col h4 { font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.12em; margin-bottom:20px; }
+    .footer-links { list-style:none; }
+    .footer-links li { margin-bottom:10px; }
+    .footer-links a { color:var(--muted); text-decoration:none; font-size:.85rem; transition:color .2s; }
+    .footer-links a:hover { color:var(--fg); }
+    .footer-bottom { border-top:1px solid var(--border); padding-top:28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+    .footer-bottom p { color:var(--muted); font-size:.75rem; }
+    .footer-socials { display:flex; gap:16px; }
+    .footer-socials a { color:var(--muted); text-decoration:none; transition:color .2s; }
+    .footer-socials a:hover { color:var(--fg); }
+    .page-devis .devis-box { max-width:800px; margin:0 auto; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:48px; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+    .form-group { margin-bottom:24px; }
+    .form-group label { display:block; font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; margin-bottom:8px; color:var(--muted); }
+    .form-group input, .form-group select, .form-group textarea { width:100%; padding:14px 16px; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--fg); font:400 .95rem var(--font); outline:none; transition:border-color .2s,box-shadow .2s; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-10); }
+    .form-step { display:none; }
+    .form-step.active { display:block; }
+    .pay-step { text-align:center; padding:24px 0; }
+    .pay-step h3 { font-size:1.6rem; font-weight:800; margin-bottom:12px; }
+    .pay-step .pay-amount { font-size:5rem; font-weight:900; color:var(--accent); line-height:1; margin:24px 0; letter-spacing:-0.04em; }
+    .pay-actions { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin:32px 0; }
+    .pay-note { color:var(--muted); font-size:.85rem; }
+    @media (max-width:768px) {
+      section { padding:80px 0; }
+      .container { padding:0 20px; }
+      .hero { padding:160px 0 60px; }
+      header { border-radius:16px; width:calc(100% - 16px); }
+      .nav-links { position:fixed; top:0; left:0; width:100%; height:100vh; background:rgba(8,10,16,.98); backdrop-filter:blur(20px); flex-direction:column; justify-content:center; gap:32px; transform:translateY(-100%); opacity:0; transition:all .4s var(--ease); z-index:-1; }
+      .nav-links.open { transform:translateY(0); opacity:1; }
+      .nav-links a { font-size:1.2rem; }
+      .hamburger { display:flex; z-index:10; }
+      .footer-grid { grid-template-columns:1fr; gap:32px; }
+      .form-row { grid-template-columns:1fr; }
+      .pricing-grid, .portfolio-grid, .testimonials-grid { grid-template-columns:1fr; }
+      .hero h1 { font-size:2.6rem; }
+    }
+    @media (min-width:769px) { .hamburger { display:none; } }
+    .mobile-call { display:none; position:fixed; bottom:20px; left:20px; z-index:999; width:56px; height:56px; background:var(--success); color:#fff; border-radius:50%; align-items:center; justify-content:center; text-decoration:none; box-shadow:0 4px 20px var(--accent-20); transition:transform .2s; }
+    .mobile-call:hover { transform:scale(1.08); }
+    @media (max-width:768px) { .mobile-call { display:flex; } }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <header id="header">
+      <nav>
+        <a href="#" class="logo" onclick="nav('home');return false">
+          <svg viewBox="0 0 200 60"><rect x="0" y="0" width="44" height="44" rx="12" fill="url(#lg)"/><text x="22" y="32" font-family="'Space Grotesk',Arial,sans-serif" font-size="26" font-weight="900" fill="#fff" text-anchor="middle" letter-spacing="-1">M</text><text x="60" y="30" font-family="'Space Grotesk',Arial,sans-serif" font-size="28" font-weight="800" fill="var(--fg)" letter-spacing="-1.5">MALTY</text><circle cx="169" cy="14" r="4" fill="var(--accent)"/><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="var(--accent)"/><stop offset="100%" stop-color="var(--accent)"/></linearGradient></defs></svg>
+          <span>.</span>
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#" onclick="nav('home','#tarifs');return false">Tarifs</a></li>
+          <li><a href="#" onclick="nav('home','#faq');return false">FAQ</a></li>
+          <li><a href="#" onclick="nav('devis');return false">Contact</a></li>
+          <li><a href="#" class="btn btn-primary nav-cta" onclick="nav('devis');return false">Commander</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <div id="page-home" class="page active">
+        <section class="hero">
+          <div class="hero-glow" id="heroGlow"></div>
+          <div class="container hero-stagger">
+            <div class="hero-badge">— Développeur Web Freelance à Lyon</div>
+            <h1>Votre site web<br>sur mesure</h1>
+            <p>Sites vitrine, e-commerce et landing pages pour les commerçants et entreprises lyonnaises. Design d'élite, performance maximale.</p>
+            <div class="hero-tel"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:6px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><a href="tel:0641347621">06 41 34 76 21</a></div>
+            <div class="hero-actions">
+              <a href="#" class="btn btn-primary" onclick="nav('devis');return false">Commander mon pack maintenant</a>
+              <a href="#" class="btn btn-outline" onclick="nav('home','#tarifs');return false">Consulter le catalogue</a>
+            </div>
+            <p style="margin-top:20px;font-size:.78rem;color:var(--muted)">Disponible à Lyon et métropole</p>
+          </div>
+        </section>
+
+        <div class="trust-bar">
+          <div class="container">
+            <div class="trust-grid" id="trustGrid">
+              <div class="trust-item"><span class="num" data-count="100">0</span><span class="label">Performance Google</span></div>
+              <div class="trust-item"><span class="num" data-count="10">0</span><span class="label">Livré sous 10j</span></div>
+              <div class="trust-item"><span class="num" data-count="1">0</span><span class="label">Basé à Lyon</span></div>
+              <div class="trust-item"><span class="num" data-count="100">0</span><span class="label">Code Pro</span></div>
+            </div>
+          </div>
+        </div>
+
+        <section id="expertise" class="reveal">
+          <div class="container">
+            <div class="section-header"><h2>Arsenal Technologique</h2><p>Des technologies de pointe pour une performance brute.</p></div>
+            <div class="tech-grid">
+              <div class="tech-item"><svg viewBox="0 0 24 24"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z"/></svg><span>HTML5</span></div>
+              <div class="tech-item"><svg viewBox="0 0 24 24"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm17.09 4.413L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157h-9.25l-.232-2.72h10.059l.23-2.622z"/></svg><span>CSS3</span></div>
+              <div class="tech-item"><svg viewBox="0 0 24 24"><path d="M0 0h24v24H0V0zm22.034 18.268c0-1.424-.81-2.147-2.158-2.147-1.155 0-1.84.495-2.01 1.253h-.037c-.018-.468-.421-1.253-1.631-1.253-1.008 0-1.666.522-1.821 1.136h-.037V16.14h-1.64v7.86h1.74v-4.144c0-1.32.559-1.82 1.296-1.82.724 0 1.127.422 1.127 1.394V24h1.74v-4.192c0-1.256.513-1.771 1.256-1.771.696 0 1.053.376 1.053 1.348V24h1.74v-5.732zM10.142 16.14h-2.16V13.5h2.16v2.64zM6.621 16.14H4.46V24h2.161v-7.86z"/></svg><span>JavaScript ES6+</span></div>
+              <div class="tech-item"><svg viewBox="0 0 24 24"><path d="M24 11.237c0 6.012-4.864 10.875-10.875 10.875S2.25 17.249 2.25 11.237c0-6.013 4.864-10.875 10.875-10.875 3.568 0 6.745 1.714 8.744 4.36l-3.328 2.316C17.275 5.86 15.71 4.981 14 4.981c-3.461 0-6.264 2.803-6.264 6.256 0 3.453 2.803 6.256 6.264 6.256 3.453 0 6.256-2.803 6.256-6.256h3.744z"/></svg><span>Performance</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="portfolio" class="reveal" style="padding-bottom:0">
+          <div class="container">
+            <div class="section-header"><h2>Réalisations Récentes</h2><p>Des sites livrés clés en main à des professionnels ambitieux.</p></div>
+            <div class="portfolio-grid">
+              <a href="digitalflow.html" target="_blank" class="portfolio-card reveal-scale">
+                <div class="portfolio-visual" style="background:linear-gradient(135deg,#0f0c29,#302b63,#24243e)">
+                  <div class="portfolio-icon" style="background:rgba(255,255,255,.08)">DF</div>
+                </div>
+                <div class="portfolio-body"><h3>Digital Flow</h3><p>Agence de marketing digital — Site Vitrine</p><span class="portfolio-cta">Voir le site →</span></div>
+              </a>
+              <a href="marioconsulting.html" target="_blank" class="portfolio-card reveal-scale">
+                <div class="portfolio-visual" style="background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)">
+                  <div class="portfolio-icon" style="background:rgba(255,255,255,.08)">MC</div>
+                </div>
+                <div class="portfolio-body"><h3>Mario Consulting</h3><p>Consultante indépendante — Portfolio Premium</p><span class="portfolio-cta">Voir le site →</span></div>
+              </a>
+              <a href="shopeco.html" target="_blank" class="portfolio-card reveal-scale">
+                <div class="portfolio-visual" style="background:linear-gradient(135deg,#0b1d28,#1a4a3a,#2d6a4f)">
+                  <div class="portfolio-icon" style="background:rgba(255,255,255,.08)">SE</div>
+                </div>
+                <div class="portfolio-body"><h3>Shop Eco</h3><p>E-commerçant — Landing Page Vendeuse</p><span class="portfolio-cta">Voir le site →</span></div>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section id="tarifs" class="reveal">
+          <div class="container">
+            <div class="section-header"><h2>Catalogue de Sites Web</h2><p>Sélectionnez le pack adapté à vos objectifs.</p></div>
+            <div class="pricing-grid" id="pricingGrid"></div>
+            <a href="pack-premium.html" target="_blank" class="btn btn-outline" style="display:block;width:fit-content;margin:24px auto 0">Voir la fiche détaillée du Pack Premium →</a>
+          </div>
+        </section>
+
+        <section id="temoignages" class="reveal">
+          <div class="container">
+            <div class="section-header"><h2>Ils nous font confiance</h2><p>Des professionnels qui ont choisi l'excellence.</p></div>
+            <div class="testimonials-grid">
+              <div class="card testimonial-card reveal-scale"><blockquote>"J'ai acheté le pack Vitrine pour mon agence. Résultat : une augmentation de 40% de mes demandes de devis. La vitesse du site est tout simplement incroyable."</blockquote><div class="testimonial-author"><div class="testimonial-avatar">JS</div><div><strong>Julien S.</strong><span>Fondateur, <a href="digitalflow.html" target="_blank">Digital Flow</a></span></div></div></div>
+              <div class="card testimonial-card reveal-scale"><blockquote>"Le pack Premium sur-mesure est une véritable œuvre d'art technique. Malty a su transformer ma vision en un outil de vente extrêmement puissant."</blockquote><div class="testimonial-author"><div class="testimonial-avatar">MC</div><div><strong>Marie C.</strong><span>Consultante, <a href="marioconsulting.html" target="_blank">Mario Consulting</a></span></div></div></div>
+              <div class="card testimonial-card reveal-scale"><blockquote>"Un service direct et efficace. J'ai reçu le code source de ma Landing Page en 4 jours. Un ROI immédiat pour mes campagnes publicitaires."</blockquote><div class="testimonial-author"><div class="testimonial-avatar">TP</div><div><strong>Thomas P.</strong><span>E-commerçant, <a href="shopeco.html" target="_blank">Shop Eco</a></span></div></div></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="faq" class="reveal">
+          <div class="container">
+            <div class="section-header"><h2>Expertise Technique</h2><p>Tout ce que vous devez savoir avant d'acheter votre future solution web.</p></div>
+            <div class="faq-list" id="faqList"></div>
+          </div>
+        </section>
+
+        <section class="cta-section reveal">
+          <div class="container">
+            <h2>Prêt à passer à la vitesse supérieure ?</h2>
+            <p>Discutons de votre projet. Devis gratuit, réponse sous 24h.</p>
+            <div class="cta-actions">
+              <a href="#" class="btn btn-primary" onclick="nav('devis');return false">Demander un devis</a>
+              <a href="tel:0641347621" class="btn btn-outline">Appeler</a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="page-devis" class="page page-devis">
+        <section style="padding-top:180px">
+          <div class="container">
+            <div class="section-header"><h2>Votre projet</h2><p>Discutons de vos besoins. Je vous réponds sous 24h.</p></div>
+            <div class="devis-box">
+              <div class="form-step active" id="formStep1">
+                <form id="devisForm">
+                  <div class="form-row">
+                    <div class="form-group"><label>Votre nom / Entreprise</label><input type="text" name="nom" placeholder="Votre identité..." required></div>
+                    <div class="form-group"><label>Votre email</label><input type="email" name="email" placeholder="votre@email.com" required></div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group"><label>Votre téléphone</label><input type="tel" name="telephone" placeholder="06 XX XX XX XX" required></div>
+                    <div class="form-group"><label>Ville / Secteur</label><input type="text" name="ville" placeholder="Lyon, Villeurbanne..."></div>
+                  </div>
+                  <div class="form-group"><label>Pack qui vous intéresse</label>
+                    <select name="formule" id="formuleSelect" required>
+                      <option value="" disabled selected>Sélectionner...</option>
+                      <option value="Landing Page">Pack Landing Page — 99€</option>
+                      <option value="Portfolio">Pack Portfolio — 249€</option>
+                      <option value="Vitrine">Pack Site Vitrine — 449€</option>
+                      <option value="Premium">Pack Sur-Mesure — 899€</option>
+                      <option value="Je ne sais pas encore">Je ne sais pas encore, conseillez-moi</option>
+                    </select></div>
+                  <div class="form-group"><label>Parlez-moi de votre projet</label>
+                    <textarea name="desc" rows="5" placeholder="Quel est votre activité ? Quel est votre objectif ? Vous avez déjà du contenu (logo, photos, textes) ?" required></textarea></div>
+                  <div style="display:flex;gap:12px;margin-top:8px;flex-wrap:wrap">
+                    <button type="submit" class="btn btn-primary" style="flex:1">Envoyer ma demande</button>
+                    <button type="button" class="btn btn-outline" onclick="directPay()">Je veux payer directement →</button>
+                  </div>
+                </form>
+              </div>
+              <div class="form-step" id="formStep2">
+                <div class="pay-step">
+                  <h3>Règlement Sécurisé</h3>
+                  <p style="color:var(--muted);margin-bottom:8px">Vous savez exactement ce que vous voulez ? Commandez directement.</p>
+                  <div class="pay-amount" id="payAmount"></div>
+                  <div class="pay-actions">
+                    <a href="#" class="btn btn-primary" id="btnStripe" target="_blank">Payer par Carte</a>
+                    <a href="#" class="btn btn-outline" id="btnPaypal" target="_blank">Payer par PayPal</a>
+                  </div>
+                  <p class="pay-note">Une fois le paiement effectué, cliquez ci-dessous pour m'envoyer votre brief.</p>
+                  <button class="btn btn-primary" style="width:100%;margin-top:16px" onclick="confirmPay()">J'ai payé • Envoyer mon brief</button>
+                  <button class="btn btn-outline" style="width:100%;margin-top:12px" onclick="nav('home')">Retour au catalogue</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="#" class="logo" onclick="nav('home');return false" style="margin-bottom:0">
+              <svg viewBox="0 0 200 60"><rect x="0" y="0" width="44" height="44" rx="12" fill="url(#lg2)"/><text x="22" y="32" font-family="'Space Grotesk',Arial,sans-serif" font-size="26" font-weight="900" fill="#fff" text-anchor="middle" letter-spacing="-1">M</text><text x="60" y="30" font-family="'Space Grotesk',Arial,sans-serif" font-size="28" font-weight="800" fill="var(--fg)" letter-spacing="-1.5">MALTY</text><circle cx="169" cy="14" r="4" fill="var(--accent)"/><defs><linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="var(--accent)"/><stop offset="100%" stop-color="var(--accent)"/></linearGradient></defs></svg>
+              <span>.</span>
+            </a>
+            <p>Production digitale de haute performance. Design d'élite, vitesse atomique et conversion maximale pour les business ambitieux.</p>
+          </div>
+          <div class="footer-col"><h4>Navigation</h4><ul class="footer-links"><li><a href="#" onclick="nav('home');return false">Accueil</a></li><li><a href="#" onclick="nav('home','#tarifs');return false">Tarifs</a></li><li><a href="#" onclick="nav('devis');return false">Contact</a></li></ul></div>
+          <div class="footer-col"><h4>Infos</h4><ul class="footer-links"><li><a href="#" onclick="nav('home','#faq');return false">FAQ</a></li><li><a href="mailto:maltyz@outlook.fr">Email</a></li><li><a href="tel:0641347621">06 41 34 76 21</a></li></ul></div>
+          <div class="footer-col"><h4>Contact</h4><p style="color:var(--muted);font-size:.85rem;margin-bottom:8px">Lyon, France</p><a href="tel:0641347621" style="color:var(--accent);text-decoration:none;font-weight:600;font-size:.9rem">06 41 34 76 21</a><br><a href="mailto:maltyz@outlook.fr" style="color:var(--accent);text-decoration:none;font-weight:600;font-size:.85rem">maltyz@outlook.fr</a></div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2026 MALTY PRODUCTIONS. Tous droits réservés.</p>
+          <div class="footer-socials">
+            <a href="#" aria-label="Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+            <a href="#" aria-label="GitHub"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <a href="tel:0641347621" class="mobile-call" id="callBtn" aria-label="Appeler"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
+  </div>
+
+  <script>
+    const getConfig = () => { try { return window.MALTY_CONFIG; } catch(e) { return {}; } };
+    const WEBHOOK = (() => { try { return window.MALTY_CONFIG ? window.MALTY_CONFIG.webhookUrl : 'https://formspree.io/f/xredyerp'; } catch(e) { return 'https://formspree.io/f/xredyerp'; } })();
+
+    var header = document.getElementById('header');
+    var hamburger = document.getElementById('hamburger');
+    var navLinks = document.getElementById('navLinks');
+    var heroGlow = document.getElementById('heroGlow');
+
+    hamburger.addEventListener('click', function() { hamburger.classList.toggle('open'); navLinks.classList.toggle('open'); });
+    navLinks.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', function() { hamburger.classList.remove('open'); navLinks.classList.remove('open'); }); });
+    window.addEventListener('scroll', function() { if (window.scrollY > 100) header.classList.add('scrolled'); else header.classList.remove('scrolled'); });
+    if (heroGlow) { document.addEventListener('mousemove', function(e) { var x = (e.clientX / window.innerWidth) * 20 - 10; var y = (e.clientY / window.innerHeight) * 20 - 10; heroGlow.style.transform = 'translate(calc(-50% + ' + x + 'px), calc(-50% + ' + y + 'px))'; }); }
+
+    var observer = new IntersectionObserver(function(entries) { entries.forEach(function(entry) { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.08 });
+    var countObserver = new IntersectionObserver(function(entries) { entries.forEach(function(entry) { if (entry.isIntersecting) { var el = entry.target; var target = parseInt(el.getAttribute('data-count'), 10); if (target > 0 && !el.dataset.animated) { el.dataset.animated = '1'; animateCount(el, target); } } }); }, { threshold: 0.5 });
+
+    function animateCount(el, target) {
+      var current = 0;
+      var step = Math.max(1, Math.floor(target / 40));
+      var interval = setInterval(function() {
+        current += step;
+        if (current >= target) {
+          current = target;
+          clearInterval(interval);
+          if (target === 100) el.textContent = '100/100';
+          else if (target === 10) el.textContent = 'Livré sous ' + target + 'j';
+          else if (target === 1) el.textContent = 'Basé à Lyon';
+          else el.textContent = target + '%';
+        } else {
+          if (target === 100) el.textContent = current + '/100';
+          else if (target === 10) el.textContent = 'Livré sous ' + current + 'j';
+          else if (target === 1) el.textContent = 'Basé à Lyon';
+          else el.textContent = current + '%';
+        }
+      }, 40);
+    }
+
+    document.querySelectorAll('.reveal, .reveal-scale').forEach(function(el) { observer.observe(el); });
+    document.querySelectorAll('.trust-item .num').forEach(function(el) { countObserver.observe(el); });
+
+    function renderPricing() {
+      var cfg = getConfig();
+      var grid = document.getElementById('pricingGrid');
+      if (!cfg.formules || !grid) return;
+      grid.innerHTML = cfg.formules.map(function(f, i) {
+        return '<div class="pricing-card reveal-scale' + (f.recommended ? ' recommended' : '') + '">' +
+          (f.recommended ? '<div class="badge">Recommandé</div>' : '') +
+          '<div class="tag">Pack // 0' + (i+1) + '</div>' +
+          '<h3>' + f.nom + '</h3>' +
+          '<div class="price">' + f.prix + '€</div>' +
+          '<div class="sales">✓ ' + f.ventes + '+ vendus</div>' +
+          '<ul>' + f.features.map(function(ft) { return '<li>' + ft + '</li>'; }).join('') + '</ul>' +
+          '<button class="btn btn-primary" style="width:100%" onclick="selectPlan(\'' + f.nom + '\')">Acheter ce pack</button>' +
+          '<p style="font-size:.7rem;color:var(--muted);text-align:center;margin-top:10px">Livré sous ' + f.delai + '</p>' +
+        '</div>';
+      }).join('');
+      grid.querySelectorAll('.reveal-scale').forEach(function(el) { observer.observe(el); });
+    }
+
+    function renderFAQ() {
+      var cfg = getConfig();
+      var list = document.getElementById('faqList');
+      if (!cfg.faq || !list) return;
+      list.innerHTML = cfg.faq.map(function(item, i) {
+        return '<div class="faq-item reveal">' +
+          '<button class="faq-trigger" onclick="toggleFAQ(this)">' +
+            '<span>' + item.q + '</span>' +
+            '<span class="icon">+</span>' +
+          '</button>' +
+          '<div class="faq-panel"><p>' + item.a + '</p></div>' +
+        '</div>';
+      }).join('');
+      list.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+    }
+
+    function toggleFAQ(btn) {
+      var item = btn.parentElement;
+      var panel = item.querySelector('.faq-panel');
+      var isOpen = item.classList.contains('open');
+      item.classList.toggle('open');
+      if (isOpen) panel.style.maxHeight = '0';
+      else panel.style.maxHeight = panel.scrollHeight + 'px';
+    }
+
+    function nav(pageId, anchor) {
+      hamburger.classList.remove('open');
+      navLinks.classList.remove('open');
+      var old = document.querySelector('.page.active');
+      var next = document.getElementById('page-' + pageId);
+      if (old === next) {
+        if (anchor) { var el = document.querySelector(anchor); if (el) el.scrollIntoView({ behavior: 'smooth' }); }
+        else { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        return;
+      }
+      if (old) { old.classList.remove('active'); old.style.display = 'none'; }
+      next.style.display = 'block';
+      next.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (anchor) { setTimeout(function() { var el = document.querySelector(anchor); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 400); }
+      document.querySelectorAll('.reveal, .reveal-scale').forEach(function(el) { el.classList.remove('visible'); observer.observe(el); });
+    }
+
+    function selectPlan(nom) {
+      nav('devis');
+      var sel = document.getElementById('formuleSelect');
+      var map = { "Pack Landing Page Vendeuse": "Landing Page", "Pack Portfolio d'Image": "Portfolio", "Pack Site Vitrine Business": "Vitrine", "Solution Web Sur-Mesure": "Premium" };
+      if (sel) sel.value = map[nom] || nom;
+    }
+
+    var pendingOrder = null;
+
+    function directPay() {
+      var sel = document.getElementById('formuleSelect');
+      if (!sel || !sel.value || sel.value === 'Je ne sais pas encore') { alert('Veuillez d\'abord sélectionner un pack.'); return; }
+      var form = document.getElementById('devisForm');
+      if (form) {
+        var fd = new FormData(form);
+        var data = Object.fromEntries(fd);
+        data._subject = 'Nouvelle commande MALTY - ' + (data.nom || 'Client');
+        data._replyto = data.email;
+        fetch(WEBHOOK, { method: 'POST', headers: { Accept: 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).catch(function(){});
+      }
+      showPay(sel.value);
+    }
+
+    function showPay(nom) {
+      var cfg = getConfig();
+      var mid = { "Landing Page": "landing", "Portfolio": "portfolio", "Vitrine": "vitrine", "Premium": "premium" };
+      var f = cfg.formules ? cfg.formules.find(function(x) { return x.id === mid[nom]; }) : null;
+      if (!f) { alert('Pack non trouvé'); return; }
+      var amt = document.getElementById('payAmount');
+      var sBtn = document.getElementById('btnStripe');
+      var pBtn = document.getElementById('btnPaypal');
+      if (amt) amt.textContent = f.prix + '€';
+      if (sBtn) sBtn.href = f.stripe || '#';
+      if (pBtn) pBtn.href = f.paypal || '#';
+      document.getElementById('formStep1').classList.remove('active');
+      document.getElementById('formStep2').classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function confirmPay() { alert('Merci ! Votre commande a été envoyée avec succès.'); pendingOrder = null; nav('home'); }
+
+    var devisForm = document.getElementById('devisForm');
+    if (devisForm) {
+      devisForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var fd = new FormData(e.target);
+        var formule = fd.get('formule');
+        var data = Object.fromEntries(fd);
+        data._subject = 'Nouveau contact MALTY - ' + (data.nom || 'Anonyme');
+        data._replyto = data.email;
+        var btn = e.target.querySelector('button[type="submit"]');
+        var orig = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'Envoi...';
+        if (formule === 'Je ne sais pas encore' || !formule) {
+          fetch(WEBHOOK, { method: 'POST', headers: { Accept: 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+            .then(function(r) { if (r.ok) { alert('Message envoyé ! Je vous réponds sous 24h.'); e.target.reset(); } else { alert('Erreur d\'envoi, réessayez ou contactez-moi par email.'); } })
+            .catch(function(){ alert('Erreur réseau. Envoyez-moi un email à maltyz@outlook.fr'); })
+            .finally(function() { btn.disabled = false; btn.textContent = orig; });
+        } else {
+          fetch(WEBHOOK, { method: 'POST', headers: { Accept: 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+            .catch(function(){})
+            .finally(function() { btn.disabled = false; btn.textContent = orig; showPay(formule); });
+        }
+      });
+    }
+
+    window.addEventListener('load', function() { renderPricing(); renderFAQ(); });
+  </script>
+  <script src="knowledge.js"></script>
+</body>
+</html>

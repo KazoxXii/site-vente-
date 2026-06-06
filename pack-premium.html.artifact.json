@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "pack-premium.html",
+  "entry": "pack-premium.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-06-06T22:17:28.678Z",
+  "updatedAt": "2026-06-06T22:17:28.678Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

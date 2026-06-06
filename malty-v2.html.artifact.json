@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "MALTY v2 — Portfolio amélioré",
+  "entry": "malty-v2.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "primary": true,
+  "createdAt": "2026-06-06T21:04:29.524Z",
+  "updatedAt": "2026-06-06T21:04:29.575Z",
+  "metadata": {
+    "identifier": "malty-v2",
+    "artifactType": "text/html",
+    "inferred": false
+  }
+}
