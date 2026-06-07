@@ -32,6 +32,7 @@
       --accent-20: oklch(62% 0.22 255 / 0.2);
       --accent-50: oklch(62% 0.22 255 / 0.5);
       --success: oklch(62% 0.17 145);
+      --warn: oklch(70% 0.18 80);
       --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
       --nav-h: 72px;
       --radius: 16px;
@@ -189,6 +190,49 @@
     .mobile-call { display:none; position:fixed; bottom:20px; left:20px; z-index:999; width:56px; height:56px; background:var(--success); color:#fff; border-radius:50%; align-items:center; justify-content:center; text-decoration:none; box-shadow:0 4px 20px var(--accent-20); transition:transform .2s; }
     .mobile-call:hover { transform:scale(1.08); }
     @media (max-width:768px) { .mobile-call { display:flex; } }
+
+    /* Steps - Comment ça marche */
+    .steps-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; counter-reset:step; }
+    .step-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:32px 24px; text-align:center; position:relative; transition:all .4s var(--ease); }
+    .step-card:hover { border-color:var(--accent-20); transform:translateY(-4px); box-shadow:0 8px 40px var(--accent-10); }
+    .step-card::before { counter-increment:step; content:"0" counter(step); position:absolute; top:16px; right:20px; font-size:2.4rem; font-weight:900; color:var(--accent-10); line-height:1; letter-spacing:-0.04em; }
+    .step-num { width:48px; height:48px; border-radius:50%; background:var(--accent-10); color:var(--accent); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.1rem; margin:0 auto 16px; position:relative; }
+    .step-card h3 { font-weight:700; font-size:1rem; margin-bottom:8px; }
+    .step-card p { color:var(--muted); font-size:.85rem; line-height:1.5; }
+    .step-card .step-arrow { display:none; }
+    @media (max-width:900px) { .steps-grid { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:480px) { .steps-grid { grid-template-columns:1fr; } }
+
+    /* Quiz */
+    .quiz-box { max-width:680px; margin:0 auto; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:48px; text-align:center; }
+    .quiz-question { font-size:1.25rem; font-weight:700; margin-bottom:24px; }
+    .quiz-options { display:flex; flex-direction:column; gap:10px; text-align:left; }
+    .quiz-option { display:flex; align-items:center; gap:12px; padding:16px 20px; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-sm); cursor:pointer; transition:all .2s; font:inherit; font-size:.9rem; color:var(--fg); }
+    .quiz-option:hover { border-color:var(--accent); background:var(--accent-10); }
+    .quiz-option.selected { border-color:var(--accent); background:var(--accent-10); }
+    .quiz-option .radio { width:20px; height:20px; border-radius:50%; border:2px solid var(--border); flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+    .quiz-option.selected .radio { border-color:var(--accent); }
+    .quiz-option.selected .radio::after { content:''; width:10px; height:10px; border-radius:50%; background:var(--accent); }
+    .quiz-nav { display:flex; gap:12px; justify-content:center; margin-top:28px; }
+    .quiz-result { display:none; text-align:center; padding:24px; }
+    .quiz-result.visible { display:block; animation:pageIn .5s var(--ease-out) both; }
+    .quiz-result .emoji { font-size:2.4rem; margin-bottom:12px; }
+    .quiz-result h3 { font-size:1.8rem; font-weight:800; margin-bottom:4px; }
+    .quiz-result .pack-name { font-size:1.1rem; color:var(--accent); font-weight:700; margin-bottom:8px; }
+    .quiz-result p { color:var(--muted); font-size:.9rem; margin-bottom:20px; }
+    .quiz-result .btn { margin-top:8px; }
+
+    /* Guarantee badge + scarcity */
+    .pricing-guarantee { text-align:center; margin-top:32px; padding:20px; background:var(--accent-10); border:1px solid var(--accent-20); border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap; }
+    .pricing-guarantee svg { width:20px; height:20px; color:var(--accent); flex-shrink:0; }
+    .pricing-guarantee span { font-size:.85rem; font-weight:500; color:var(--muted); }
+    .pricing-guarantee strong { color:var(--accent); }
+    .pricing-callout { font-size:.78rem; color:var(--muted); text-align:center; margin-top:16px; display:flex; align-items:center; justify-content:center; gap:6px; }
+    .pricing-callout .dot { width:6px; height:6px; border-radius:50%; background:var(--success); display:inline-block; }
+    .pricing-card .scarcity { font-size:.7rem; color:var(--warn); display:flex; align-items:center; justify-content:center; gap:4px; margin-top:6px; }
+    @media (max-width:768px) {
+      .steps-grid { grid-template-columns:repeat(2,1fr); }
+    }
   </style>
 </head>
 <body>
@@ -237,6 +281,18 @@
           </div>
         </div>
 
+        <section id="comment-ca-marche" class="reveal">
+          <div class="container">
+            <div class="section-header"><h2>Comment ça marche</h2><p>De votre commande à votre site en ligne — 4 étapes simples.</p></div>
+            <div class="steps-grid reveal">
+              <div class="step-card"><div class="step-num">📋</div><h3>1. Commande & Brief</h3><p>Vous choisissez votre pack et payez en ligne. Je vous envoie un questionnaire pour cadrer le projet.</p></div>
+              <div class="step-card"><div class="step-num">🎨</div><h3>2. Conception</h3><p>Je code votre site sur mesure. Vous recevez une première preview sous 48h pour valider la direction.</p></div>
+              <div class="step-card"><div class="step-num">🔧</div><h3>3. Ajustements</h3><p>Vous donnez vos retours, j'ajuste jusqu'à ce que le site corresponde parfaitement à votre vision.</p></div>
+              <div class="step-card"><div class="step-num">🚀</div><h3>4. Livraison</h3><p>Je vous livre les fichiers sources + documentation. Vous mettez en ligne, vous êtes propriétaire du code.</p></div>
+            </div>
+          </div>
+        </section>
+
         <section id="expertise" class="reveal">
           <div class="container">
             <div class="section-header"><h2>Arsenal Technologique</h2><p>Des technologies de pointe pour une performance brute.</p></div>
@@ -275,10 +331,63 @@
           </div>
         </section>
 
+        <section id="quiz" class="reveal" style="padding-bottom:0">
+          <div class="container">
+            <div class="section-header"><h2>Quel pack est fait pour toi ?</h2><p>3 questions pour trouver le pack parfait pour ton projet.</p></div>
+            <div class="quiz-box reveal-scale">
+              <div id="quizContent">
+                <div id="quizStep0" class="quiz-step">
+                  <div class="quiz-question">Quel est ton objectif principal ?</div>
+                  <div class="quiz-options">
+                    <button class="quiz-option" data-score="landing" onclick="quizAnswer(0,'landing')"><span class="radio"></span> Vendre un service ou un produit sur une page</button>
+                    <button class="quiz-option" data-score="portfolio" onclick="quizAnswer(0,'portfolio')"><span class="radio"></span> Montrer mon travail / mon book créatif</button>
+                    <button class="quiz-option" data-score="vitrine" onclick="quizAnswer(0,'vitrine')"><span class="radio"></span> Présenter mon entreprise avec plusieurs pages</button>
+                    <button class="quiz-option" data-score="premium" onclick="quizAnswer(0,'premium')"><span class="radio"></span> Un projet complexe avec des fonctionnalités spécifiques</button>
+                  </div>
+                </div>
+                <div id="quizStep1" class="quiz-step" style="display:none">
+                  <div class="quiz-question">Combien de pages estimes-tu avoir besoin ?</div>
+                  <div class="quiz-options">
+                    <button class="quiz-option" data-score="landing" onclick="quizAnswer(1,'landing')"><span class="radio"></span> 1 page suffit amplement</button>
+                    <button class="quiz-option" data-score="portfolio" onclick="quizAnswer(1,'portfolio')"><span class="radio"></span> 1 à 3 pages</button>
+                    <button class="quiz-option" data-score="vitrine" onclick="quizAnswer(1,'vitrine')"><span class="radio"></span> 3 à 7 pages</button>
+                    <button class="quiz-option" data-score="premium" onclick="quizAnswer(1,'premium')"><span class="radio"></span> Je ne sais pas encore, j'ai besoin de flexibilité</button>
+                  </div>
+                </div>
+                <div id="quizStep2" class="quiz-step" style="display:none">
+                  <div class="quiz-question">Quel est ton budget approximatif ?</div>
+                  <div class="quiz-options">
+                    <button class="quiz-option" data-score="landing" onclick="quizAnswer(2,'landing')"><span class="radio"></span> ≈ 100€ — Je débute, je veux tester</button>
+                    <button class="quiz-option" data-score="portfolio" onclick="quizAnswer(2,'portfolio')"><span class="radio"></span> ≈ 250€ — Je veux un site élégant</button>
+                    <button class="quiz-option" data-score="vitrine" onclick="quizAnswer(2,'vitrine')"><span class="radio"></span> ≈ 450€ — Je veux une solution professionnelle</button>
+                    <button class="quiz-option" data-score="premium" onclick="quizAnswer(2,'premium')"><span class="radio"></span> ≈ 900€ — Je veux l'excellence, sans limite</button>
+                  </div>
+                </div>
+              </div>
+              <div class="quiz-nav" id="quizNav">
+                <button class="btn btn-outline" id="quizPrev" onclick="quizPrev()" style="display:none">← Retour</button>
+              </div>
+              <div class="quiz-result" id="quizResult">
+                <div class="emoji">🎯</div>
+                <h3>Le pack recommandé pour toi :</h3>
+                <div class="pack-name" id="quizPackName">Pack Vitrine</div>
+                <p id="quizPackDesc">La solution idéale pour présenter ton entreprise avec plusieurs pages, du SEO et un blog intégré.</p>
+                <a href="#" class="btn btn-primary" id="quizCta" onclick="nav('devis');return false">Commander ce pack</a>
+                <button class="btn btn-outline" style="margin-top:8px" onclick="quizReset()">Recommencer le quiz</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section id="tarifs" class="reveal">
           <div class="container">
             <div class="section-header"><h2>Catalogue de Sites Web</h2><p>Sélectionnez le pack adapté à vos objectifs.</p></div>
             <div class="pricing-grid" id="pricingGrid"></div>
+            <div class="pricing-guarantee">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span><strong>Garantie 30 jours</strong> — Satisfait ou corrigé gratuitement. Code livré, pas d'abonnement.</span>
+            </div>
+            <div class="pricing-callout"><span class="dot"></span> <span id="scarcitySlots">3 créneaux disponibles</span> cette semaine — <strong>Réserve le tien</strong></div>
             <a href="../pack-premium.html" target="_blank" class="btn btn-outline pack-detail-link">Voir la fiche détaillée du Pack Premium →</a>
           </div>
         </section>
@@ -434,6 +543,15 @@
     document.querySelectorAll('.reveal, .reveal-scale').forEach(function(el) { observer.observe(el); });
     document.querySelectorAll('.trust-item .num').forEach(function(el) { countObserver.observe(el); });
 
+    function scrambleText() {
+      var el = document.getElementById('scarcitySlots');
+      if (!el) return;
+      var slots = [3, 4, 2, 5];
+      var idx = Math.min(Math.floor(Math.random() * slots.length), slots.length - 1);
+      el.textContent = slots[idx] + ' créneaux disponibles';
+    }
+    scrambleText();
+
     function renderPricing() {
       var cfg = getConfig();
       var grid = document.getElementById('pricingGrid');
@@ -445,8 +563,9 @@
           '<h3>' + f.nom + '</h3>' +
           '<div class="price">' + f.prix + '€</div>' +
           '<div class="sales">✓ ' + f.ventes + '+ vendus</div>' +
+          '<div class="scarcity"><span class="dot"></span> Plus que ' + (Math.floor(Math.random() * 3) + 1) + ' places cette semaine</div>' +
           '<ul>' + f.features.map(function(ft) { return '<li>' + ft + '</li>'; }).join('') + '</ul>' +
-          '<button class="btn btn-primary" style="width:100%" onclick="selectPlan(\'' + f.nom + '\')">Acheter ce pack</button>' +
+          '<button class="btn btn-primary" style="width:100%" onclick="selectPlan(\'' + f.nom.replace(/'/g, "\\'") + '\')">Acheter ce pack</button>' +
           '<p style="font-size:.7rem;color:var(--muted);text-align:center;margin-top:10px">Livré sous ' + f.delai + '</p>' +
         '</div>';
       }).join('');
@@ -477,6 +596,99 @@
       if (isOpen) panel.style.maxHeight = '0';
       else panel.style.maxHeight = panel.scrollHeight + 'px';
     }
+
+    /* QUIZ */
+    var quizScores = { landing:0, portfolio:0, vitrine:0, premium:0 };
+    var quizStep = 0;
+    var quizAnswered = [false, false, false];
+
+    function quizAnswer(step, score) {
+      quizScores[score]++;
+      quizAnswered[step] = true;
+      var btns = document.querySelectorAll('#quizStep' + step + ' .quiz-option');
+      btns.forEach(function(el) { el.classList.remove('selected'); });
+      if (window.event && window.event.currentTarget) window.event.currentTarget.classList.add('selected');
+    }
+
+    function quizNext() {
+      if (!quizAnswered[quizStep]) { return; }
+      if (quizStep < 2) {
+        document.getElementById('quizStep' + quizStep).style.display = 'none';
+        quizStep++;
+        document.getElementById('quizStep' + quizStep).style.display = 'block';
+        document.getElementById('quizPrev').style.display = 'inline-flex';
+      }
+      if (quizStep === 2) {
+        var allAnswered = quizAnswered.every(function(v) { return v; });
+        if (allAnswered) {
+          var max = 0;
+          var winner = 'vitrine';
+          for (var k in quizScores) {
+            if (quizScores[k] > max) { max = quizScores[k]; winner = k; }
+          }
+          showQuizResult(winner);
+        }
+      }
+    }
+
+    function quizPrev() {
+      if (quizStep > 0) {
+        document.getElementById('quizStep' + quizStep).style.display = 'none';
+        quizStep--;
+        document.getElementById('quizStep' + quizStep).style.display = 'block';
+        if (quizStep === 0) document.getElementById('quizPrev').style.display = 'none';
+        document.getElementById('quizResult').classList.remove('visible');
+        document.getElementById('quizResult').style.display = 'none';
+        document.getElementById('quizContent').style.display = 'block';
+      }
+    }
+
+    function showQuizResult(winner) {
+      document.getElementById('quizContent').style.display = 'none';
+      document.getElementById('quizNav').style.display = 'none';
+      var r = document.getElementById('quizResult');
+      var map = {
+        landing: { name: 'Pack Landing Page Vendeuse — 99€', desc: 'Parfait pour lancer tes campagnes et vendre un service ou produit sur une page unique ultra-optimisée.', emoji: '⚡', cta: 'landing' },
+        portfolio: { name: 'Pack Portfolio d\'Image — 249€', desc: 'Idéal pour les créatifs et freelances qui veulent montrer leur travail avec un design cinématique.', emoji: '🎨', cta: 'portfolio' },
+        vitrine: { name: 'Pack Site Vitrine Business — 449€', desc: 'La solution complète pour présenter ton entreprise avec plusieurs pages, du SEO puissant et un blog.', emoji: '🏢', cta: 'vitrine' },
+        premium: { name: 'Solution Web Sur-Mesure — 899€', desc: 'L\'excellence totale : un site unique sans aucune limite technique, conçu sur mesure pour ton business.', emoji: '💎', cta: 'premium' }
+      };
+      var d = map[winner] || map.vitrine;
+      r.querySelector('.emoji').textContent = d.emoji;
+      document.getElementById('quizPackName').textContent = d.name;
+      document.getElementById('quizPackDesc').textContent = d.desc;
+      document.getElementById('quizCta').onclick = function() {
+        var sel = document.getElementById('formuleSelect');
+        if (sel) sel.value = d.cta;
+        nav('devis');
+        return false;
+      };
+      r.style.display = 'block';
+      setTimeout(function() { r.classList.add('visible'); }, 10);
+    }
+
+    function quizReset() {
+      quizScores = { landing:0, portfolio:0, vitrine:0, premium:0 };
+      quizStep = 0;
+      quizAnswered = [false, false, false];
+      document.getElementById('quizResult').classList.remove('visible');
+      document.getElementById('quizResult').style.display = 'none';
+      document.getElementById('quizContent').style.display = 'block';
+      document.getElementById('quizNav').style.display = 'block';
+      document.getElementById('quizPrev').style.display = 'none';
+      document.querySelectorAll('#quizContent .quiz-step').forEach(function(el, i) {
+        el.style.display = i === 0 ? 'block' : 'none';
+      });
+      document.querySelectorAll('.quiz-option').forEach(function(el) { el.classList.remove('selected'); });
+    }
+
+    /* Auto-advance quiz on option click */
+    document.addEventListener('click', function(e) {
+      var opt = e.target.closest('.quiz-option');
+      if (opt && opt.closest('#quizContent')) {
+        setTimeout(quizNext, 300);
+      }
+    });
 
     function nav(pageId, anchor) {
       hamburger.classList.remove('open');

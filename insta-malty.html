@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MALTY — Post Instagram</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body {
+  width:1080px; height:1080px;
+  overflow:hidden;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  background:oklch(8% 0.012 250);
+  color:oklch(92% 0.008 250);
+}
+canvas.download-btn {
+  position:absolute;
+  top:16px; right:16px;
+  width:200px; height:44px;
+  cursor:pointer; z-index:99;
+}
+.frame {
+  width:1080px; height:1080px;
+  position:relative;
+  padding:60px 72px;
+  display:flex;
+  flex-direction:column;
+  background:
+    radial-gradient(ellipse 500px 400px at 20% 10%, oklch(62% 0.22 255 / 0.06) 0%, transparent 65%),
+    radial-gradient(ellipse 400px 300px at 80% 90%, oklch(70% 0.25 30 / 0.05) 0%, transparent 60%),
+    oklch(8% 0.012 250);
+  overflow:hidden;
+}
+.geo-line { position:absolute; pointer-events:none; }
+.geo-line.h { width:100%; height:1px; left:0; background:linear-gradient(90deg,transparent,oklch(62% 0.22 255 / 0.12),transparent); }
+.geo-line.h.t { top:45%; }
+.geo-line.h.b { top:72%; }
+.geo-line.v { width:1px; height:100%; top:0; background:linear-gradient(180deg,transparent,oklch(62% 0.22 255 / 0.08),transparent); }
+.geo-line.v.l { left:15%; }
+.geo-line.v.r { left:85%; }
+
+/* top bar */
+.top-bar {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  margin-bottom:32px;
+  position:relative; z-index:2;
+}
+.logo svg { height:44px; width:auto; }
+.logo-text { font-size:1.6rem; font-weight:800; letter-spacing:-1px; color:#fff; display:flex; align-items:center; gap:4px; }
+.logo-text span { color:oklch(62% 0.22 255); font-size:2rem; }
+.tag-top {
+  font-size:.65rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:.18em;
+  color:oklch(62% 0.22 255);
+  padding:6px 16px;
+  border:1px solid oklch(62% 0.22 255 / 0.25);
+  border-radius:100px;
+}
+
+/* center hero */
+.hero {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  position:relative; z-index:2;
+}
+.hero-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 14px;
+  background:oklch(62% 0.22 255 / 0.1);
+  color:oklch(62% 0.22 255);
+  border-radius:100px;
+  font-size:.65rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  margin-bottom:20px;
+  width:fit-content;
+}
+.hero h1 {
+  font-size:clamp(2.8rem,5.5vw,4.2rem);
+  font-weight:900;
+  letter-spacing:-0.04em;
+  line-height:.92;
+  margin-bottom:12px;
+  color:#fff;
+}
+.hero h1 em { font-style:normal; color:oklch(62% 0.22 255); }
+.hero p {
+  font-size:1.1rem;
+  color:oklch(60% 0.015 250);
+  max-width:600px;
+  margin-bottom:40px;
+  line-height:1.5;
+}
+
+/* packs grid */
+.packs {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  position:relative; z-index:2;
+}
+.pack {
+  background:oklch(14% 0.015 250);
+  border:1px solid oklch(22% 0.015 250);
+  border-radius:16px;
+  padding:24px 20px;
+  text-align:center;
+  transition:all .3s;
+}
+.pack:hover { border-color:oklch(62% 0.22 255 / 0.3); transform:translateY(-2px); }
+.pack .label {
+  font-size:.6rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  color:oklch(50% 0.015 250);
+  margin-bottom:4px;
+}
+.pack .title {
+  font-size:1rem;
+  font-weight:700;
+  color:#fff;
+  margin-bottom:2px;
+}
+.pack .price {
+  font-size:1.6rem;
+  font-weight:800;
+  letter-spacing:-0.03em;
+  color:oklch(62% 0.22 255);
+  margin-top:8px;
+}
+.pack .price sup { font-size:.75rem; font-weight:600; color:oklch(50% 0.015 250); }
+.pack.popular {
+  border-color:oklch(62% 0.22 255 / 0.4);
+  background:oklch(16% 0.02 250);
+  position:relative;
+}
+.pack.popular::before {
+  content:'POPULAIRE';
+  position:absolute;
+  top:-10px; left:50%;
+  transform:translateX(-50%);
+  background:oklch(62% 0.22 255);
+  color:#000;
+  font-size:.5rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  padding:3px 12px;
+  border-radius:100px;
+}
+
+/* cta */
+.bottom-bar {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-top:32px;
+  padding-top:24px;
+  border-top:1px solid oklch(22% 0.015 250);
+  position:relative; z-index:2;
+}
+.cta-btn {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 32px;
+  background:oklch(62% 0.22 255);
+  color:#000;
+  border:none;
+  border-radius:10px;
+  font-weight:700;
+  font-size:.85rem;
+  cursor:pointer;
+  text-decoration:none;
+  letter-spacing:-0.01em;
+  transition:all .3s;
+}
+.cta-btn:hover { background:oklch(68% 0.22 255); transform:translateY(-1px); box-shadow:0 8px 24px oklch(62% 0.22 255 / 0.25); }
+.contact-info {
+  display:flex;
+  gap:16px;
+  font-size:.7rem;
+  color:oklch(45% 0.015 250);
+}
+.contact-info a { color:oklch(55% 0.015 250); text-decoration:none; }
+.hashtags {
+  font-size:.6rem;
+  font-weight:600;
+  letter-spacing:.04em;
+  color:oklch(40% 0.015 250);
+}
+
+/* export hint */
+.export-hint {
+  position:absolute;
+  top:24px; left:50%;
+  transform:translateX(-50%);
+  background:rgba(0,0,0,.7);
+  backdrop-filter:blur(8px);
+  padding:8px 20px;
+  border-radius:8px;
+  font-size:.7rem;
+  color:oklch(70% 0.015 250);
+  z-index:100;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .5s;
+}
+.export-hint.show { opacity:1; }
+</style>
+</head>
+<body>
+
+<div class="frame" id="post">
+  <div class="geo-line h t"></div>
+  <div class="geo-line h b"></div>
+  <div class="geo-line v l"></div>
+  <div class="geo-line v r"></div>
+
+  <div class="top-bar">
+    <div class="logo-text">
+      <svg width="132" height="44" viewBox="0 0 132 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="32" font-family="Inter, sans-serif" font-weight="800" font-size="30" fill="white" letter-spacing="-1">MALTY</text>
+        <text x="102" y="30" font-family="Inter, sans-serif" font-weight="800" font-size="32" fill="oklch(62% 0.22 255)" letter-spacing="-1">.</text>
+      </svg>
+      <span></span>
+    </div>
+    <div class="tag-top">Développeur Freelance</div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      Design d'élite · Performance max
+    </div>
+    <h1>Sites Web &<br><em>E-commerce</em></h1>
+    <p>Landing pages, sites vitrine, boutiques en ligne —<br>Je construis votre présence web sur-mesure.</p>
+  </div>
+
+  <div class="packs">
+    <div class="pack">
+      <div class="label">Pack</div>
+      <div class="title">Landing Page</div>
+      <div class="price">99<sup>€</sup></div>
+      <div style="font-size:.6rem;color:oklch(45% 0.015 250);margin-top:4px;">1 page · Mobile · SEO</div>
+    </div>
+    <div class="pack popular">
+      <div class="label">Pack</div>
+      <div class="title">Site Vitrine</div>
+      <div class="price">449<sup>€</sup></div>
+      <div style="font-size:.6rem;color:oklch(45% 0.015 250);margin-top:4px;">3-5 pages · Admin · Domaine</div>
+    </div>
+    <div class="pack">
+      <div class="label">Pack</div>
+      <div class="title">Sur-Mesure</div>
+      <div class="price">899<sup>€</sup></div>
+      <div style="font-size:.6rem;color:oklch(45% 0.015 250);margin-top:4px;">Sur-mesure · E-com · API</div>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <a href="#" class="cta-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      Devis Gratuit
+    </a>
+    <div class="contact-info">
+      <span>malty.fr</span>
+      <a href="tel:+33600000000">06 00 00 00 00</a>
+      <span>Lyon</span>
+    </div>
+  </div>
+
+  <div class="hashtags" style="margin-top:16px;position:relative;z-index:2;">
+    #DeveloppeurWeb #Freelance #Lyon #LandingPage #Ecommerce #SiteVitrine
+  </div>
+</div>
+
+<div class="export-hint" id="hint">📸 Capture d'écran → recadrer à 1080×1080</div>
+
+<script>
+if (window.innerWidth < 1100) {
+  document.body.style.transform = 'scale(' + (window.innerWidth / 1080) + ')';
+  document.body.style.transformOrigin = 'top left';
+}
+setTimeout(function() {
+  var h = document.getElementById('hint');
+  h.classList.add('show');
+  setTimeout(function() { h.classList.remove('show'); }, 5000);
+}, 800);
+</script>
+</body>
+</html>

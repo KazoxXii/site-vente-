@@ -114,6 +114,26 @@ window.MALTY_CONFIG = {
             q: "Pourquoi vos prix sont-ils si compétitifs ?", 
             a: "En tant qu'indépendant spécialisé dans le développement pur, je n'ai pas de frais d'agence ni de coûts de serveurs à répercuter sur mes clients. Vous payez uniquement pour l'expertise et le code source de votre futur site.",
             keywords: ['pourquoi', 'pas cher', 'bas', 'agence', 'prix']
+        },
+        { 
+            q: "Pourquoi pas WordPress ou Wix ?", 
+            a: "WordPress c'est bien pour un blog, mais c'est lent (souvent score 30-60 Lighthouse), la cible #1 des hackers, et vous allez payer des plugins à l'année. Mes sites sont codés à la main : charge en 0.8s, score 100/100, zéro faille de sécurité WordPress, et pas d'abonnement. Vous possédez le code source, pas un abonnement à un éditeur.",
+            keywords: ['wordpress', 'wix', 'cms', 'template', 'site builder', 'builder', 'squarespace', 'shopify']
+        },
+        { 
+            q: "Comment se passe la livraison du site ?", 
+            a: "Une fois le paiement reçu, je vous envoie un questionnaire pour cadrer le projet (contenu, couleurs, inspirations). Je commence le développement et vous envoie une première preview sous 48h. Vous validez les ajustements au fur et à mesure. À la fin du délai annoncé, je vous livre les fichiers sources prêts à déployer avec une documentation pas à pas. Si besoin, je peux vous accompagner pour la mise en ligne.",
+            keywords: ['livraison', 'processus', 'etapes', 'deroule', 'comment ca se passe', 'projet', 'deroulement']
+        },
+        { 
+            q: "Quelle est la garantie ?", 
+            a: "Chaque site est livré avec une garantie conformité de 30 jours après livraison. Si un bug, un affichage cassé ou un problème technique survient, je le corrige gratuitement. Cette garantie couvre le code que j'ai livré : pas de surprise, pas de frais cachés. Les modifications d'ajout (nouveau texte, nouvelle page) sont facturées à part, comme pour toute prestation.",
+            keywords: ['garantie', 'satisfait', 'rembourse', 'apres vente', 'bug', 'correction', 'sav']
+        },
+        { 
+            q: "Puis-je modifier le site moi-même ?", 
+            a: "Oui, sur les packs Portfolio, Vitrine et Premium, je peux installer un CMS ultra-simple qui vous permet de modifier textes et images sans toucher au code. Pour le pack Landing, les modifications se font par mes soins (tarif ponctuel). Je fournis aussi une documentation PDF avec toutes les infos pour gérer votre site (hébergement, FTP, etc.).",
+            keywords: ['modifier', 'changer', 'cms', 'admin', 'editer', 'autonome', 'self', 'admin panel']
         }
     ],
 
