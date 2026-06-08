@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Hébergement & Nom de domaine — MALTY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --surface2: #1a1a24;
+      --fg: #ffffff;
+      --muted: #888;
+      --border: rgba(255,255,255,0.06);
+      --accent: #0066ff;
+      --accent-10: rgba(0,102,255,0.1);
+      --green: #00c878;
+      --green-10: rgba(0,200,120,0.1);
+      --orange: #ff8800;
+      --orange-10: rgba(255,136,0,0.1);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --radius: 16px;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; -webkit-font-smoothing:antialiased; }
+    body { background:var(--bg); color:var(--fg); font:400 16px/1.6 var(--font); letter-spacing:-0.01em; }
+    .container { max-width:800px; margin:0 auto; padding:0 24px; }
+
+    /* NAV */
+    .nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:16px 24px; background:rgba(10,10,15,0.85); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); }
+    .nav-inner { max-width:800px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; }
+    .logo { font-weight:800; font-size:1.2rem; text-decoration:none; color:var(--fg); }
+    .logo span { color:var(--accent); }
+    .nav-cta { padding:8px 20px; background:var(--accent); color:#fff; border:none; border-radius:100px; font-weight:600; font-size:.8rem; cursor:pointer; text-decoration:none; }
+    .nav-cta:hover { box-shadow:0 4px 20px var(--accent-10); }
+
+    /* HERO */
+    .hero { padding:140px 0 80px; text-align:center; }
+    .badge { display:inline-flex; gap:6px; padding:6px 16px; background:var(--accent-10); color:var(--accent); border-radius:100px; font-size:.8rem; font-weight:700; margin-bottom:24px; }
+    .hero h1 { font-size:clamp(2rem,5vw,3.2rem); font-weight:900; letter-spacing:-0.04em; line-height:1.05; margin-bottom:20px; }
+    .hero h1 span { color:var(--accent); }
+    .hero p { font-size:1.05rem; color:var(--muted); max-width:520px; margin:0 auto; line-height:1.7; }
+
+    /* SECTION */
+    section { padding:48px 0; }
+    section h2 { font-size:1.6rem; font-weight:800; letter-spacing:-0.03em; margin-bottom:8px; }
+    section .subtitle { color:var(--muted); font-size:.95rem; margin-bottom:32px; }
+
+    /* CARD */
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:28px; margin-bottom:16px; }
+    .card-header { display:flex; align-items:center; gap:14px; margin-bottom:16px; }
+    .card-icon { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
+    .card-icon.blue { background:var(--accent-10); }
+    .card-icon.green { background:var(--green-10); }
+    .card-icon.orange { background:var(--orange-10); }
+    .card-title { font-size:1.1rem; font-weight:700; }
+    .card-desc { font-size:.9rem; color:var(--muted); line-height:1.7; margin-bottom:16px; }
+    .card-desc strong { color:var(--fg); }
+
+    /* WHAT YOU GET */
+    .get-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .get-item { display:flex; align-items:center; gap:10px; padding:10px 14px; background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:10px; font-size:.85rem; color:var(--muted); }
+    .get-item .check { color:var(--green); font-weight:700; flex-shrink:0; }
+
+    /* STEPS */
+    .steps { display:grid; gap:12px; margin-top:16px; }
+    .step { display:flex; gap:16px; align-items:flex-start; }
+    .step-num { min-width:36px; height:36px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.85rem; flex-shrink:0; }
+    .step-text { font-size:.9rem; color:var(--muted); line-height:1.6; }
+    .step-text strong { color:var(--fg); }
+
+    /* COMPARISON TABLE */
+    .table-wrap { overflow-x:auto; margin-top:16px; }
+    table { width:100%; border-collapse:collapse; font-size:.85rem; }
+    th, td { padding:12px 16px; text-align:left; border-bottom:1px solid var(--border); }
+    th { color:var(--muted); font-weight:600; font-size:.75rem; letter-spacing:.08em; text-transform:uppercase; }
+    td { color:var(--muted); }
+    td:first-child { color:var(--fg); font-weight:500; }
+    .yes { color:var(--green); font-weight:700; }
+    .no { color:#ff4444; font-weight:700; }
+
+    /* CTA */
+    .cta { padding:60px 0 80px; text-align:center; }
+    .cta-box { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:48px 32px; position:relative; overflow:hidden; }
+    .cta-box::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, var(--accent), var(--green)); }
+    .cta-box h2 { font-size:1.5rem; font-weight:800; margin-bottom:12px; }
+    .cta-box p { color:var(--muted); margin-bottom:28px; font-size:.95rem; }
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:14px 32px; border-radius:10px; font-weight:700; font-size:.95rem; cursor:pointer; border:none; text-decoration:none; transition:all .3s var(--ease); }
+    .btn-primary { background:var(--accent); color:#fff; }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 30px var(--accent-10); }
+    .btn-outline { background:transparent; border:1px solid var(--border); color:var(--fg); margin-left:10px; }
+    .btn-outline:hover { border-color:var(--muted); }
+    .cta-note { margin-top:14px; font-size:.78rem; color:var(--muted); }
+
+    footer { padding:28px 0; border-top:1px solid var(--border); text-align:center; }
+    footer p { font-size:.78rem; color:var(--muted); }
+    footer a { color:var(--accent); text-decoration:none; }
+
+    @media(max-width:640px) {
+      .get-grid { grid-template-columns:1fr; }
+      .btn-outline { margin-left:0; margin-top:8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/" class="logo"><span>M</span>ALTY</a>
+      <a href="mailto:maltyz@outlook.fr" class="nav-cta">Contact →</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="badge">📖 Guide simple</div>
+      <h1>Hébergement &<br><span>nom de domaine.</span></h1>
+      <p>Comment mettre votre site en ligne. Pas de jargon technique — tout s'explique simplement.</p>
+    </div>
+  </section>
+
+  <!-- QU'EST-CE QU'UN NOM DE DOMAINE -->
+  <section>
+    <div class="container">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon blue">🌐</div>
+          <h2 class="card-title">C'est quoi un nom de domaine ?</h2>
+        </div>
+        <p class="card-desc">
+          C'est <strong>l'adresse de votre site web</strong>. Comme une adresse postale, mais sur internet. Par exemple : <strong>pikbowl.com</strong> ou <strong>leqgb.fr</strong>.
+        </p>
+        <p class="card-desc">
+          Sans nom de domaine, les clients ne peuvent pas vous trouver. C'est la première chose qu'il faut acheter pour avoir un site web.
+        </p>
+        <div class="get-grid">
+          <div class="get-item"><span class="check">✓</span> .fr — pour une entreprise en France</div>
+          <div class="get-item"><span class="check">✓</span> .com — international, le plus connu</div>
+          <div class="get-item"><span class="check">✓</span> .net — alternative si .com est pris</div>
+          <div class="get-item"><span class="check">✓</span> .restaurant — spécifique à votre métier</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QU'EST-CE QUE L'HÉBERGEMENT -->
+  <section>
+    <div class="container">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon green">🏠</div>
+          <h2 class="card-title">C'est quoi l'hébergement ?</h2>
+        </div>
+        <p class="card-desc">
+          C'est <strong>l'endroit où votre site est stocké</strong>. Un serveur (un ordinateur puissant) tourne 24h/24 pour afficher votre site à chaque visiteur.
+        </p>
+        <p class="card-desc">
+          Sans hébergement, votre site n'existe nulle part. C'est comme avoir une boutique sans local — le nom de domaine c'est l'enseigne, l'hébergement c'est le local.
+        </p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-text"><strong>Le nom de domaine</strong> → c'est l'adresse (pikbowl.fr)</div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-text"><strong>L'hébergement</strong> → c'est le local (le serveur qui stocke les fichiers)</div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-text"><strong>Le site web</strong> → c'est la boutique (les pages que les clients voient)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMAIL PRO -->
+  <section>
+    <div class="container">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon orange">📧</div>
+          <h2 class="card-title">Et l'email professionnel ?</h2>
+        </div>
+        <p class="card-desc">
+          Au lieu d'utiliser <strong>monresto@gmail.com</strong>, vous avez <strong>contact@monresto.fr</strong>. C'est plus sérieux, plus mémorable, et ça renforce votre crédibilité.
+        </p>
+        <div class="get-grid">
+          <div class="get-item"><span class="check">✓</span> contact@votresite.fr</div>
+          <div class="get-item"><span class="check">✓</span> bonjour@votresite.fr</div>
+          <div class="get-item"><span class="check">✓</span> compatible Gmail / Outlook</div>
+          <div class="get-item"><span class="check">✓</span> sur votre téléphone</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CE QUE MALTY FAIT POUR VOUS -->
+  <section>
+    <div class="container">
+      <h2>Ce que MALTY fait pour vous</h2>
+      <p class="subtitle">Vous n'avez rien à configurer. Je m'occupe de tout.</p>
+
+      <div class="card">
+        <p class="card-desc">
+          <strong>1. Je réserve votre nom de domaine</strong> — Vous me dites le nom que vous voulez, je vérifie s'il est disponible et je l'achète à votre nom.
+        </p>
+      </div>
+      <div class="card">
+        <p class="card-desc">
+          <strong>2. Je configure l'hébergement</strong> — Je choisis un serveur rapide en France, je configure tout. Vous n'avez rien à toucher.
+        </p>
+      </div>
+      <div class="card">
+        <p class="card-desc">
+          <strong>3. Je crée votre email pro</strong> — contact@votresite.fr configuré sur votre téléphone et votre ordinateur.
+        </p>
+      </div>
+      <div class="card">
+        <p class="card-desc">
+          <strong>4. Je mets le site en ligne</strong> — Je connecte votre nom de domaine à votre hébergement, je publie le site. Il est accessible partout dans le monde.
+        </p>
+      </div>
+      <div class="card">
+        <p class="card-desc">
+          <strong>5. Je vous donne les accès</strong> — Login, mots de passe, tout est à votre nom. Si un jour vous changez de prestataire, vous partez avec tout.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARAISON -->
+  <section>
+    <div class="container">
+      <h2>Comparaison rapide</h2>
+      <p class="subtitle">Ce que ça coûte sans MALTY vs avec MALTY.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Élément</th><th>Sans MALTY</th><th>Avec MALTY</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Nom de domaine</td><td>15€/an (à payer chaque année)</td><td class="yes">Offert 1ère année</td></tr>
+            <tr><td>Hébergement</td><td>5-15€/mois</td><td class="yes">Offert 1ère année</td></tr>
+            <tr><td>Email pro</td><td>5€/mois</td><td class="yes">Offert 1ère année</td></tr>
+            <tr><td>Certificat SSL</td><td>50€/an</td><td class="yes">Offert à vie</td></tr>
+            <tr><td>Configuration</td><td>Vous le faites vous-même</td><td class="yes">Je m'occupe de tout</td></tr>
+            <tr><td>Code source</td><td>Propriétaire du prestataire</td><td class="yes">Il est à vous</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="container">
+      <div class="cta-box">
+        <h2>Vous voulez votre nom de domaine ?</h2>
+        <p>Dites-moi le nom que vous voulez, je vérifie la disponibilité et je m'occupe de tout. Gratuit la 1ère année.</p>
+        <a href="mailto:maltyz@outlook.fr?subject=Demande%20—%20Nom%20de%20domaine" class="btn btn-primary">Demander mon domaine →</a>
+        <a href="https://maltyshop.vercel.app/" class="btn btn-outline" target="_blank">Voir les packs</a>
+        <p class="cta-note">Réponse sous 24h · Sans engagement</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p><a href="https://maltyshop.vercel.app/">maltyshop.vercel.app</a> · <a href="mailto:maltyz@outlook.fr">maltyz@outlook.fr</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>

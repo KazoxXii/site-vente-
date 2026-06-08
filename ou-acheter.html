@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Où acheter — Domaine, Hébergement, Email — MALTY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --fg: #fff;
+      --muted: #888;
+      --border: rgba(255,255,255,0.06);
+      --accent: #0066ff;
+      --accent-10: rgba(0,102,255,0.1);
+      --green: #00c878;
+      --green-10: rgba(0,200,120,0.1);
+      --orange: #ff8800;
+      --orange-10: rgba(255,136,0,0.1);
+      --purple: #a855f7;
+      --purple-10: rgba(168,85,247,0.1);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --radius: 16px;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; -webkit-font-smoothing:antialiased; }
+    body { background:var(--bg); color:var(--fg); font:400 15px/1.6 var(--font); }
+    .container { max-width:860px; margin:0 auto; padding:0 24px; }
+
+    .nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:16px 24px; background:rgba(10,10,15,0.85); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); }
+    .nav-inner { max-width:860px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; }
+    .logo { font-weight:800; font-size:1.2rem; text-decoration:none; color:var(--fg); }
+    .logo span { color:var(--accent); }
+    .nav-cta { padding:8px 20px; background:var(--accent); color:#fff; border:none; border-radius:100px; font-weight:600; font-size:.8rem; text-decoration:none; }
+    .nav-cta:hover { box-shadow:0 4px 20px var(--accent-10); }
+
+    .hero { padding:130px 0 60px; text-align:center; }
+    .badge { display:inline-flex; gap:6px; padding:6px 16px; background:var(--accent-10); color:var(--accent); border-radius:100px; font-size:.8rem; font-weight:700; margin-bottom:20px; }
+    .hero h1 { font-size:clamp(1.8rem,4vw,2.8rem); font-weight:900; letter-spacing:-0.04em; line-height:1.05; margin-bottom:14px; }
+    .hero h1 span { color:var(--accent); }
+    .hero p { font-size:1rem; color:var(--muted); max-width:480px; margin:0 auto; }
+
+    section { padding:40px 0; }
+    section h2 { font-size:1.3rem; font-weight:800; letter-spacing:-0.02em; margin-bottom:6px; display:flex; align-items:center; gap:10px; }
+    section .sub { color:var(--muted); font-size:.88rem; margin-bottom:24px; }
+
+    .services { display:grid; gap:12px; }
+    .service { display:flex; align-items:center; gap:16px; background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px 24px; text-decoration:none; color:var(--fg); transition:all .25s var(--ease); }
+    .service:hover { border-color:rgba(255,255,255,0.12); transform:translateY(-2px); }
+    .service-icon { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0; }
+    .service-icon.blue { background:var(--accent-10); }
+    .service-icon.green { background:var(--green-10); }
+    .service-icon.orange { background:var(--orange-10); }
+    .service-icon.purple { background:var(--purple-10); }
+    .service-info { flex:1; min-width:0; }
+    .service-name { font-weight:700; font-size:.95rem; margin-bottom:2px; }
+    .service-desc { font-size:.82rem; color:var(--muted); }
+    .service-right { text-align:right; flex-shrink:0; }
+    .service-price { font-weight:800; font-size:.95rem; white-space:nowrap; }
+    .service-price.free { color:var(--green); }
+    .service-link { font-size:.75rem; color:var(--muted); }
+
+    .tip { background:rgba(255,136,0,0.06); border:1px solid rgba(255,136,0,0.15); border-radius:12px; padding:20px 24px; margin-top:20px; }
+    .tip strong { color:var(--orange); }
+    .tip p { font-size:.88rem; color:var(--muted); line-height:1.7; margin-top:6px; }
+
+    .cta { padding:60px 0 80px; text-align:center; }
+    .cta h2 { font-size:1.5rem; font-weight:800; margin-bottom:10px; justify-content:center; }
+    .cta p { color:var(--muted); margin-bottom:24px; font-size:.92rem; }
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:14px 32px; border-radius:10px; font-weight:700; font-size:.92rem; border:none; text-decoration:none; transition:all .3s var(--ease); }
+    .btn-primary { background:var(--accent); color:#fff; }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 30px var(--accent-10); }
+    .btn-outline { background:transparent; border:1px solid var(--border); color:var(--fg); margin-left:10px; }
+    .btn-outline:hover { border-color:var(--muted); }
+
+    footer { padding:28px 0; border-top:1px solid var(--border); text-align:center; }
+    footer p { font-size:.78rem; color:var(--muted); }
+    footer a { color:var(--accent); text-decoration:none; }
+
+    @media(max-width:640px) {
+      .service { flex-wrap:wrap; }
+      .service-right { text-align:left; width:100%; margin-top:4px; }
+      .btn-outline { margin-left:0; margin-top:8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/" class="logo"><span>M</span>ALTY</a>
+      <a href="mailto:maltyz@outlook.fr" class="nav-cta">Contact →</a>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="container">
+      <div class="badge">🛒 Où acheter</div>
+      <h1>Tout pour votre site,<br><span>au meilleur prix.</span></h1>
+      <p>Les services que je recommande. Pas de parrainage caché — je vous envoie directement chez eux.</p>
+    </div>
+  </section>
+
+  <!-- NOM DE DOMAINE -->
+  <section>
+    <div class="container">
+      <h2>🌐 Nom de domaine</h2>
+      <p class="sub">L'adresse de votre site (ex: pikbowl.fr). À acheter en premier.</p>
+      <div class="services">
+        <a href="https://www.ovh.com/fr/domaines/" target="_blank" class="service">
+          <div class="service-icon blue">O</div>
+          <div class="service-info">
+            <div class="service-name">OVHcloud</div>
+            <div class="service-desc">Le plus gros hébergeur français. .fr à 8,99€/an</div>
+          </div>
+          <div class="service-right">
+            <div class="service-price">8,99€/an</div>
+            <div class="service-link">ovh.com →</div>
+          </div>
+        </a>
+        <a href="https://www.namecheap.com/" target="_blank" class="service">
+          <div class="service-icon blue">N</div>
+          <div class="service-info">
+            <div class="service-name">Namecheap</div>
+            <div class="service-desc">Bon marché, .com à 8,88€/an, interface simple</div>
+          </div>
+          <div class="service-right">
+            <div class="service-price">8,88€/an</div>
+            <div class="service-link">namecheap.com →</div>
+          </div>
+        </a>
+        <a href="https://www.godaddy.com/fr" target="_blank" class="service">
+          <div class="service-icon blue">G</div>
+          <div class="service-info">
+            <div class="service-name">GoDaddy</div>
+            <div class="service-desc">Le plus connu au monde, .fr à 9,99€/an</div>
+          </div>
+          <div class="service-right">
+            <div class="service-price">9,99€/an</div>
+            <div class="service-link">godaddy.com →</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HÉBERGEMENT -->
+  <section>
+    <div class="container">
+      <h2>🏠 Hébergement</h2>
+      <p class="sub">L'endroit où votre site est stocké. Gratuit si votre site est simple.</p>
+      <div class="services">
+        <a href="https://vercel.com/" target="_blank" class="service">
+          <div class="service-icon green">V</div>
+          <div class="service-info">
+            <div class="service-name">Vercel</div>
+            <div class="service-desc">Le plus rapide. Gratuit pour les sites statiques. Mon choix perso.</div>
+          </div>
+          <div class="service-right">
+            <div class="service-price free">GRATUIT</div>
+            <div class="service-link">vercel.com →</div>
+          </div>
+        </a>
+        <a href="https://www.netlify.com/" target="_blank" class="service">
+          <div class="service-icon green">N</div>
+          <div class="service-info">
+            <div class="service-name">Netlify</div>
+            <div class="service-desc">Gratuit, formulaires inclus, 100Go/mois</div>
+          </div>
+          <div class="service-right">
+            <div class="service-price free">GRATUIT</div>
+            <div class="service-link">netlify.com →</div>
+          </div>
+        </a>
+        <a href="https://www.cloudflare.com/pages/" target="_blank" class="service">
+          <div class="service-icon green">C</div>
+          <div class="service-info">
+            <div class="service-name">Cloudflare Pages</div>
+            <div class="service-desc">Gratuit, très rapide, CDN mondial inclus</div>
+          </div>
+          <div class="service-right">
+            <div class="service-price free">GRATUIT</div>
+            <div class="service-link">cloudflare.com →</div>
+          </div>
+        </a>
+        <a href="https://www.ovh.com/hebergement/" target="_blank" class="service">
+          <div class="service-icon orange">O</div>
+          <div class="service-info">
+            <div class="service-name">OVHcloud</div>
+            <div class="service-desc">Hébergement classique (WordPress, PHP). Pour les sites plus complexes.</div>
+          </div>
+          <div class="service-right">
+            <div class="service-price">3,49€/mois</div>
+            <div class="service-link">ovh.com →</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMAIL PRO -->
+  <section>
+    <div class="container">
+      <h2>📧 Email professionnel</h2>
+      <p class="sub">contact@votresite.fr au lieu de gmail.com. Gratuit avec Zoho.</p>
+      <div class="services">
+        <a href="https://www.zoho.com/mail/zohomail-pricing.html" target="_blank" class="service">
+          <div class="service-icon orange">Z</div>
+          <div class="service-info">
+            <div class="service-name">Zoho Mail</div>
+            <div class="service-desc">5 emails pro gratuits, compatible Gmail/Outlook, 5Go</div>
+          </div>
+          <div class="service-right">
+            <div class="service-price free">GRATUIT</div>
+            <div class="service-link">zoho.com →</div>
+          </div>
+        </a>
+        <a href="https://workspace.google.com/intl/fr/business/" target="_blank" class="service">
+          <div class="service-icon purple">G</div>
+          <div class="service-info">
+            <div class="service-name">Google Workspace</div>
+            <div class="service-desc">Email pro + Google Drive + Meet. Le plus complet.</div>
+          </div>
+          <div class="service-right">
+            <div class="service-price">5,40€/mois</div>
+            <div class="service-link">workspace.google.com →</div>
+          </div>
+        </a>
+      </div>
+      <div class="tip">
+        <strong>💡 Astuce MALTY</strong>
+        <p>Utilisez <strong>Zoho Mail</strong> (gratuit) pour démarrer. Passez à Google Workspace quand votre business grandit.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICAT SSL -->
+  <section>
+    <div class="container">
+      <h2>🔒 Certificat SSL (le cadenas vert)</h2>
+      <p class="sub">Indispensable pour la sécurité et le référencement Google.</p>
+      <div class="services">
+        <a href="https://letsencrypt.org/" target="_blank" class="service">
+          <div class="service-icon green">L</div>
+          <div class="service-info">
+            <div class="service-name">Let's Encrypt</div>
+            <div class="service-desc">Gratuit, automatique, reconnu par tous les navigateurs</div>
+          </div>
+          <div class="service-right">
+            <div class="service-price free">GRATUIT</div>
+            <div class="service-link">letsencrypt.org →</div>
+          </div>
+        </a>
+      </div>
+      <div class="tip">
+        <strong>💡 Bonne nouvelle</strong>
+        <p>Vercel, Netlify et Cloudflare incluent le SSL automatiquement. <strong>Vous n'avez rien à faire.</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="container">
+      <h2>Besoin d'aide ?</h2>
+      <p>Si vous ne savez pas par où commencer, je vous guide gratuitement.</p>
+      <a href="mailto:maltyz@outlook.fr?subject=Aide%20—%20Nom%20de%20domaine%20et%20hébergement" class="btn btn-primary">Demander de l'aide →</a>
+      <a href="https://maltyshop.vercel.app/" class="btn btn-outline" target="_blank">Voir les packs</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p><a href="https://maltyshop.vercel.app/">maltyshop.vercel.app</a> · <a href="mailto:maltyz@outlook.fr">maltyz@outlook.fr</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>
