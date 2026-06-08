@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Guide de Vente — MALTY</title>
+  <style>
+    :root {
+      --bg: oklch(8% 0.01 250);
+      --surface: oklch(14% 0.015 250);
+      --surface2: oklch(18% 0.015 250);
+      --fg: oklch(92% 0.005 250);
+      --muted: oklch(55% 0.02 250);
+      --border: oklch(25% 0.02 250);
+      --accent: oklch(62% 0.22 255);
+      --success: oklch(62% 0.17 145);
+      --warn: oklch(70% 0.18 80);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --radius: 12px;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:var(--bg); color:var(--fg); font:400 15px/1.6 var(--font); -webkit-font-smoothing:antialiased; }
+    .container { max-width:1100px; margin:0 auto; padding:0 24px; }
+
+    header { padding:40px 0 20px; border-bottom:1px solid var(--border); margin-bottom:48px; }
+    header h1 { font-size:2.4rem; font-weight:800; letter-spacing:-0.03em; }
+    header p { color:var(--muted); font-size:1rem; margin-top:8px; }
+
+    nav.toc { position:sticky; top:0; background:var(--bg); padding:16px 0; border-bottom:1px solid var(--border); margin-bottom:40px; z-index:10; display:flex; gap:8px; flex-wrap:wrap; }
+    nav.toc a { color:var(--muted); text-decoration:none; font-size:.8rem; font-weight:600; padding:6px 14px; border-radius:100px; border:1px solid var(--border); transition:all .2s; }
+    nav.toc a:hover { border-color:var(--accent); color:var(--accent); }
+
+    section { margin-bottom:56px; }
+    h2 { font-size:1.6rem; font-weight:800; letter-spacing:-0.02em; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+    h2 .num { font-size:.9rem; color:var(--accent); background:var(--accent-10); width:32px; height:32px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; }
+    h3 { font-size:1.1rem; font-weight:700; margin:20px 0 10px; }
+    p, li { color:var(--muted); line-height:1.7; }
+
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:28px; margin-bottom:16px; }
+    .card.highlight { border-color:var(--accent); background:var(--surface2); }
+    .card h4 { font-weight:700; font-size:.95rem; margin-bottom:8px; }
+
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
+    @media (max-width:768px) { .grid-2, .grid-3 { grid-template-columns:1fr; } }
+
+    .tag { display:inline-block; padding:2px 10px; border-radius:100px; font-size:.7rem; font-weight:700; letter-spacing:.05em; margin-right:6px; }
+    .tag-blue { background:oklch(62% 0.22 255 / 0.15); color:var(--accent); }
+    .tag-green { background:oklch(62% 0.17 145 / 0.15); color:var(--success); }
+    .tag-yellow { background:oklch(70% 0.18 80 / 0.15); color:var(--warn); }
+
+    table { width:100%; border-collapse:collapse; font-size:.85rem; }
+    th, td { text-align:left; padding:12px 16px; border-bottom:1px solid var(--border); }
+    th { font-size:.7rem; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); font-weight:700; }
+    td:first-child { font-weight:600; color:var(--fg); }
+    .check { color:var(--success); }
+    .cross { color:var(--muted); opacity:.4; }
+
+    .script-box { background:var(--surface2); border-left:3px solid var(--accent); padding:20px; border-radius:0 var(--radius) var(--radius) 0; margin:12px 0; }
+    .script-box .speaker { font-weight:700; font-size:.8rem; color:var(--accent); margin-bottom:4px; }
+    .script-box p { font-size:.9rem; }
+
+    .badge { display:inline-block; padding:2px 10px; border-radius:100px; font-size:.7rem; font-weight:700; }
+    .badge-obj { background:oklch(62% 0.22 255 / 0.12); color:var(--accent); margin-right:6px; }
+
+    footer { padding:40px 0; border-top:1px solid var(--border); text-align:center; color:var(--muted); font-size:.8rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🧠 Guide de Vente MALTY</h1>
+      <p>Structure complète pour vendre tes packs web — argumentaire, objections, scripts, relances.</p>
+    </header>
+
+    <nav class="toc">
+      <a href="#profil">Profil Client</a>
+      <a href="#rapide">⚡ Clients Rapides</a>
+      <a href="#argumentaire">Argumentaire</a>
+      <a href="#comparatif">Comparatif</a>
+      <a href="#objections">Objections</a>
+      <a href="#scripts">Scripts Appel</a>
+      <a href="#process">Process Vente</a>
+      <a href="#relance">Relances</a>
+      <a href="#upsell">Upsell</a>
+      <a href="#site">À ajouter au site</a>
+    </nav>
+
+    <!-- 1. PROFIL CLIENT -->
+    <section id="profil">
+      <h2><span class="num">1</span> Profil Client par Pack</h2>
+      <p style="margin-bottom:20px">Qui achète quoi ? Chaque pack correspond à un profil-type et un niveau de maturité digitale.</p>
+      <div class="grid-3">
+        <div class="card highlight">
+          <h4>🥇 Landing Page — 99€</h4>
+          <p><strong>Profil :</strong> Petit commerce local, artisan, coach, lancement rapide</p>
+          <p><strong>Déclencheur :</strong> « J'ai besoin d'exister sur Google » / « Je lance une campagne Facebook avec 500€ de budget »</p>
+          <p><strong>Freins :</strong> Budget serré, pense qu'un site doit coûter 2000€, a déjà été arnaqué</p>
+          <p><strong>Vente :</strong> Mettre en avant le ROI — 99€ pour commencer à vendre en 5 jours</p>
+        </div>
+        <div class="card">
+          <h4>🎨 Portfolio — 249€</h4>
+          <p><strong>Profil :</strong> Photographe, freelance créatif, architecte, artiste</p>
+          <p><strong>Déclencheur :</strong> « Mon book papier ne suffit plus » / « On me demande toujours mon site »</p>
+          <p><strong>Freins :</strong> Veut un site « beau », craint le « template générique »</p>
+          <p><strong>Vente :</strong> Design cinématique, galerie immersive, sur-mesure visuel</p>
+        </div>
+        <div class="card">
+          <h4>🏢 Site Vitrine — 449€</h4>
+          <p><strong>Profil :</strong> PME, cabinet d'expertise, agence, profession réglementée (avocat, médecin)</p>
+          <p><strong>Déclencheur :</strong> « Je veux un vrai site pro avec plusieurs pages » / « Je perds des clients face à mes concurrents mieux en ligne »</p>
+          <p><strong>Freins :</strong> Veut un CMS, craint la maintenance, compare avec Wix/WordPress</p>
+          <p><strong>Vente :</strong> Crédibilité, SEO, multi-pages, propriété du code, pas d'abonnement</p>
+        </div>
+        <div class="card highlight" style="grid-column:span 1">
+          <h4>💎 Sur-Mesure — 899€</h4>
+          <p><strong>Profil :</strong> Startup, e-commerçant sérieux, boîte en croissance, projet avec features spécifiques</p>
+          <p><strong>Déclencheur :</strong> « Aucun template ne fait ce dont j'ai besoin » / « Je veux un outil de vente, pas une carte de visite »</p>
+          <p><strong>Freins :</strong> Budget plus gros, veut être sûr du résultat, peur du paiement intégral avant résultat</p>
+          <p><strong>Vente :</strong> Exclusivité totale, roadmap claire, accompagnement, document de cadrage avant devis</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1b. MÉTHODES RAPIDES CLIENTS -->
+    <section id="rapide">
+      <h2><span class="num">⚡</span> Trouver des clients rapidement (actions terrain)</h2>
+      <p style="margin-bottom:20px">Ces 5 méthodes peuvent te rapporter un client <strong>cette semaine</strong>. Pas de théorie — que de l'exécution.</p>
+
+      <div class="card highlight">
+        <h4>🥇 MÉTHODE #1 — Le Démarchage Google Maps (0€, 3h max)</h4>
+        <p><strong>Ouvrir Google Maps → taper « coiffeur Lyon », « restaurant Lyon », « garage Lyon », « avocat Lyon », « kiné Lyon ».</strong></p>
+        <p>Tu scannes les résultats, tu cliques sur les commerces <strong>sans site web</strong> ou avec un site moche (WordPress pas fini, page Facebook uniquement).</p>
+        <div class="script-box" style="margin-top:12px">
+          <div class="speaker">MESSAGE À ENVOYER (Messenger/Instagram/LinkedIn)</div>
+          <p style="background:var(--bg); padding:12px; border-radius:8px; margin-top:6px; font-style:italic">« Salut [Prénom], je suis développeur freelance à Lyon. Je crée des sites web rapides et modernes — pas de template, pas d'abonnement. J'ai repéré que [son commerce] n'a pas encore de site ou que le site actuel mériterait un coup de neuf. Je propose un pack à 99€ (livré sous 5 jours). Ça t'intéresse qu'on en parle 5 minutes ? »</p>
+        </div>
+        <p style="margin-top:8px"><strong>Résultat attendu :</strong> 1 réponse sur 10 → 1 rendez-vous → 1 vente potentielle. <span class="tag tag-green">PEUT RAPPORTER AUJOURD'HUI</span></p>
+      </div>
+
+      <div class="card">
+        <h4>🥈 MÉTHODE #2 — Le Bouche-à-Oreille en Physique (0€, 2h)</h4>
+        <p><strong>Va dans 5 commerces de proximité</strong> (coiffeur, boulangerie, traiteur, pressing) <strong>sans site ou avec un site moche.</strong></p>
+        <ul style="margin:8px 0 0 20px">
+          <li>Tu <strong>achètes un café/un produit</strong> (5€) — pas de démarchage gratuit</li>
+          <li>Tu discutes 2 minutes avec le gérant</li>
+          <li>Tu proposes : « J'ai remarqué que vous n'avez pas de site. Je fais des sites rapides à partir de 99€. Si ça vous intéresse, je vous montre un exemple. »</li>
+        </ul>
+        <p style="margin-top:8px"><span class="tag tag-green">CONVERSION LA PLUS ÉLEVÉE</span> <span class="tag tag-yellow">NÉCESSITE DE SORTIR</span></p>
+      </div>
+
+      <div class="card">
+        <h4>🥉 MÉTHODE #3 — Le Réseau Personnel (0€, 30 min)</h4>
+        <p><strong>Envoie ce message à 20 contacts</strong> (amis, famille, anciens collègues, connaissances) :</p>
+        <div class="script-box" style="margin-top:12px">
+          <div class="speaker">MESSAGE PROSPECTION</div>
+          <p style="background:var(--bg); padding:12px; border-radius:8px; margin-top:6px; font-style:italic">« Salut ! Je lance mon activité de création de sites web freelance. Je cherche mes premiers clients — je propose un pack landing page à 99€ au lieu de 249€ pour les 5 premières commandes. Tu connais quelqu'un qui aurait besoin d'un site ? (commerce local, freelance, association…) »</p>
+        </div>
+        <p style="margin-top:8px"><span class="tag tag-green">ACTION LA PLUS RAPIDE</span> <span class="tag tag-blue">PEUT DÉCLENCHER UN RECOMMANDATION AUJOURD'HUI</span></p>
+      </div>
+
+      <div class="card">
+        <h4>🏅 MÉTHODE #4 — La Candidature Spontanée aux Associations/Clubs (0€, 1h)</h4>
+        <p><strong>Les associations, clubs sportifs, écoles ont TOUJOURS un site moche ou pas de site du tout.</strong></p>
+        <p>Cherche 5 associations lyonnaises (sport, culture, quartier) sur Google. Contacte-les :</p>
+        <div class="script-box" style="margin-top:12px">
+          <div class="speaker">MESSAGE</div>
+          <p style="background:var(--bg); padding:12px; border-radius:8px; margin-top:6px; font-style:italic">« Bonjour, je suis développeur web lyonnais et je propose un site vitrine offert ou à tarif réduit aux associations. Votre site actuel a besoin d'un coup de jeune ? Je vous fais une proposition sans engagement. »</p>
+        </div>
+        <p style="margin-top:8px"><span class="tag tag-blue">BON POUR LE PORTFOLIO</span> <span class="tag tag-yellow">Gratuit ou quasi-gratuit mais bonne vitrine</span></p>
+      </div>
+
+      <div class="card">
+        <h4>🎯 MÉTHODE #5 — L'Appel à Froid Ciblé (0€, 1h)</h4>
+        <p><strong>Prends 10 numéros de commerces sans site</strong> depuis Google Maps. Appelle-les :</p>
+        <div class="script-box" style="margin-top:12px">
+          <div class="speaker">SCRIPT APPEL (30 secondes)</div>
+          <p style="background:var(--bg); padding:12px; border-radius:8px; margin-top:6px; font-style:italic">« Bonjour [Prénom], c'est Malty, développeur web à Lyon. Je vous dérange 30 secondes ? J'ai vu que vous n'avez pas de site internet — je propose des sites à partir de 99€, livrés en 5 jours. C'est le genre de service qui pourrait vous intéresser ou pas du tout ? »</p>
+        </div>
+        <p style="margin-top:8px"><span class="tag tag-yellow">NÉCESSITE DE L'AUDACE</span> <span class="tag tag-green">MEILLEUR RAPPORT EFFORT/RÉSULTAT</span></p>
+      </div>
+
+      <div class="card" style="border-left:3px solid var(--accent)">
+        <h4>📊 Plan d'Action : ta semaine pour un premier client</h4>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px">
+          <div><strong>Lundi (3h)</strong><br>Méthode #1 : 20 commerces sur Maps → 10 messages</div>
+          <div><strong>Mardi (1h)</strong><br>Méthode #3 : 20 messages à ton réseau</div>
+          <div><strong>Mercredi (2h)</strong><br>Méthode #5 : 10 appels à froid</div>
+          <div><strong>Jeudi (2h)</strong><br>Méthode #2 : Visite de 5 commerces</div>
+          <div><strong>Vendredi (1h)</strong><br>Relance des 20 prospects de la semaine</div>
+          <div style="grid-column:span 2; text-align:center; padding:12px; background:var(--accent-10); border-radius:8px"><strong>Total : 9h de travail → objectif : 1 client signé</strong></div>
+        </div>
+      </div>
+
+      <div class="card" style="text-align:center; border:2px dashed var(--accent)">
+        <h4 style="font-size:1.3rem">🎯 RAPPEL</h4>
+        <p style="font-size:1rem">Le premier client est surtout une <strong>preuve sociale</strong>. Même à 99€ ou gratuit, tu obtiens un témoignage, une photo, une ligne dans ton portfolio. C'est ça qui débloque les clients payants suivants.</p>
+      </div>
+    </section>
+
+    <!-- 2. ARGUMENTAIRE -->
+    <section id="argumentaire">
+      <h2><span class="num">2</span> Argumentaire de Vente</h2>
+      <p style="margin-bottom:16px">Les 5 piliers à marteler dans chaque échange, quel que soit le pack.</p>
+      <div class="grid-2">
+        <div class="card">
+          <h4>⚡ Performance brute</h4>
+          <p>« Google Lighthouse 100/100. Ton site charge en moins d'une seconde. C'est ça qui te fait vendre. »</p>
+        </div>
+        <div class="card">
+          <h4>🔒 Propriété totale</h4>
+          <p>« Tu reçois le code source. Pas d'abonnement. Tu peux changer d'hébergeur quand tu veux. »</p>
+        </div>
+        <div class="card">
+          <h4>🎯 Ultra-spécialisé</h4>
+          <p>« Je ne fais que ça. Pas de WordPress, pas de template Wix. Du code pur, sur-mesure, pensé pour la performance. »</p>
+        </div>
+        <div class="card">
+          <h4>⏱ Délai record</h4>
+          <p>« Landing sous 5 jours, Vitrine sous 10 jours. Pendant que les agences te présentent un devis, toi t'es déjà en ligne. »</p>
+        </div>
+        <div class="card" style="grid-column:span 2">
+          <h4>💰 ROI direct</h4>
+          <p>« 99€ pour une landing = le prix de 2 clics Google Ads. Un site vitrine à 449€ = le prix d'un mois de agence. Les clients récupèrent leur investissement en 1 ou 2 missions. »</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. COMPARATIF -->
+    <section id="comparatif">
+      <h2><span class="num">3</span> Tableau Comparatif des Packs</h2>
+      <p style="margin-bottom:16px">À utiliser pendant l'appel ou à envoyer par message pour aider le prospect à choisir.</p>
+      <div class="card" style="overflow-x:auto">
+        <table>
+          <tr>
+            <th>Fonctionnalité</th>
+            <th>Landing 99€</th>
+            <th>Portfolio 249€</th>
+            <th>Vitrine 449€</th>
+            <th>Sur-Mesure 899€</th>
+          </tr>
+          <tr><td>Pages incluses</td><td>1</td><td>1-3</td><td>3-7</td><td>Illimité</td></tr>
+          <tr><td>Design mobile</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+          <tr><td>SEO optimisé</td><td>Base</td><td>Standard</td><td>Avancé</td><td>Maximum</td></tr>
+          <tr><td>Blog / Actualités</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td><td class="check">✓</td></tr>
+          <tr><td>CMS modifiable</td><td class="cross">✗</td><td>Option</td><td>Option</td><td class="check">✓</td></tr>
+          <tr><td>Documentation</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td><td class="check">✓</td></tr>
+          <tr><td>Délai livraison</td><td>3-5j</td><td>5-7j</td><td>7-10j</td><td>14-21j</td></tr>
+          <tr><td>Garantie conformité</td><td>30j</td><td>30j</td><td>30j</td><td>60j</td></tr>
+          <tr style="border-top:2px solid var(--accent)"><td><strong>Prix unique</strong></td><td><strong>99€</strong></td><td><strong>249€</strong></td><td><strong>449€</strong></td><td><strong>899€</strong></td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- 4. OBJECTIONS -->
+    <section id="objections">
+      <h2><span class="num">4</span> Objections & Réponses</h2>
+      <p style="margin-bottom:16px">Les 8 objections les plus fréquentes avec la réponse qui vend.</p>
+
+      <div class="card">
+        <h4><span class="badge badge-obj">OBJECTION #1</span> « C'est trop cher pour une landing page »</h4>
+        <div class="script-box">
+          <div class="speaker">TOI</div>
+          <p>« Je comprends. Mais regarde : 99€ c'est le prix de deux clics sur Google Ads. Alors qu'avec ta landing, chaque clic que tu payes sur Facebook ou Google tombe sur une page qui convertit. Si tu génères ne serait-ce qu'une seule mission à 500€ grâce à elle, ton investissement est rentabilisé 5 fois. Et en plus tu possèdes le code. Pas d'abonnement. »</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h4><span class="badge badge-obj">OBJECTION #2</span> « Pourquoi pas WordPress/Wix ? »</h4>
+        <div class="script-box">
+          <div class="speaker">TOI</div>
+          <p>« WordPress c'est bien si tu veux un blog et que tu as du temps. Mais c'est lent, c'est la cible #1 des hackers, et tu vas payer des plugins tous les ans. Là, je te livre du code pur : c'est 10x plus rapide, zéro faille de sécurité WordPress, et t'as pas besoin de mettre à jour des plugins toute ta vie. Tu veux changer un texte ? Je t'installe un CMS ultra-simple si besoin. »</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h4><span class="badge badge-obj">OBJECTION #3</span> « Je peux le faire moi-même avec Canva/Carrd »</h4>
+        <div class="script-box">
+          <div class="speaker">TOI</div>
+          <p>« Tu peux, et c'est parfait pour débuter. Mais est-ce que tu veux un outil de vente ou une carte de visite ? Un site fait maison va charger en 5 secondes, être mal référencé, et ne pas convertir. Le mien charge en 0.8 seconde, score 100 sur Google, et la structure est pensée pour vendre. Pendant que tu passes 20h à bidouiller, moi je te livre un site prêt à vendre en 5 jours. »</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h4><span class="badge badge-obj">OBJECTION #4</span> « Comment je fais pour l'hébergement ? »</h4>
+        <div class="script-box">
+          <div class="speaker">TOI</div>
+          <p>« C'est hyper simple. Je te livre les fichiers, tu les uploads sur n'importe quel hébergeur (OVH, Hostinger, Netlify — 3 à 10€/mois). Je t'envoie même une doc pas à pas. Si tu veux, je peux m'occuper de la mise en ligne pour toi. »</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h4><span class="badge badge-obj">OBJECTION #5</span> « Puis-je payer après livraison ? »</h4>
+        <div class="script-box">
+          <div class="speaker">TOI</div>
+          <p>« Le paiement se fait au lancement du projet, c'est ce qui me permet de te réserver un créneau et de commencer immédiatement. Mais voici comment ça se passe : on discute de ton projet, tu valides, tu paies, et je commence. Je te montre des maquettes en cours de route. Si tu n'es pas satisfait du résultat final, je corrige gratuitement pendant 30 jours. »</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h4><span class="badge badge-obj">OBJECTION #6</span> « Et si j'ai besoin de modifications après ? »</h4>
+        <div class="script-box">
+          <div class="speaker">TOI</div>
+          <p>« T'as 30 jours de garantie conformité après livraison : si y'a un bug ou un truc qui marche pas, je corrige gratuitement. Pour des modifications après, je propose des tarifs ponctuels (changer un texte, ajouter une page, etc.). Et si tu veux être autonome, j'installe un CMS pour que tu modifies toi-même. »</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h4><span class="badge badge-obj">OBJECTION #7</span> « J'ai déjà un site, pourquoi en refaire un ? »</h4>
+        <div class="script-box">
+          <div class="speaker">TOI</div>
+          <p>« Si ton site actuel met plus de 2 secondes à charger, c'est probablement en train de te faire perdre des clients. Google pénalise les sites lents. Un site codé à la main charge 3 à 5 fois plus vite qu'un site WordPress ou Wix. En plus, tu vas gagner en crédibilité, en SEO, et en tranquillité (plus de mises à jour incessantes). »</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h4><span class="badge badge-obj">OBJECTION #8</span> « Je ne suis pas sûr du pack qu'il me faut »</h4>
+        <div class="script-box">
+          <div class="speaker">TOI</div>
+          <p>« Pas de souci. Dis-moi juste : tu veux vendre un service, montrer ton travail, ou présenter ta boîte ? Combien de pages tu penses avoir besoin ? T'as un budget max en tête ? Avec ça je te conseille le pack adapté. Dans le doute, je recommande le Vitrine à 449€ — c'est le meilleur rapport qualité/prix, celui qui a le plus de succès auprès de mes clients. »</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. SCRIPTS APPEL -->
+    <section id="scripts">
+      <h2><span class="num">5</span> Scripts d'Appel Téléphonique</h2>
+      <p style="margin-bottom:16px">Structure type pour un appel de découverte ou de clôture.</p>
+
+      <div class="card">
+        <h4>📞 Appel de Découverte (5-10 min)</h4>
+        <div class="script-box">
+          <div class="speaker">TOI</div>
+          <p>« Allô [Prénom] ? C'est Malty, développeur web freelance à Lyon. Tu as demandé des infos sur la création de site. Je te dérange 2 minutes ? »</p>
+          <p style="margin-top:8px"><em>→ Attendre la réponse</em></p>
+          <div class="speaker" style="margin-top:8px">TOI</div>
+          <p>« Génial. Alors pour mieux t'aider, j'aimerais comprendre ton projet déjà :</p>
+          <p>1️⃣ C'est pour quel type d'activité ?<br>
+          2️⃣ Tu veux plutôt un site pour présenter ton activité ou pour vendre directement en ligne ?<br>
+          3️⃣ T'as combien de pages en tête ?<br>
+          4️⃣ T'as déjà du contenu (logo, photos, textes) ?<br>
+          5️⃣ Et niveau budget, t'as une idée ? »</p>
+          <p style="margin-top:8px"><em>→ Écouter, noter, puis proposer le pack adapté</em></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h4>💰 Appel de Clôture (après envoi devis)</h4>
+        <div class="script-box">
+          <div class="speaker">TOI</div>
+          <p>« [Prénom], je t'ai envoyé le devis pour le pack [Nom]. Je voulais vérifier que tu as bien reçu le lien et que tout est clair. »</p>
+          <p style="margin-top:8px"><em>→ Attendre</em></p>
+          <div class="speaker" style="margin-top:8px">TOI</div>
+          <p>« Si tu valides, je peux réserver ton créneau et commencer sous 24h. Le paiement est sécurisé par Stripe ou PayPal. La livraison est prévue sous [délai]. Qu'est-ce qui pourrait te retenir ? »</p>
+          <p style="margin-top:8px"><em>→ Gérer l'objection avec la section 4</em></p>
+          <div class="speaker" style="margin-top:8px">TOI</div>
+          <p>« OK parfait. Je te laisse le lien pour commander, je m'occupe de tout. Sitôt le paiement reçu, je t'envoie le questionnaire pour cadrer le projet. »</p>
+        </div>
+        <p style="margin-top:12px"><strong>Transition vers le paiement :</strong> « Je te laisse juste 2 minutes pour finaliser ? Reste en ligne si t'as un doute — c'est l'étape la plus rapide. »</p>
+      </div>
+    </section>
+
+    <!-- 6. PROCESS -->
+    <section id="process">
+      <h2><span class="num">6</span> Processus de Vente Complet</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h4>📥 Étape 1 — Contact</h4>
+          <p>Le prospect arrive via : formulaire devis, appel, message Instagram, recommandation.</p>
+          <p><strong>Action :</strong> Répondre sous 1h max. Poser les 5 questions de qualification. Identifier le pack adapté.</p>
+        </div>
+        <div class="card">
+          <h4>📋 Étape 2 — Qualification</h4>
+          <p>Comprendre le besoin : activité, objectif, nombre de pages, contenu existant, budget.</p>
+          <p><strong>Outils :</strong> Utiliser le tableau comparatif de la section 3. Envoyer un lien vers les packs.</p>
+        </div>
+        <div class="card">
+          <h4>📄 Étape 3 — Proposition</h4>
+          <p>Présenter le pack recommandé, le délai, le prix.</p>
+          <p><strong>Faire :</strong> Envoyer le lien Stripe/PayPal directement ou le formulaire de commande. Pas de PDF.</p>
+        </div>
+        <div class="card">
+          <h4>💳 Étape 4 — Paiement</h4>
+          <p>Le client paie en ligne (Stripe ou PayPal). Tu reçois la notification.</p>
+          <p><strong>Action immédiate :</strong> Envoyer le questionnaire projet (contenu, couleurs, inspirations).</p>
+        </div>
+        <div class="card">
+          <h4>🎨 Étape 5 — Production</h4>
+          <p>Tu codes le site selon le brief. Tu envoies des aperçus réguliers.</p>
+          <p><strong>Règle :</strong> 1ère preview dans les 48h. Montrer l'avancement sur le délai annoncé.</p>
+        </div>
+        <div class="card">
+          <h4>🚀 Étape 6 — Livraison</h4>
+          <p>Fichiers sources livrés + documentation. Le client met en ligne ou tu l'aides.</p>
+          <p><strong>Après-vente :</strong> Demander un témoignage. Proposer une maintenance ou un CMS. Rester en contact.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. RELANCE -->
+    <section id="relance">
+      <h2><span class="num">7</span> Relances Clients</h2>
+      <p style="margin-bottom:16px">La plupart des ventes se perdent par absence de relance. Voici 3 relances à envoyer.</p>
+      <div class="grid-3">
+        <div class="card">
+          <h4>📧 Relance J+2</h4>
+          <p>« Salut [Prénom], je repensais à ton projet de site. As-tu eu le temps de regarder ? Si tu veux que je t'explique en 5 min au téléphone, je suis dispo [jour]. »</p>
+        </div>
+        <div class="card">
+          <h4>📧 Relance J+7</h4>
+          <p>« Coucou [Prénom], juste un petit mot — je termine un site pour un client similaire à ton activité, ça m'a fait penser à toi. Je peux te réserver un créneau la semaine prochaine si tu veux. »</p>
+        </div>
+        <div class="card">
+          <h4>📧 Relance J+30</h4>
+          <p>« Dernier message pour [Prénom] — mon tarif pack [Nom] va passer à [prix+50€] le mois prochain. Si tu veux le verrouiller, c'est le moment. »</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. UPSELL / CROSS-SELL -->
+    <section id="upsell">
+      <h2><span class="num">8</span> Upsell & Cross-Sell</h2>
+      <p style="margin-bottom:16px">Un client qui achète est plus facile à revendre. Voici comment augmenter le panier moyen.</p>
+      <div class="grid-2">
+        <div class="card">
+          <h4>⬆️ Upsell : Faire monter en gamme</h4>
+          <p>Quand un client hésite entre 2 packs, expliquer pourquoi le plus cher est un meilleur investissement :</p>
+          <p>« La différence entre les deux, c'est 200€. Mais avec le pack supérieur, tu as 3 pages pro au lieu d'1, du SEO qui marche, et un CMS pour être autonome. Regarde sur le long terme, tu vas économiser des centaines d'euros de modifications. »</p>
+        </div>
+        <div class="card">
+          <h4>↔️ Cross-sell : Vendre en complément</h4>
+          <p>Après la vente d'un pack, proposer :</p>
+          <ul style="margin-top:8px">
+            <li>📸 <strong>Pack photos pro</strong> — « Je peux te recommander un photographe pour tes visuels »</li>
+            <li>📧 <strong>Campagne email</strong> — « Une landing sans email de suivi, c'est comme une boutique fermée le lundi »</li>
+            <li>🔧 <strong>Maintenance mensuelle</strong> — « 15€/mois pour les mises à jour et la sécurité, tranquillité totale »</li>
+            <li>📊 <strong>Rapport analytics</strong> — « Je t'installe Google Analytics et tu reçois un rapport mensuel »</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. AMÉLIORATIONS SITE -->
+    <section id="site">
+      <h2><span class="num">9</span> Ce qu'il faut ajouter au site pour mieux vendre</h2>
+      <p style="margin-bottom:16px">Éléments manquants sur ton site actuel qui augmenteraient le taux de conversion.</p>
+      <div class="card highlight">
+        <ul>
+          <li>✅ <strong>Guide interactif « Quel pack est fait pour toi ? »</strong> — Un mini-quiz de 3 questions qui recommande un pack</li>
+          <li>✅ <strong>Compteur de ventes en temps réel</strong> — « 127 vendus » sur chaque pack crée l'urgence sociale</li>
+          <li>✅ <strong>Garantie visuelle</strong> — Badge « 30 jours satisfait ou corrigé gratuitement » rassure sur le risque</li>
+          <li>✅ <strong>Témoignages vidéo</strong> — Même 2 vidéos de 30 secondes de clients transformeraient le taux de conversion</li>
+          <li>✅ <strong>Section « Comment ça marche »</strong> — 4 étapes visuelles : Commande → Cadrage → Production → Livraison</li>
+          <li>✅ <strong>Comparateur de packs</strong> — Tableau interactif (cocher les fonctionnalités pour comparer)</li>
+          <li>✅ <strong>Preuve sociale Google</strong> — Afficher un note/avis Google Business serait l'argument de clôture #1</li>
+          <li>✅ <strong>FAQ enrichie</strong> — Ajouter « Pourquoi pas WordPress ? » et « Comment se passe la livraison ? » dans le site</li>
+          <li>✅ <strong>Scarcité</strong> — « 3 créneaux disponibles cette semaine » ou « pack Vitrine recommandé par X clients »</li>
+          <li>✅ <strong>Processus de commande plus fluide</strong> — Réduire le formulaire à 3 champs max pour les commandes directes</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer>
+      <p>Guide de Vente MALTY — mets à jour selon ton expérience terrain</p>
+    </footer>
+  </div>
+</body>
+</html>

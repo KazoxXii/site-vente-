@@ -110,11 +110,23 @@
     .portfolio-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:20px; }
     .portfolio-card { border-radius:var(--radius); overflow:hidden; border:1px solid var(--border); text-decoration:none; color:inherit; display:flex; flex-direction:column; transition:all .4s var(--ease); background:var(--surface); }
     .portfolio-card:hover { transform:translateY(-6px); border-color:var(--accent-20); box-shadow:0 12px 40px var(--accent-10); }
-    .portfolio-visual { height:200px; display:flex; align-items:center; justify-content:center; position:relative; }
-    .portfolio-icon { width:72px; height:72px; border-radius:20px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:1.5rem; color:#fff; border:1px solid rgba(255,255,255,.15); backdrop-filter:blur(8px); }
-    .portfolio-body { padding:28px; }
-    .portfolio-body h3 { font-weight:700; font-size:1.15rem; margin-bottom:6px; }
-    .portfolio-body p { color:var(--muted); font-size:.9rem; margin-bottom:16px; }
+    .portfolio-visual { position:relative; border-radius:var(--radius) var(--radius) 0 0; overflow:hidden; }
+    .preview-frame { background:#1a1a2e; border-radius:var(--radius) var(--radius) 0 0; overflow:hidden; }
+    .preview-chrome { display:flex; align-items:center; gap:8px; padding:10px 14px; background:rgba(0,0,0,.35); }
+    .preview-dots { display:flex; gap:5px; }
+    .preview-dots span { width:8px; height:8px; border-radius:50%; }
+    .preview-dots span:nth-child(1) { background:#ff5f57; }
+    .preview-dots span:nth-child(2) { background:#ffbd2e; }
+    .preview-dots span:nth-child(3) { background:#28ca41; }
+    .preview-url { flex:1; background:rgba(255,255,255,.08); border-radius:6px; padding:4px 10px; font-size:.6rem; color:rgba(255,255,255,.45); font-family:ui-monospace,monospace; letter-spacing:.02em; }
+    .preview-screen { position:relative; height:200px; overflow:hidden; }
+    .preview-screen svg { width:100%; height:100%; display:block; }
+    .preview-logo-badge { position:absolute; top:12px; left:12px; display:flex; align-items:center; gap:6px; background:rgba(0,0,0,.55); backdrop-filter:blur(8px); padding:5px 10px 5px 6px; border-radius:8px; z-index:2; }
+    .preview-logo-badge svg { width:22px; height:22px; flex-shrink:0; }
+    .preview-logo-badge span { font-size:.65rem; font-weight:700; color:#fff; letter-spacing:.03em; white-space:nowrap; }
+    .portfolio-body { padding:24px 28px; }
+    .portfolio-body h3 { font-weight:700; font-size:1.15rem; margin-bottom:4px; }
+    .portfolio-body p { color:var(--muted); font-size:.85rem; margin-bottom:14px; }
     .portfolio-cta { color:var(--accent); font-weight:600; font-size:.85rem; }
     .pricing-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; }
     .pricing-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:36px; display:flex; flex-direction:column; transition:all .4s var(--ease); position:relative; }
@@ -259,23 +271,110 @@
           <div class="container">
             <div class="section-header"><h2>Réalisations Récentes</h2><p>Des sites livrés clés en main à des professionnels ambitieux.</p></div>
             <div class="portfolio-grid">
-              <a href="digitalflow.html" target="_blank" class="portfolio-card reveal-scale">
-                <div class="portfolio-visual" style="background:linear-gradient(135deg,#0f0c29,#302b63,#24243e)">
-                  <div class="portfolio-icon" style="background:rgba(255,255,255,.08)">DF</div>
+              <a href="sites/digitalflow.html" target="_blank" class="portfolio-card reveal-scale">
+                <div class="preview-frame">
+                  <div class="preview-chrome"><div class="preview-dots"><span></span><span></span><span></span></div><div class="preview-url">digitalflow.fr</div></div>
+                  <div class="preview-screen" style="background:#080a10">
+                    <div class="preview-logo-badge">
+                      <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h6v2H6v8h4v2H4V6z" fill="#ff6b35"/><path d="M14 6l3 6 3-6h2.5L20 18h-2l-1-2.5h-4L14 18h-2l-2.5-12H14z" fill="#ff6b35" opacity=".85"/><circle cx="18" cy="6" r="1.5" fill="#ff9f1c"/></svg>
+                      <span>Digital Flow</span>
+                    </div>
+                    <svg viewBox="0 0 380 200" preserveAspectRatio="xMidYMid slice">
+                      <defs><linearGradient id="df-hero" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0f0c29"/><stop offset="50%" stop-color="#1a1040"/><stop offset="100%" stop-color="#24243e"/></linearGradient><linearGradient id="df-accent" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#ff6b35"/><stop offset="100%" stop-color="#ff9f1c"/></linearGradient></defs>
+                      <rect width="380" height="200" fill="url(#df-hero)"/>
+                      <!-- nav -->
+                      <rect x="24" y="16" width="60" height="8" rx="2" fill="#ff6b35" opacity=".9"/>
+                      <rect x="240" y="16" width="30" height="8" rx="2" fill="rgba(255,255,255,.15)"/>
+                      <rect x="280" y="16" width="30" height="8" rx="2" fill="rgba(255,255,255,.15)"/>
+                      <rect x="320" y="14" width="44" height="12" rx="6" fill="url(#df-accent)"/>
+                      <!-- hero text -->
+                      <rect x="40" y="60" width="220" height="14" rx="3" fill="rgba(255,255,255,.9)"/>
+                      <rect x="40" y="82" width="180" height="14" rx="3" fill="rgba(255,255,255,.9)"/>
+                      <rect x="40" y="110" width="140" height="8" rx="2" fill="rgba(255,255,255,.3)"/>
+                      <rect x="40" y="124" width="160" height="8" rx="2" fill="rgba(255,255,255,.2)"/>
+                      <rect x="40" y="148" width="80" height="22" rx="8" fill="url(#df-accent)"/>
+                      <!-- stats cards -->
+                      <rect x="240" y="56" width="110" height="50" rx="10" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.08)"/>
+                      <rect x="256" y="68" width="50" height="10" rx="2" fill="#ff6b35" opacity=".8"/>
+                      <rect x="256" y="84" width="70" height="6" rx="1" fill="rgba(255,255,255,.25)"/>
+                      <rect x="240" y="114" width="110" height="50" rx="10" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.08)"/>
+                      <rect x="256" y="126" width="60" height="10" rx="2" fill="#ff9f1c" opacity=".8"/>
+                      <rect x="256" y="142" width="70" height="6" rx="1" fill="rgba(255,255,255,.25)"/>
+                      <!-- glow -->
+                      <circle cx="100" cy="100" r="120" fill="#ff6b35" opacity=".06"/>
+                      <circle cx="300" cy="160" r="80" fill="#ff9f1c" opacity=".04"/>
+                    </svg>
+                  </div>
                 </div>
-                <div class="portfolio-body"><h3>Digital Flow</h3><p>Agence de marketing digital — Site Vitrine</p><span class="portfolio-cta">Voir le site →</span></div>
+                <div class="portfolio-body"><h3>Digital Flow</h3><p>Agence de croissance digitale — Site Vitrine</p><span class="portfolio-cta">Voir le site →</span></div>
               </a>
-              <a href="marioconsulting.html" target="_blank" class="portfolio-card reveal-scale">
-                <div class="portfolio-visual" style="background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)">
-                  <div class="portfolio-icon" style="background:rgba(255,255,255,.08)">MC</div>
+              <a href="sites/marioconsulting.html" target="_blank" class="portfolio-card reveal-scale">
+                <div class="preview-frame" style="background:#f7f5f0">
+                  <div class="preview-chrome" style="background:rgba(0,0,0,.08)"><div class="preview-dots"><span></span><span></span><span></span></div><div class="preview-url" style="color:rgba(0,0,0,.4);background:rgba(0,0,0,.06)">marioconsulting.fr</div></div>
+                  <div class="preview-screen" style="background:#f7f5f0">
+                    <div class="preview-logo-badge" style="background:rgba(247,245,240,.9)">
+                      <svg viewBox="0 0 24 24" fill="none"><path d="M4 18V6l8 12V6l8 12" stroke="#5c4a3a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      <span style="color:#3a2e24">Mario Consulting</span>
+                    </div>
+                    <svg viewBox="0 0 380 200" preserveAspectRatio="xMidYMid slice">
+                      <rect width="380" height="200" fill="#f7f5f0"/>
+                      <!-- nav line -->
+                      <rect x="24" y="18" width="100" height="5" rx="1" fill="#5c4a3a" opacity=".15"/>
+                      <rect x="260" y="18" width="25" height="5" rx="1" fill="#5c4a3a" opacity=".1"/>
+                      <rect x="296" y="18" width="25" height="5" rx="1" fill="#5c4a3a" opacity=".1"/>
+                      <rect x="332" y="16" width="36" height="10" rx="0" fill="#5c4a3a" opacity=".85"/>
+                      <!-- hero -->
+                      <rect x="40" y="56" width="180" height="12" rx="2" fill="#3a2e24" opacity=".85"/>
+                      <rect x="40" y="76" width="160" height="12" rx="2" fill="#3a2e24" opacity=".85"/>
+                      <rect x="40" y="104" width="200" height="6" rx="1" fill="#5c4a3a" opacity=".25"/>
+                      <rect x="40" y="116" width="180" height="6" rx="1" fill="#5c4a3a" opacity=".2"/>
+                      <rect x="40" y="140" width="90" height="20" rx="0" fill="#5c4a3a"/>
+                      <!-- photo circle -->
+                      <circle cx="310" cy="90" r="48" fill="#e8e2d8" stroke="#d4c8b8" stroke-width="1"/>
+                      <circle cx="310" cy="78" r="16" fill="#c8b8a0" opacity=".5"/>
+                      <ellipse cx="310" cy="112" rx="26" ry="20" fill="#c8b8a0" opacity=".4"/>
+                      <!-- gold accent line -->
+                      <rect x="40" y="130" width="40" height="2" rx="1" fill="#b8973a" opacity=".6"/>
+                    </svg>
+                  </div>
                 </div>
-                <div class="portfolio-body"><h3>Mario Consulting</h3><p>Consultante indépendante — Portfolio Premium</p><span class="portfolio-cta">Voir le site →</span></div>
+                <div class="portfolio-body"><h3>Mario Consulting</h3><p>Conseil en stratégie exécutive — Portfolio Premium</p><span class="portfolio-cta">Voir le site →</span></div>
               </a>
-              <a href="shopeco.html" target="_blank" class="portfolio-card reveal-scale">
-                <div class="portfolio-visual" style="background:linear-gradient(135deg,#0b1d28,#1a4a3a,#2d6a4f)">
-                  <div class="portfolio-icon" style="background:rgba(255,255,255,.08)">SE</div>
+              <a href="sites/shopeco.html" target="_blank" class="portfolio-card reveal-scale">
+                <div class="preview-frame" style="background:#f0f7f4">
+                  <div class="preview-chrome" style="background:rgba(0,0,0,.06)"><div class="preview-dots"><span></span><span></span><span></span></div><div class="preview-url" style="color:rgba(0,0,0,.4);background:rgba(0,0,0,.05)">shopeco.fr</div></div>
+                  <div class="preview-screen" style="background:#f0f7f4">
+                    <div class="preview-logo-badge" style="background:rgba(240,247,244,.92)">
+                      <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8 6 4 10 4 14a8 8 0 0016 0c0-4-4-8-8-12z" fill="#2d9f6f" opacity=".85"/><path d="M12 6c-2 3-4.5 5.5-4.5 8.5a4.5 4.5 0 009 0c0-3-2.5-5.5-4.5-8.5z" fill="#4db87e" opacity=".6"/></svg>
+                      <span style="color:#1a5c3e">Shop Eco</span>
+                    </div>
+                    <svg viewBox="0 0 380 200" preserveAspectRatio="xMidYMid slice">
+                      <rect width="380" height="200" fill="#f0f7f4"/>
+                      <!-- nav -->
+                      <rect x="24" y="16" width="50" height="8" rx="2" fill="#2d9f6f" opacity=".8"/>
+                      <rect x="240" y="16" width="25" height="8" rx="2" fill="#2d9f6f" opacity=".12"/>
+                      <rect x="276" y="16" width="25" height="8" rx="2" fill="#2d9f6f" opacity=".12"/>
+                      <rect x="320" y="14" width="44" height="12" rx="6" fill="#2d9f6f"/>
+                      <!-- promo banner -->
+                      <rect x="24" y="40" width="332" height="26" rx="6" fill="#2d9f6f" opacity=".1"/>
+                      <rect x="40" y="48" width="100" height="8" rx="2" fill="#2d9f6f" opacity=".5"/>
+                      <!-- product cards -->
+                      <rect x="24" y="78" width="104" height="100" rx="10" fill="#fff" stroke="#e0ece5"/>
+                      <rect x="36" y="90" width="80" height="50" rx="6" fill="#d4edda"/>
+                      <rect x="36" y="148" width="60" height="6" rx="1" fill="#2d9f6f" opacity=".6"/>
+                      <rect x="36" y="158" width="40" height="6" rx="1" fill="#2d9f6f" opacity=".3"/>
+                      <rect x="140" y="78" width="104" height="100" rx="10" fill="#fff" stroke="#e0ece5"/>
+                      <rect x="152" y="90" width="80" height="50" rx="6" fill="#d4edda"/>
+                      <rect x="152" y="148" width="55" height="6" rx="1" fill="#2d9f6f" opacity=".6"/>
+                      <rect x="152" y="158" width="35" height="6" rx="1" fill="#2d9f6f" opacity=".3"/>
+                      <rect x="256" y="78" width="104" height="100" rx="10" fill="#fff" stroke="#e0ece5"/>
+                      <rect x="268" y="90" width="80" height="50" rx="6" fill="#d4edda"/>
+                      <rect x="268" y="148" width="50" height="6" rx="1" fill="#2d9f6f" opacity=".6"/>
+                      <rect x="268" y="158" width="38" height="6" rx="1" fill="#2d9f6f" opacity=".3"/>
+                    </svg>
+                  </div>
                 </div>
-                <div class="portfolio-body"><h3>Shop Eco</h3><p>E-commerçant — Landing Page Vendeuse</p><span class="portfolio-cta">Voir le site →</span></div>
+                <div class="portfolio-body"><h3>Shop Eco</h3><p>Boutique éco-responsable — E-commerce</p><span class="portfolio-cta">Voir le site →</span></div>
               </a>
             </div>
           </div>
@@ -285,7 +384,7 @@
           <div class="container">
             <div class="section-header"><h2>Catalogue de Sites Web</h2><p>Sélectionnez le pack adapté à vos objectifs.</p></div>
             <div class="pricing-grid" id="pricingGrid"></div>
-            <a href="pack-premium.html" target="_blank" class="btn btn-outline" style="display:block;width:fit-content;margin:24px auto 0">Voir la fiche détaillée du Pack Premium →</a>
+            <a href="sites/pack-premium.html" target="_blank" class="btn btn-outline" style="display:block;width:fit-content;margin:24px auto 0">Voir la fiche détaillée du Pack Premium →</a>
           </div>
         </section>
 
@@ -293,9 +392,9 @@
           <div class="container">
             <div class="section-header"><h2>Ils nous font confiance</h2><p>Des professionnels qui ont choisi l'excellence.</p></div>
             <div class="testimonials-grid">
-              <div class="card testimonial-card reveal-scale"><blockquote>"J'ai acheté le pack Vitrine pour mon agence. Résultat : une augmentation de 40% de mes demandes de devis. La vitesse du site est tout simplement incroyable."</blockquote><div class="testimonial-author"><div class="testimonial-avatar">JS</div><div><strong>Julien S.</strong><span>Fondateur, <a href="digitalflow.html" target="_blank">Digital Flow</a></span></div></div></div>
-              <div class="card testimonial-card reveal-scale"><blockquote>"Le pack Premium sur-mesure est une véritable œuvre d'art technique. Malty a su transformer ma vision en un outil de vente extrêmement puissant."</blockquote><div class="testimonial-author"><div class="testimonial-avatar">MC</div><div><strong>Marie C.</strong><span>Consultante, <a href="marioconsulting.html" target="_blank">Mario Consulting</a></span></div></div></div>
-              <div class="card testimonial-card reveal-scale"><blockquote>"Un service direct et efficace. J'ai reçu le code source de ma Landing Page en 4 jours. Un ROI immédiat pour mes campagnes publicitaires."</blockquote><div class="testimonial-author"><div class="testimonial-avatar">TP</div><div><strong>Thomas P.</strong><span>E-commerçant, <a href="shopeco.html" target="_blank">Shop Eco</a></span></div></div></div>
+              <div class="card testimonial-card reveal-scale"><blockquote>"J'ai acheté le pack Vitrine pour mon agence. Résultat : une augmentation de 40% de mes demandes de devis. La vitesse du site est tout simplement incroyable."</blockquote><div class="testimonial-author"><div class="testimonial-avatar">JS</div><div><strong>Julien S.</strong><span>Fondateur, <a href="sites/digitalflow.html" target="_blank">Digital Flow</a></span></div></div></div>
+              <div class="card testimonial-card reveal-scale"><blockquote>"Le pack Premium sur-mesure est une véritable œuvre d'art technique. Malty a su transformer ma vision en un outil de vente extrêmement puissant."</blockquote><div class="testimonial-author"><div class="testimonial-avatar">MC</div><div><strong>Marie C.</strong><span>Consultante, <a href="sites/marioconsulting.html" target="_blank">Mario Consulting</a></span></div></div></div>
+              <div class="card testimonial-card reveal-scale"><blockquote>"Un service direct et efficace. J'ai reçu le code source de ma Landing Page en 4 jours. Un ROI immédiat pour mes campagnes publicitaires."</blockquote><div class="testimonial-author"><div class="testimonial-avatar">TP</div><div><strong>Thomas P.</strong><span>E-commerçant, <a href="sites/shopeco.html" target="_blank">Shop Eco</a></span></div></div></div>
             </div>
           </div>
         </section>
@@ -452,7 +551,7 @@
           '<div class="price">' + f.prix + '€</div>' +
           '<div class="sales">✓ ' + f.ventes + '+ vendus</div>' +
           '<ul>' + f.features.map(function(ft) { return '<li>' + ft + '</li>'; }).join('') + '</ul>' +
-          '<button class="btn btn-primary" style="width:100%" onclick="selectPlan(\'' + f.nom + '\')">Acheter ce pack</button>' +
+           '<button class="btn btn-primary" style="width:100%" data-plan="' + f.nom + '">Acheter ce pack</button>' +
           '<p style="font-size:.7rem;color:var(--muted);text-align:center;margin-top:10px">Livré sous ' + f.delai + '</p>' +
         '</div>';
       }).join('');
@@ -570,6 +669,10 @@
     }
 
     window.addEventListener('load', function() { renderPricing(); renderFAQ(); });
+    document.getElementById('pricingGrid').addEventListener('click', function(e) {
+      var btn = e.target.closest('[data-plan]');
+      if (btn) selectPlan(btn.getAttribute('data-plan'));
+    });
   </script>
   <script src="knowledge.js"></script>
 </body>
