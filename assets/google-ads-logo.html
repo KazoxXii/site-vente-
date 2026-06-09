@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 1200px; height: 1200px; background: linear-gradient(135deg, #0a0f1a 0%, #0d1a2e 50%, #0a1628 100%); font-family: 'Segoe UI', Arial, sans-serif; display: flex; justify-content: center; align-items: center; color: white; overflow: hidden; position: relative; }
+.glow { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(30,90,160,0.4) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.logo-container { position: relative; z-index: 2; text-align: center; }
+.logo { font-size: 140px; font-weight: 900; letter-spacing: 12px; background: linear-gradient(135deg, #1a5ab8, #4a90e2, #1a5ab8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 60px rgba(30,90,160,0.5); margin-bottom: 30px; }
+.underline { width: 200px; height: 4px; background: linear-gradient(90deg, transparent, #4a90e2, transparent); margin: 0 auto 30px; }
+.sub { font-size: 28px; color: #8ab4f8; font-weight: 300; letter-spacing: 8px; }
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="logo-container">
+<div class="logo">MALTY</div>
+<div class="underline"></div>
+<div class="sub">WEB DEVELOPER</div>
+</div>
+</body>
+</html>

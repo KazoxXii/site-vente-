@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 1200px; height: 1200px; background: linear-gradient(135deg, #0a0f1a 0%, #0d1a2e 50%, #0a1628 100%); font-family: 'Segoe UI', Arial, sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; overflow: hidden; position: relative; }
+.glow { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(30,90,160,0.3) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.grid { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: linear-gradient(rgba(30,90,160,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(30,90,160,0.1) 1px, transparent 1px); background-size: 60px 60px; }
+.content { position: relative; z-index: 2; text-align: center; padding: 60px; }
+.logo { font-size: 72px; font-weight: 900; letter-spacing: 8px; margin-bottom: 20px; background: linear-gradient(135deg, #1a5ab8, #4a90e2, #1a5ab8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 40px rgba(30,90,160,0.5); }
+.tagline { font-size: 28px; color: #8ab4f8; margin-bottom: 50px; font-weight: 300; letter-spacing: 3px; }
+.price-box { background: linear-gradient(135deg, #1a5ab8, #0d47a1); padding: 30px 60px; border-radius: 20px; margin-bottom: 40px; box-shadow: 0 10px 40px rgba(26,90,184,0.4); }
+.price { font-size: 64px; font-weight: 900; }
+.price span { font-size: 32px; font-weight: 400; }
+.offer { font-size: 24px; color: #4a90e2; margin-top: 15px; }
+.features { display: flex; gap: 40px; margin-top: 40px; }
+.feature { text-align: center; }
+.feature-icon { font-size: 40px; margin-bottom: 10px; }
+.feature-text { font-size: 18px; color: #8ab4f8; }
+.cta { margin-top: 50px; background: linear-gradient(135deg, #1a5ab8, #4a90e2); padding: 20px 50px; border-radius: 50px; font-size: 24px; font-weight: 700; letter-spacing: 2px; box-shadow: 0 5px 30px rgba(26,90,184,0.5); }
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="grid"></div>
+<div class="content">
+<div class="logo">MALTY</div>
+<div class="tagline">CRÉATEUR DE SITES WEB PROFESSIONNELS</div>
+<div class="price-box">
+<div class="price">99€ <span>TTC</span></div>
+<div class="offer">Domaine + Hébergement offert 1ère année</div>
+</div>
+<div class="features">
+<div class="feature">
+<div class="feature-icon">⚡</div>
+<div class="feature-text">Livré en 5 jours</div>
+</div>
+<div class="feature">
+<div class="feature-icon">🚫</div>
+<div class="feature-text">Zéro abonnement</div>
+</div>
+<div class="feature">
+<div class="feature-icon">📱</div>
+<div class="feature-text">Responsive</div>
+</div>
+</div>
+<div class="cta">DEVIS GRATUIT →</div>
+</div>
+</body>
+</html>
