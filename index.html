@@ -654,7 +654,7 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function confirmPay() { alert('Merci ! Votre commande a été envoyée avec succès.'); pendingOrder = null; nav('home'); }
+    function confirmPay() { window.location.href = 'merci.html'; }
 
     var devisForm = document.getElementById('devisForm');
     if (devisForm) {

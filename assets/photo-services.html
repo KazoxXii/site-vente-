@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { width:1200; height:900; overflow:hidden; font-family:'Inter',sans-serif; }
+    .card {
+      width:1200px; height:900px;
+      background:linear-gradient(135deg, #0a0a0f 0%, #0d1a2a 100%);
+      display:flex; flex-direction:column; justify-content:center; align-items:center;
+      position:relative; overflow:hidden;
+    }
+    .glow { position:absolute; top:-200px; left:50%; transform:translateX(-50%); width:800px; height:600px; background:radial-gradient(ellipse, rgba(0,102,255,0.12) 0%, transparent 70%); }
+    .grid-bg { position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px); background-size:60px 60px; }
+    .content { position:relative; z-index:1; text-align:center; padding:60px; }
+    .badge { display:inline-block; background:rgba(0,102,255,0.1); color:#0066ff; font-size:12px; font-weight:700; padding:6px 16px; border-radius:100px; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:24px; }
+    h1 { font-size:48px; font-weight:900; color:#fff; letter-spacing:-0.04em; line-height:1.05; margin-bottom:12px; }
+    h1 span { color:#0066ff; }
+    .sub { font-size:18px; color:#888; margin-bottom:48px; }
+    .grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; max-width:1000px; }
+    .item { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); border-radius:16px; padding:28px 20px; text-align:center; }
+    .item-icon { font-size:2rem; margin-bottom:12px; }
+    .item-title { font-size:15px; font-weight:700; color:#fff; margin-bottom:6px; }
+    .item-desc { font-size:12px; color:#666; line-height:1.5; }
+    .bottom { position:absolute; bottom:0; left:0; right:0; padding:20px 60px; border-top:1px solid rgba(255,255,255,0.06); background:rgba(0,0,0,0.3); display:flex; justify-content:space-between; align-items:center; }
+    .bottom span { font-size:12px; color:#555; }
+    .bottom strong { color:#888; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="glow"></div>
+    <div class="grid-bg"></div>
+    <div class="content">
+      <div class="badge"> Nos Services</div>
+      <h1>Ce que <span>MALTY</span> crée pour vous</h1>
+      <p class="sub">Des sites web professionnels, rapides et optimisés pour convertir vos visiteurs en clients.</p>
+      <div class="grid">
+        <div class="item">
+          <div class="item-icon">🌐</div>
+          <div class="item-title">Sites Vitrine</div>
+          <div class="item-desc">Présentez votre activité avec un site moderne et rapide</div>
+        </div>
+        <div class="item">
+          <div class="item-icon">📄</div>
+          <div class="item-title">Landing Pages</div>
+          <div class="item-desc">Pages de vente optimisées pour transformer les clics en clients</div>
+        </div>
+        <div class="item">
+          <div class="item-icon">🛒</div>
+          <div class="item-title">E-commerce</div>
+          <div class="item-desc">Boutique en ligne avec paiement intégré et gestion des stocks</div>
+        </div>
+        <div class="item">
+          <div class="item-icon">🔍</div>
+          <div class="item-title">SEO Local</div>
+          <div class="item-desc">Apparaissez dans les recherches "restaurant/business + ville"</div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom">
+      <span><strong>maltyshop.vercel.app</strong> · Lyon, France</span>
+      <span>Design · Performance · Conversion</span>
+    </div>
+  </div>
+</body>
+</html>

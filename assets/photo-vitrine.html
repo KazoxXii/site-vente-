@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Photo Vitrine — MALTY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { width:1200px; height:900px; overflow:hidden; font-family:'Inter',sans-serif; }
+    .card {
+      width:1200px;
+      height:900px;
+      background:linear-gradient(135deg, #0a0a0f 0%, #111118 40%, #0d1a2a 100%);
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+    /* Glow effects */
+    .glow1 { position:absolute; top:-200px; right:-200px; width:600px; height:600px; background:radial-gradient(circle, rgba(0,102,255,0.15) 0%, transparent 70%); pointer-events:none; }
+    .glow2 { position:absolute; bottom:-200px; left:-200px; width:500px; height:500px; background:radial-gradient(circle, rgba(0,200,120,0.1) 0%, transparent 70%); pointer-events:none; }
+    .glow3 { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:800px; height:800px; background:radial-gradient(circle, rgba(0,102,255,0.06) 0%, transparent 60%); pointer-events:none; }
+
+    /* Grid pattern */
+    .grid-bg {
+      position:absolute; inset:0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size:60px 60px;
+      pointer-events:none;
+    }
+
+    /* Content */
+    .content { position:relative; z-index:1; padding:60px; }
+    .logo-box {
+      width:80px; height:80px;
+      background:linear-gradient(135deg, #0066ff, #0044cc);
+      border-radius:20px;
+      display:flex; align-items:center; justify-content:center;
+      margin:0 auto 32px;
+      box-shadow:0 8px 40px rgba(0,102,255,0.3);
+    }
+    .logo-box span { font-size:42px; font-weight:900; color:#fff; letter-spacing:-2px; }
+    .title {
+      font-size:64px; font-weight:900; color:#fff;
+      letter-spacing:-0.04em; line-height:1;
+      margin-bottom:12px;
+    }
+    .title .accent { color:#0066ff; }
+    .subtitle {
+      font-size:22px; font-weight:500; color:#888;
+      letter-spacing:-0.01em; margin-bottom:48px;
+    }
+
+    /* Tags */
+    .tags { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:48px; }
+    .tag {
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:100px;
+      padding:10px 24px;
+      font-size:14px; font-weight:600; color:#aaa;
+      display:flex; align-items:center; gap:8px;
+    }
+    .tag .dot { width:6px; height:6px; border-radius:50%; background:#0066ff; }
+
+    /* Bottom bar */
+    .bottom {
+      position:absolute; bottom:0; left:0; right:0;
+      padding:24px 60px;
+      display:flex; align-items:center; justify-content:space-between;
+      border-top:1px solid rgba(255,255,255,0.06);
+      background:rgba(0,0,0,0.3);
+      backdrop-filter:blur(10px);
+    }
+    .bottom-left { display:flex; align-items:center; gap:16px; }
+    .bottom-left .icon {
+      width:36px; height:36px; background:rgba(0,102,255,0.15);
+      border-radius:8px; display:flex; align-items:center; justify-content:center;
+      font-size:16px;
+    }
+    .bottom-left .text { font-size:13px; color:#666; }
+    .bottom-left .text strong { color:#aaa; font-weight:600; }
+    .bottom-right { font-size:13px; color:#555; }
+
+    /* Floating elements */
+    .float { position:absolute; border-radius:12px; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.03); padding:16px 20px; }
+    .float1 { top:80px; left:60px; }
+    .float2 { top:80px; right:60px; }
+    .float3 { bottom:100px; left:60px; }
+    .float4 { bottom:100px; right:60px; }
+    .float .f-title { font-size:11px; font-weight:700; color:#0066ff; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:4px; }
+    .float .f-value { font-size:18px; font-weight:800; color:#fff; }
+    .float .f-sub { font-size:11px; color:#555; margin-top:2px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="glow1"></div>
+    <div class="glow2"></div>
+    <div class="glow3"></div>
+    <div class="grid-bg"></div>
+
+    <!-- Floating elements -->
+    <div class="float float1">
+      <div class="f-title">Performance</div>
+      <div class="f-value">95/100</div>
+      <div class="f-sub">Google PageSpeed</div>
+    </div>
+    <div class="float float2">
+      <div class="f-title">Vitesse</div>
+      <div class="f-value">&lt;1s</div>
+      <div class="f-sub">Temps de chargement</div>
+    </div>
+    <div class="float float3">
+      <div class="f-title">Clients satisfaits</div>
+      <div class="f-value">50+</div>
+      <div class="f-sub">Sites livrés</div>
+    </div>
+    <div class="float float4">
+      <div class="f-title">Note</div>
+      <div class="f-value">5,0★</div>
+      <div class="f-sub">Avis Google</div>
+    </div>
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="logo-box">
+        <span>M</span>
+      </div>
+      <h1 class="title">
+        <span class="accent">M</span>ALTY
+      </h1>
+      <p class="subtitle">Développeur Web Freelance à Lyon</p>
+      <div class="tags">
+        <div class="tag"><span class="dot"></span> Sites Vitrine</div>
+        <div class="tag"><span class="dot"></span> Landing Pages</div>
+        <div class="tag"><span class="dot"></span> E-commerce</div>
+        <div class="tag"><span class="dot"></span> SEO Local</div>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="bottom">
+      <div class="bottom-left">
+        <div class="icon">📍</div>
+        <div class="text"><strong>Lyon, France</strong><br>maltyshop.vercel.app</div>
+      </div>
+      <div class="bottom-right">Design · Performance · Conversion</div>
+    </div>
+  </div>
+</body>
+</html>
