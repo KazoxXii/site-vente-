@@ -55,4 +55,3 @@ Le site est déployé sur **Vercel**. Push sur `main` pour déployer automatique
 ## Contact
 
 - Email : maltyz@outlook.fr
-- Téléphone : 06 41 34 76 21
