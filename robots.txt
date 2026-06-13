@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /docs/
+Disallow: /assets/
+Disallow: /pikbowl/
+Disallow: /discord/
+
+Sitemap: https://maltyshop.vercel.app/sitemap.xml
