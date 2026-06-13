@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Espace Client — MALTY</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0f1a;--surface:#0d1a2e;--surface2:#111f35;--fg:#e0e8f0;--muted:#6a8cba;--border:#1a2a4a;--accent:#0066ff;--accent2:#0055dd;--success:#00cc66;--warning:#ff9900;--danger:#ff3333;--radius:12px}
+body{background:var(--bg);color:var(--fg);font-family:'Inter',sans-serif;line-height:1.6;min-height:100vh}
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 32px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--fg)}
+.logo svg{height:36px}
+.user-info{display:flex;align-items:center;gap:16px}
+.user-avatar{width:40px;height:40px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;color:white}
+.user-name{font-weight:600;font-size:.9rem}
+.user-plan{font-size:.75rem;color:var(--success);font-weight:600}
+.container{max-width:1200px;margin:0 auto;padding:32px}
+.page-title{font-size:1.8rem;font-weight:800;margin-bottom:8px}
+.page-subtitle{color:var(--muted);margin-bottom:32px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-bottom:32px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:all .3s}
+.card:hover{border-color:var(--accent);box-shadow:0 4px 20px rgba(0,102,255,0.1)}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.card-title{font-size:1.1rem;font-weight:700}
+.card-icon{font-size:1.5rem}
+.stat-card{text-align:center;padding:32px}
+.stat-value{font-size:2.5rem;font-weight:800;color:var(--accent);margin-bottom:4px}
+.stat-label{font-size:.85rem;color:var(--muted)}
+.badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:600}
+.badge-success{background:rgba(0,204,102,0.15);color:var(--success)}
+.badge-warning{background:rgba(255,153,0,0.15);color:var(--warning)}
+.badge-danger{background:rgba(255,51,51,0.15);color:var(--danger)}
+.badge-info{background:rgba(0,102,255,0.15);color:var(--accent)}
+
+/* Form */
+.form-group{margin-bottom:20px}
+.form-group label{display:block;font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;color:var(--muted)}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);color:var(--fg);font:400 .95rem 'Inter',sans-serif;outline:none;transition:border-color .2s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,102,255,0.1)}
+.form-group textarea{min-height:120px;resize:vertical}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 24px;border-radius:var(--radius);font-weight:600;font-size:.9rem;cursor:pointer;border:none;text-decoration:none;transition:all .2s}
+.btn-primary{background:var(--accent);color:white}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--fg)}
+.btn-outline:hover{border-color:var(--accent);background:rgba(0,102,255,0.1)}
+.btn-success{background:var(--success);color:white}
+.btn-danger{background:var(--danger);color:white}
+.btn-sm{padding:8px 16px;font-size:.8rem}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-bottom:32px;background:var(--surface);border-radius:var(--radius);padding:4px;border:1px solid var(--border)}
+.tab{padding:12px 24px;border-radius:8px;font-weight:600;font-size:.9rem;cursor:pointer;transition:all .2s;color:var(--muted)}
+.tab.active{background:var(--accent);color:white}
+.tab:hover:not(.active){background:var(--surface2);color:var(--fg)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* Requests */
+.request-list{display:flex;flex-direction:column;gap:12px}
+.request-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+.request-info h4{font-size:.95rem;margin-bottom:4px}
+.request-info p{font-size:.8rem;color:var(--muted)}
+.request-meta{display:flex;align-items:center;gap:12px}
+
+/* Subscription */
+.sub-card{background:linear-gradient(135deg,var(--surface),var(--surface2));border:1px solid var(--accent);border-radius:var(--radius);padding:32px;text-align:center}
+.sub-price{font-size:3rem;font-weight:900;color:var(--accent);margin:16px 0}
+.sub-period{font-size:1rem;color:var(--muted)}
+.sub-features{list-style:none;text-align:left;margin:24px 0}
+.sub-features li{padding:8px 0;display:flex;align-items:center;gap:12px;font-size:.9rem}
+.sub-features li::before{content:'✓';color:var(--success);font-weight:700}
+
+/* Modal */
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:200;align-items:center;justify-content:center}
+.modal.active{display:flex}
+.modal-content{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:500px;width:90%;max-height:90vh;overflow-y:auto}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.modal-close{background:none;border:none;color:var(--muted);font-size:1.5rem;cursor:pointer}
+.modal-close:hover{color:var(--fg)}
+
+/* Media */
+.media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.media-item{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
+.media-icon{font-size:2rem;margin-bottom:8px}
+.media-name{font-size:.8rem;color:var(--muted)}
+.media-link{font-size:.7rem;color:var(--accent);word-break:break-all}
+
+/* Responsive */
+@media(max-width:768px){
+  .container{padding:16px}
+  .grid{grid-template-columns:1fr}
+  .header{padding:12px 16px}
+  .tabs{flex-wrap:wrap}
+  .tab{flex:1;min-width:100px;text-align:center;padding:10px 12px;font-size:.8rem}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="index.html" class="logo">
+    <svg viewBox="0 0 200 60"><rect x="0" y="0" width="44" height="44" rx="12" fill="url(#lg)"/><text x="22" y="32" font-family="Arial,sans-serif" font-size="26" font-weight="900" fill="#fff" text-anchor="middle" letter-spacing="-1">M</text><text x="60" y="30" font-family="Arial,sans-serif" font-size="28" font-weight="800" fill="#fff" letter-spacing="-1.5">MALTY</text><circle cx="169" cy="14" r="4" fill="var(--success)"/><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0066ff"/><stop offset="100%" stop-color="#0066ff"/></linearGradient></defs></svg>
+  </a>
+  <div class="user-info">
+    <div>
+      <div class="user-name" id="userName">Client</div>
+      <div class="user-plan" id="userPlan">Pack Maintenance</div>
+    </div>
+    <div class="user-avatar" id="userAvatar">C</div>
+  </div>
+</header>
+
+<div class="container">
+  <h1 class="page-title">Mon Espace Client</h1>
+  <p class="page-subtitle">Gérez votre abonnement, envoyez des demandes et suivez vos projets.</p>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" data-tab="dashboard">📊 Tableau de bord</div>
+    <div class="tab" data-tab="requests">📝 Demandes</div>
+    <div class="tab" data-tab="media">🔗 Médias & Liens</div>
+    <div class="tab" data-tab="subscription">💳 Abonnement</div>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="tab-content active" id="dashboard">
+    <div class="grid">
+      <div class="card stat-card">
+        <div class="card-icon">📝</div>
+        <div class="stat-value" id="totalRequests">0</div>
+        <div class="stat-label">Demandes totales</div>
+      </div>
+      <div class="card stat-card">
+        <div class="card-icon">⏳</div>
+        <div class="stat-value" id="pendingRequests">0</div>
+        <div class="stat-label">En attente</div>
+      </div>
+      <div class="card stat-card">
+        <div class="card-icon">✅</div>
+        <div class="stat-value" id="completedRequests">0</div>
+        <div class="stat-label">Terminées</div>
+      </div>
+      <div class="card stat-card">
+        <div class="card-icon">📅</div>
+        <div class="stat-value" id="daysRemaining">30</div>
+        <div class="stat-label">Jours restants</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">📌 Dernières demandes</span>
+        <a href="#" class="btn btn-sm btn-outline" onclick="switchTab('requests')">Voir tout</a>
+      </div>
+      <div class="request-list" id="recentRequests">
+        <p style="color:var(--muted);text-align:center;padding:24px">Aucune demande pour le moment.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Requests -->
+  <div class="tab-content" id="requests">
+    <div class="card" style="margin-bottom:24px">
+      <div class="card-header">
+        <span class="card-title">➕ Nouvelle demande</span>
+      </div>
+      <form id="requestForm">
+        <div class="form-group">
+          <label>Type de demande</label>
+          <select name="type" required>
+            <option value="">Sélectionner...</option>
+            <option value="modification">Modification de contenu</option>
+            <option value="bug">Signaler un bug</option>
+            <option value="design">Changement de design</option>
+            <option value="seo">Optimisation SEO</option>
+            <option value="ajout">Ajout de fonctionnalité</option>
+            <option value="autre">Autre</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea name="description" placeholder="Décrivez votre demande en détail..." required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Priorité</label>
+          <select name="priority">
+            <option value="low">🟢 Normale</option>
+            <option value="medium" selected>🟡 Moyenne</option>
+            <option value="high">🔴 Urgente</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Envoyer la demande</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">📋 Mes demandes</span>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-sm btn-outline filter-btn active" data-filter="all">Toutes</button>
+          <button class="btn btn-sm btn-outline filter-btn" data-filter="pending">En attente</button>
+          <button class="btn btn-sm btn-outline filter-btn" data-filter="completed">Terminées</button>
+        </div>
+      </div>
+      <div class="request-list" id="allRequests">
+        <p style="color:var(--muted);text-align:center;padding:24px">Aucune demande.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Media -->
+  <div class="tab-content" id="media">
+    <div class="card" style="margin-bottom:24px">
+      <div class="card-header">
+        <span class="card-title">➕ Ajouter un lien</span>
+      </div>
+      <form id="mediaForm">
+        <div class="form-group">
+          <label>Plateforme</label>
+          <select name="platform" required>
+            <option value="">Sélectionner...</option>
+            <option value="instagram">📸 Instagram</option>
+            <option value="facebook">📘 Facebook</option>
+            <option value="tiktok">🎵 TikTok</option>
+            <option value="youtube">📺 YouTube</option>
+            <option value="twitter">🐦 Twitter/X</option>
+            <option value="linkedin">💼 LinkedIn</option>
+            <option value="website">🌐 Site web</option>
+            <option value="google">📍 Google Business</option>
+            <option value="other">🔗 Autre</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Nom / Pseudo</label>
+          <input type="text" name="name" placeholder="@votrepseudo" required>
+        </div>
+        <div class="form-group">
+          <label>Lien URL</label>
+          <input type="url" name="url" placeholder="https://..." required>
+        </div>
+        <div class="form-group">
+          <label>Note (optionnel)</label>
+          <input type="text" name="note" placeholder="Ex: Page principale, compte pro...">
+        </div>
+        <button type="submit" class="btn btn-primary">Ajouter le lien</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">🔗 Mes liens</span>
+      </div>
+      <div class="media-grid" id="mediaList">
+        <p style="color:var(--muted);text-align:center;padding:24px;grid-column:1/-1">Aucun lien ajouté.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subscription -->
+  <div class="tab-content" id="subscription">
+    <div class="sub-card" style="margin-bottom:24px">
+      <div class="card-icon" style="font-size:3rem">🛡️</div>
+      <h2 style="font-size:1.5rem;margin-top:16px">Maintenance & Support</h2>
+      <div class="sub-price">19€<span class="sub-period">/mois</span></div>
+      <ul class="sub-features">
+        <li>Mises à jour de sécurité incluses</li>
+        <li>Backup mensuel du site</li>
+        <li>Support prioritaire par email</li>
+        <li>2 modifications de contenu/mois</li>
+        <li>Rapport mensuel de performance</li>
+      </ul>
+      <div style="display:flex;gap:12px;justify-content:center;margin-top:24px">
+        <a href="mailto:maltyz@outlook.fr?subject=Demande%20abonnement%20maintenance" class="btn btn-primary">S'abonner maintenant</a>
+        <a href="mailto:maltyz@outlook.fr" class="btn btn-outline">Envoyer un email</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">ℹ️ Comment ça marche</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;margin-top:16px">
+        <div style="text-align:center">
+          <div style="font-size:2rem;margin-bottom:8px">1️⃣</div>
+          <h4 style="margin-bottom:4px">Choisissez votre forfait</h4>
+          <p style="font-size:.85rem;color:var(--muted)">19€/mois pour tout inclure</p>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:2rem;margin-bottom:8px">2️⃣</div>
+          <h4 style="margin-bottom:4px">Envoyez vos demandes</h4>
+          <p style="font-size:.85rem;color:var(--muted)">Modifications, bugs, ajouts</p>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:2rem;margin-bottom:8px">3️⃣</div>
+          <h4 style="margin-bottom:4px">Je m'en occupe</h4>
+          <p style="font-size:.85rem;color:var(--muted)">Réponse sous 24-48h</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modalTitle">Détails</h3>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+// Data
+let userData = JSON.parse(localStorage.getItem('malty_client')) || {
+  name: 'Client',
+  plan: 'maintenance',
+  requests: [],
+  media: [],
+  subscriptionStart: new Date().toISOString()
+};
+
+// Tabs
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+});
+
+function switchTab(tabId) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+  document.getElementById(tabId).classList.add('active');
+}
+
+// Request Form
+document.getElementById('requestForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const fd = new FormData(this);
+  const request = {
+    id: Date.now(),
+    type: fd.get('type'),
+    description: fd.get('description'),
+    priority: fd.get('priority'),
+    status: 'pending',
+    date: new Date().toISOString()
+  };
+  userData.requests.unshift(request);
+  saveData();
+  renderRequests();
+  this.reset();
+  showNotification('Demande envoyée avec succès !');
+});
+
+// Media Form
+document.getElementById('mediaForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const fd = new FormData(this);
+  const media = {
+    id: Date.now(),
+    platform: fd.get('platform'),
+    name: fd.get('name'),
+    url: fd.get('url'),
+    note: fd.get('note'),
+    date: new Date().toISOString()
+  };
+  userData.media.unshift(media);
+  saveData();
+  renderMedia();
+  this.reset();
+  showNotification('Lien ajouté avec succès !');
+});
+
+// Filters
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    renderRequests(this.dataset.filter);
+  });
+});
+
+// Render
+function renderRequests(filter = 'all') {
+  const list = document.getElementById('allRequests');
+  const recent = document.getElementById('recentRequests');
+  let requests = userData.requests;
+  
+  if (filter !== 'all') {
+    requests = requests.filter(r => r.status === filter);
+  }
+  
+  if (requests.length === 0) {
+    list.innerHTML = '<p style="color:var(--muted);text-align:center;padding:24px">Aucune demande.</p>';
+    recent.innerHTML = '<p style="color:var(--muted);text-align:center;padding:24px">Aucune demande pour le moment.</p>';
+    return;
+  }
+  
+  const typeLabels = {modification:'Modification',bug:'Bug',design:'Design',seo:'SEO',ajout:'Ajout',autre:'Autre'};
+  const priorityLabels = {low:'🟢',medium:'🟡',high:'🔴'};
+  const statusLabels = {pending:'⏳ En attente',completed:'✅ Terminée'};
+  
+  list.innerHTML = requests.map(r => `
+    <div class="request-item">
+      <div class="request-info">
+        <h4>${priorityLabels[r.priority]} ${typeLabels[r.type] || r.type}</h4>
+        <p>${r.description.substring(0,100)}${r.description.length > 100 ? '...' : ''}</p>
+        <p style="font-size:.7rem;margin-top:4px">${new Date(r.date).toLocaleDateString('fr-FR')}</p>
+      </div>
+      <div class="request-meta">
+        <span class="badge ${r.status === 'pending' ? 'badge-warning' : 'badge-success'}">${statusLabels[r.status]}</span>
+      </div>
+    </div>
+  `).join('');
+  
+  recent.innerHTML = requests.slice(0, 3).map(r => `
+    <div class="request-item">
+      <div class="request-info">
+        <h4>${priorityLabels[r.priority]} ${typeLabels[r.type] || r.type}</h4>
+        <p>${r.description.substring(0,80)}...</p>
+      </div>
+      <span class="badge ${r.status === 'pending' ? 'badge-warning' : 'badge-success'}">${statusLabels[r.status]}</span>
+    </div>
+  `).join('');
+  
+  // Stats
+  document.getElementById('totalRequests').textContent = userData.requests.length;
+  document.getElementById('pendingRequests').textContent = userData.requests.filter(r => r.status === 'pending').length;
+  document.getElementById('completedRequests').textContent = userData.requests.filter(r => r.status === 'completed').length;
+}
+
+function renderMedia() {
+  const list = document.getElementById('mediaList');
+  const icons = {instagram:'📸',facebook:'📘',tiktok:'🎵',youtube:'📺',twitter:'🐦',linkedin:'💼',website:'🌐',google:'📍',other:'🔗'};
+  
+  if (userData.media.length === 0) {
+    list.innerHTML = '<p style="color:var(--muted);text-align:center;padding:24px;grid-column:1/-1">Aucun lien ajouté.</p>';
+    return;
+  }
+  
+  list.innerHTML = userData.media.map(m => `
+    <div class="media-item">
+      <div class="media-icon">${icons[m.platform] || '🔗'}</div>
+      <div class="media-name">${m.name}</div>
+      <a href="${m.url}" target="_blank" class="media-link">${m.url.substring(0,30)}...</a>
+      ${m.note ? `<div style="font-size:.7rem;color:var(--muted);margin-top:4px">${m.note}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+// Save/Load
+function saveData() {
+  localStorage.setItem('malty_client', JSON.stringify(userData));
+}
+
+// Notification
+function showNotification(msg) {
+  const div = document.createElement('div');
+  div.style.cssText = 'position:fixed;top:20px;right:20px;background:var(--success);color:white;padding:16px 24px;border-radius:var(--radius);z-index:300;font-weight:600;animation:slideIn .3s ease';
+  div.textContent = msg;
+  document.body.appendChild(div);
+  setTimeout(() => div.remove(), 3000);
+}
+
+// Modal
+function openModal(title, content) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML = content;
+  document.getElementById('modal').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+}
+
+// Init
+renderRequests();
+renderMedia();
+
+// Days remaining
+const subStart = new Date(userData.subscriptionStart);
+const now = new Date();
+const daysInMonth = 30;
+const daysPassed = Math.floor((now - subStart) / (1000 * 60 * 60 * 24)) % daysInMonth;
+document.getElementById('daysRemaining').textContent = daysInMonth - daysPassed;
+</script>
+
+</body>
+</html>
