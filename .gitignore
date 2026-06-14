@@ -9,3 +9,5 @@ desktop.ini
 *.bak
 .vscode/
 .idea/
+
+.vercel

@@ -8,7 +8,7 @@
   <meta name="robots" content="index, follow">
   <meta name="author" content="MALTY">
   <meta name="geo.region" content="FR-69">
-  <meta name="geo.placename" content="Lyon">
+  <meta name="geo.placename" content="France">
   <title>MALTY | Créateur de Sites Web Professionnels</title>
   <meta property="og:title" content="MALTY | Créateur de Sites Web Professionnels">
   <meta property="og:description" content="Sites vitrine, e-commerce et landing pages à partir de 99€. Design moderne, rapide et optimisé Google. Sans abonnement. Livré en 5 jours.">
@@ -18,7 +18,7 @@
   <meta property="og:image" content="assets/google-ads-square.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="1200">
-  <meta property="og:site_name" content="MALTY — Créateur de Sites Web Lyon">
+  <meta property="og:site_name" content="MALTY — Créateur de Sites Web">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="MALTY | Créateur de Sites Web Professionnels">
   <meta name="twitter:description" content="Sites web professionnels à partir de 99€. Sans abonnement. Livré en 5 jours.">
@@ -38,7 +38,7 @@
     "priceRange": "€€",
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "Lyon",
+      "addressLocality": "France",
       "addressRegion": "Auvergne-Rhône-Alpes",
       "addressCountry": "FR"
     },
@@ -339,7 +339,7 @@
               <a href="#" class="btn btn-primary" onclick="nav('devis');return false">Commander mon pack maintenant</a>
               <a href="#" class="btn btn-outline" onclick="nav('home','#tarifs');return false">Consulter le catalogue</a>
             </div>
-            <p style="margin-top:20px;font-size:.78rem;color:var(--muted)">Disponible à Lyon et métropole</p>
+            <p style="margin-top:20px;font-size:.78rem;color:var(--muted)">Disponible partout dans le monde</p>
           </div>
         </section>
 
@@ -555,7 +555,7 @@
                   </div>
                   <div class="form-row">
                     <div class="form-group"><label>Votre téléphone</label><input type="tel" name="telephone" placeholder="06 XX XX XX XX" required></div>
-                    <div class="form-group"><label>Ville / Secteur</label><input type="text" name="ville" placeholder="Lyon, Villeurbanne..."></div>
+                    <div class="form-group"><label>Ville / Secteur</label><input type="text" name="ville" placeholder="Paris, Montréal, New York..."></div>
                   </div>
                   <div class="form-group"><label>Pack qui vous intéresse</label>
                     <select name="formule" id="formuleSelect" required>
@@ -648,12 +648,12 @@
           clearInterval(interval);
           if (target === 100) el.textContent = '100/100';
           else if (target === 10) el.textContent = 'Livré sous ' + target + 'j';
-          else if (target === 1) el.textContent = 'Basé à Lyon';
+          else if (target === 1) el.textContent = 'Freelance';
           else el.textContent = target + '%';
         } else {
           if (target === 100) el.textContent = current + '/100';
           else if (target === 10) el.textContent = 'Livré sous ' + current + 'j';
-          else if (target === 1) el.textContent = 'Basé à Lyon';
+          else if (target === 1) el.textContent = 'Freelance';
           else el.textContent = current + '%';
         }
       }, 40);
