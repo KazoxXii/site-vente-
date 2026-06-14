@@ -1,7 +1,7 @@
 {
   "name": "malty-api",
   "version": "1.0.0",
-  "description": "API serverless pour MALTY — Stripe Checkout & Webhooks",
+  "description": "API serverless pour MALTY — Stripe Checkout, Webhooks & Email Rappels",
   "dependencies": {
     "stripe": "^14.0.0"
   }
