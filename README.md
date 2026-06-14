@@ -1,6 +1,6 @@
 # MALTY — Créateur de Sites Web Professionnels
 
-Site web vitrine pour MALTY, freelance développeur web basé à Lyon et Bourgoin-Jallieu.
+Site web vitrine pour MALTY, freelance développeur web.
 
 **Live :** [maltyshop.vercel.app](https://maltyshop.vercel.app)
 

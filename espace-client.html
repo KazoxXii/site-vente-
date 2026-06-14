@@ -264,24 +264,77 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',sans-serif;line-he
 
   <!-- Subscription -->
   <div class="tab-content" id="subscription">
-    <div class="sub-card" style="margin-bottom:24px">
-      <div class="card-icon" style="font-size:3rem">🛡️</div>
-      <h2 style="font-size:1.5rem;margin-top:16px">Maintenance & Support</h2>
-      <div class="sub-price">19€<span class="sub-period">/mois</span></div>
-      <ul class="sub-features">
-        <li>Mises à jour de sécurité incluses</li>
-        <li>Backup mensuel du site</li>
-        <li>Support prioritaire par email</li>
-        <li>2 modifications de contenu/mois</li>
-        <li>Rapport mensuel de performance</li>
-      </ul>
-      <div style="display:flex;gap:12px;justify-content:center;margin-top:24px">
-        <a href="mailto:maltyz@outlook.fr?subject=Demande%20abonnement%20maintenance" class="btn btn-primary">S'abonner maintenant</a>
-        <a href="mailto:maltyz@outlook.fr" class="btn btn-outline">Envoyer un email</a>
+    <!-- No subscription -->
+    <div id="noSub" style="display:none">
+      <div class="sub-card" style="margin-bottom:24px">
+        <div class="card-icon" style="font-size:3rem">🛡️</div>
+        <h2 style="font-size:1.5rem;margin-top:16px">Aucun abonnement actif</h2>
+        <p style="color:var(--muted);margin:12px 0 24px">Souscrivez à un forfait maintenance pour protéger votre site.</p>
+        <div style="display:flex;gap:12px;justify-content:center">
+          <a href="abonnement.html" class="btn btn-primary">Voir les offres</a>
+          <a href="mailto:maltyz@outlook.fr" class="btn btn-outline">Contacter MALTY</a>
+        </div>
       </div>
     </div>
 
-    <div class="card">
+    <!-- Active subscription -->
+    <div id="activeSub" style="display:none">
+      <div class="sub-card" style="margin-bottom:24px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <div class="badge badge-success" id="subStatusBadge">🟢 Actif</div>
+          <span style="font-size:.8rem;color:var(--muted)" id="subStartDate">Depuis le —</span>
+        </div>
+        <div class="card-icon" style="font-size:3rem">🛡️</div>
+        <h2 style="font-size:1.5rem;margin-top:16px" id="subPlanName">Maintenance Essentiel</h2>
+        <div class="sub-price" id="subPlanPrice">19€<span class="sub-period">/mois</span></div>
+        <ul class="sub-features" id="subFeatures"></ul>
+        <div style="display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap">
+          <a href="abonnement.html" class="btn btn-primary">Changer de formule</a>
+          <button class="btn btn-danger" onclick="cancelSubscription()" style="font-size:.85rem">Résilier</button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:24px">
+        <div class="card-header">
+          <span class="card-title">📊 Activité ce mois</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-top:16px">
+          <div style="text-align:center;padding:16px">
+            <div style="font-size:2rem;font-weight:800;color:var(--accent)" id="modifsUsed">0</div>
+            <div style="font-size:.8rem;color:var(--muted)">Modifications utilisées</div>
+          </div>
+          <div style="text-align:center;padding:16px">
+            <div style="font-size:2rem;font-weight:800;color:var(--success)" id="modifsRemaining">—</div>
+            <div style="font-size:.8rem;color:var(--muted)">Restantes</div>
+          </div>
+          <div style="text-align:center;padding:16px">
+            <div style="font-size:2rem;font-weight:800" id="daysLeft">30</div>
+            <div style="font-size:.8rem;color:var(--muted)">Jours avant renouvellement</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">💳 Paiement</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--border)">
+          <span style="font-size:.9rem">Prochain prélèvement</span>
+          <span style="font-weight:600" id="nextPaymentDate">—</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--border)">
+          <span style="font-size:.9rem">Moyen de paiement</span>
+          <span style="font-weight:600;color:var(--muted)">💳 •••• — Stripe</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0">
+          <span style="font-size:.9rem">Factures</span>
+          <a href="#" style="color:var(--accent);font-weight:600;font-size:.9rem;text-decoration:none" onclick="showNotification('Bientôt disponible');return false">Voir les factures →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- How it works -->
+    <div class="card" style="margin-top:24px">
       <div class="card-header">
         <span class="card-title">ℹ️ Comment ça marche</span>
       </div>
@@ -289,7 +342,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',sans-serif;line-he
         <div style="text-align:center">
           <div style="font-size:2rem;margin-bottom:8px">1️⃣</div>
           <h4 style="margin-bottom:4px">Choisissez votre forfait</h4>
-          <p style="font-size:.85rem;color:var(--muted)">19€/mois pour tout inclure</p>
+          <p style="font-size:.85rem;color:var(--muted)">19€ ou 39€/mois</p>
         </div>
         <div style="text-align:center">
           <div style="font-size:2rem;margin-bottom:8px">2️⃣</div>
@@ -318,14 +371,52 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',sans-serif;line-he
 </div>
 
 <script>
+// Plans config
+const PLANS = {
+  essentiel: {
+    name: 'Maintenance Essentiel',
+    price: '19€',
+    features: [
+      'Mises à jour de sécurité mensuelles',
+      'Sauvegardes hebdomadaires',
+      'Certificat SSL renouvelé',
+      'Monitoring uptime 24/7',
+      'Support par email (48h)',
+      '0 modification de contenu/mois'
+    ],
+    modifsIncluded: 0
+  },
+  premium: {
+    name: 'Maintenance Premium',
+    price: '39€',
+    features: [
+      'Tout du pack Essentiel',
+      '2 modifications de contenu/mois',
+      'Optimisation performance trimestrielle',
+      'Rapport mensuel détaillé',
+      'Support prioritaire (24h)',
+      'Sauvegardes quotidiennes'
+    ],
+    modifsIncluded: 2
+  }
+};
+
+// Load subscription data
+let subData = JSON.parse(localStorage.getItem('malty_subscription'));
+
 // Data
 let userData = JSON.parse(localStorage.getItem('malty_client')) || {
-  name: 'Client',
-  plan: 'maintenance',
+  name: localStorage.getItem('malty_client_name') || 'Client',
+  plan: subData ? subData.plan : null,
   requests: [],
   media: [],
-  subscriptionStart: new Date().toISOString()
+  subscriptionStart: subData ? subData.startDate : new Date().toISOString()
 };
+
+// Update header
+document.getElementById('userName').textContent = userData.name;
+const avatar = userData.name.split(' ').map(n => n[0]).join('').toUpperCase();
+document.getElementById('userAvatar').textContent = avatar;
 
 // Tabs
 document.querySelectorAll('.tab').forEach(tab => {
@@ -337,6 +428,78 @@ function switchTab(tabId) {
   document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
   document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
   document.getElementById(tabId).classList.add('active');
+}
+
+// Subscription UI
+function renderSubscription() {
+  const noSub = document.getElementById('noSub');
+  const activeSub = document.getElementById('activeSub');
+  
+  if (!subData || !subData.plan) {
+    noSub.style.display = 'block';
+    activeSub.style.display = 'none';
+    document.getElementById('userPlan').textContent = 'Aucun abonnement';
+    document.getElementById('userPlan').style.color = 'var(--warning)';
+    return;
+  }
+  
+  noSub.style.display = 'none';
+  activeSub.style.display = 'block';
+  
+  const plan = PLANS[subData.plan];
+  document.getElementById('subPlanName').textContent = plan.name;
+  document.getElementById('subPlanPrice').innerHTML = plan.price + '<span class="sub-period">/mois</span>';
+  document.getElementById('userPlan').textContent = plan.name;
+  document.getElementById('userPlan').style.color = 'var(--success)';
+  
+  // Features
+  const featuresEl = document.getElementById('subFeatures');
+  featuresEl.innerHTML = plan.features.map(f => '<li>' + f + '</li>').join('');
+  
+  // Start date
+  const startDate = new Date(subData.startDate);
+  document.getElementById('subStartDate').textContent = 'Depuis le ' + startDate.toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric'});
+  
+  // Modifs
+  const modifsUsed = userData.requests.filter(r => r.type === 'modification' && r.status === 'completed').length;
+  document.getElementById('modifsUsed').textContent = modifsUsed;
+  document.getElementById('modifsRemaining').textContent = plan.modifsIncluded > 0 ? Math.max(0, plan.modifsIncluded - modifsUsed) : 'Illimité';
+  
+  // Days left
+  const now = new Date();
+  const daysInMonth = 30;
+  const daysPassed = Math.floor((now - startDate) / (1000 * 60 * 60 * 24)) % daysInMonth;
+  const daysLeft = daysInMonth - daysPassed;
+  document.getElementById('daysLeft').textContent = daysLeft;
+  document.getElementById('daysRemaining').textContent = daysLeft;
+  
+  // Next payment
+  const nextPayment = new Date(startDate);
+  nextPayment.setMonth(nextPayment.getMonth() + Math.floor((now - startDate) / (1000 * 60 * 60 * 24 * 30)) + 1);
+  document.getElementById('nextPaymentDate').textContent = nextPayment.toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric'});
+}
+
+function changePlan() {
+  const newPlan = subData.plan === 'essentiel' ? 'premium' : 'essentiel';
+  if (confirm('Passer à la formule ' + (newPlan === 'essentiel' ? 'Essentiel (19€/mois)' : 'Premium (39€/mois)') + ' ?')) {
+    subData.plan = newPlan;
+    localStorage.setItem('malty_subscription', JSON.stringify(subData));
+    userData.plan = newPlan;
+    saveData();
+    renderSubscription();
+    showNotification('Formule mise à jour !');
+  }
+}
+
+function cancelSubscription() {
+  if (confirm('Êtes-vous sûr de vouloir résilier votre abonnement ? La maintenance prendra fin à la fin de la période en cours.')) {
+    localStorage.removeItem('malty_subscription');
+    subData = null;
+    userData.plan = null;
+    saveData();
+    renderSubscription();
+    showNotification('Abonnement résilié.');
+  }
 }
 
 // Request Form
@@ -354,6 +517,7 @@ document.getElementById('requestForm').addEventListener('submit', function(e) {
   userData.requests.unshift(request);
   saveData();
   renderRequests();
+  renderSubscription();
   this.reset();
   showNotification('Demande envoyée avec succès !');
 });
@@ -480,15 +644,26 @@ function closeModal() {
 }
 
 // Init
+// Handle Stripe checkout success
+const urlParams = new URLSearchParams(window.location.search);
+const sessionId = urlParams.get('session_id');
+if (sessionId) {
+  // User just completed Stripe checkout
+  subData = {
+    plan: 'premium', // Will be updated by webhook, default to premium for now
+    startDate: new Date().toISOString(),
+    status: 'active',
+    sessionId: sessionId
+  };
+  localStorage.setItem('malty_subscription', JSON.stringify(subData));
+  // Clean URL
+  window.history.replaceState({}, '', 'espace-client.html');
+  showNotification('Abonnement activé avec succès !');
+}
+
 renderRequests();
 renderMedia();
-
-// Days remaining
-const subStart = new Date(userData.subscriptionStart);
-const now = new Date();
-const daysInMonth = 30;
-const daysPassed = Math.floor((now - subStart) / (1000 * 60 * 60 * 24)) % daysInMonth;
-document.getElementById('daysRemaining').textContent = daysInMonth - daysPassed;
+renderSubscription();
 </script>
 
 </body>
