@@ -286,34 +286,42 @@ function validateForm() {
   document.getElementById(id).addEventListener('input', validateForm);
 });
 
-function handleSubscribe() {
+async function handleSubscribe() {
   const btn = document.getElementById('subscribeBtn');
   btn.disabled = true;
-  btn.innerHTML = '⏳ Redirection vers le paiement...';
+  btn.innerHTML = '⏳ Redirection vers Stripe...';
   
   const firstName = document.getElementById('firstName').value.trim();
   const lastName = document.getElementById('lastName').value.trim();
   const email = document.getElementById('email').value.trim();
   const domain = document.getElementById('domain').value.trim();
   
-  // Store subscription data locally
-  const subData = {
-    plan: selectedPlan,
-    firstName, lastName, email, domain,
-    startDate: new Date().toISOString(),
-    status: 'active',
-    subscriptionId: 'sub_' + Date.now()
-  };
-  
-  localStorage.setItem('malty_subscription', JSON.stringify(subData));
-  localStorage.setItem('malty_client_name', firstName + ' ' + lastName);
-  localStorage.setItem('malty_client_email', email);
-  
-  // Show success
-  document.getElementById('planSelector').style.display = 'none';
-  document.getElementById('signupForm').style.display = 'none';
-  document.getElementById('successStatus').classList.add('active');
-  document.getElementById('activePlanName').textContent = selectedPlan === 'essentiel' ? 'Essentiel (19€/mois)' : 'Premium (39€/mois)';
+  try {
+    const response = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        plan: selectedPlan,
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        domain: domain
+      })
+    });
+    
+    const data = await response.json();
+    
+    if (data.url) {
+      // Redirect to Stripe Checkout
+      window.location.href = data.url;
+    } else {
+      throw new Error(data.error || 'Erreur de création du paiement');
+    }
+  } catch (error) {
+    btn.disabled = false;
+    btn.innerHTML = '🔒 Souscrire et payer';
+    alert('Erreur : ' + error.message + '\n\nVérifie que le serveur est déployé sur Vercel.');
+  }
 }
 
 function toggleFaq(el) {

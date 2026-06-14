@@ -289,7 +289,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',sans-serif;line-he
         <div class="sub-price" id="subPlanPrice">19€<span class="sub-period">/mois</span></div>
         <ul class="sub-features" id="subFeatures"></ul>
         <div style="display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap">
-          <button class="btn btn-outline" onclick="changePlan()">Changer de formule</button>
+          <a href="abonnement.html" class="btn btn-primary">Changer de formule</a>
           <button class="btn btn-danger" onclick="cancelSubscription()" style="font-size:.85rem">Résilier</button>
         </div>
       </div>
@@ -644,6 +644,23 @@ function closeModal() {
 }
 
 // Init
+// Handle Stripe checkout success
+const urlParams = new URLSearchParams(window.location.search);
+const sessionId = urlParams.get('session_id');
+if (sessionId) {
+  // User just completed Stripe checkout
+  subData = {
+    plan: 'premium', // Will be updated by webhook, default to premium for now
+    startDate: new Date().toISOString(),
+    status: 'active',
+    sessionId: sessionId
+  };
+  localStorage.setItem('malty_subscription', JSON.stringify(subData));
+  // Clean URL
+  window.history.replaceState({}, '', 'espace-client.html');
+  showNotification('Abonnement activé avec succès !');
+}
+
 renderRequests();
 renderMedia();
 renderSubscription();
