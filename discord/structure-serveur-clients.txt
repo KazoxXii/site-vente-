@@ -1,0 +1,65 @@
+===================================
+ SERVEUR DISCORD — MALTY CLIENTS
+ Espace de stockage & collaboration
+===================================
+
+ROLES
+-----
+👑 Admin (MALTY)     → Tout accès
+👤 Client            → Son dossier uniquement
+📦 Archivé           → Lecture seule
+
+===================================
+STRUCTURE
+===================================
+
+💬 GÉNÉRAL
+├── 📢 annonces           → Mises à jour importantes
+├── 📋 règles             → Règles du serveur
+└── 💬 général            → Discussion libre
+
+📁 MES PROJETS
+├── 📂 nouveau-projet     → Déposer éléments (brief, logo, textes)
+├── 🔧 en-cours           → Projets en développement
+├── ✅ terminés           → Sites livrés
+└── 📦 archivés           → Anciens projets (lecture seule)
+
+📄 DOSSIERS CLIENTS
+├── 📁 client-nom-site    → 1 channel = 1 client (privé)
+├── 📝 briefs             → Cahiers des charges
+├── 🖼️ medias             → Logos, photos, images
+└── 📄 fichiers-source    → Code source, maquettes
+
+🔗 LIENS & RÉFÉRENCES
+├── 🔗 liens-sites        → URLs des sites en ligne
+├── 🔐 identifiants       → Accès hébergement/domaine (admin)
+└── 📊 stats              → Analytics, rapports
+
+🛠️ OUTILS
+├── 🤖 bot-commands       → Commandes bot
+├── 🎫 tickets            → Support
+└── 📢 suggestions        → Idées d'amélioration
+
+===================================
+AJOUTER UN NOUVEAU CLIENT
+===================================
+
+1. Créer channel dans 📄 DOSSIERS CLIENTS → nom : client-nom-site
+2. Assigner rôle 👤 Client au membre
+3. Limiter visibilité du channel à ce rôle
+4. Envoyer lien d'invitation par email
+
+===================================
+CE QUE LE CLIENT VOIT
+===================================
+
+✅ #annonces
+✅ #règles
+✅ #général
+✅ Son channel dédié (client-nom-site)
+✅ #medias
+✅ #liens-sites
+✅ #bot-commands
+✅ #tickets
+❌ Tous les autres dossiers clients (cachés)
+❌ #identifiants (admin only)
