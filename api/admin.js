@@ -1,6 +1,6 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { sendTelegram } = require('./telegram');
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Maman972lol';
+const { verifyToken } = require('./auth');
 
 async function sendEmail(to, subject, html) {
   try {
@@ -41,15 +41,20 @@ function responseEmailHtml(adminName, responseType, message) {
 }
 
 module.exports = async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', 'https://maltyshop.vercel.app');
   res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  const authHeader = req.headers.authorization;
-  if (authHeader !== `Bearer ${ADMIN_PASSWORD}`) {
-    return res.status(401).json({ error: 'Unauthorized' });
+  // Verify token from cookie
+  const cookies = req.headers.cookie || '';
+  const tokenMatch = cookies.match(/admin_token=([^;]+)/);
+  const token = tokenMatch ? tokenMatch[1] : null;
+  
+  if (!verifyToken(token)) {
+    return res.status(401).json({ error: 'Non autorisé. Connectez-vous.' });
   }
 
   const url = new URL(req.url, `https://${req.headers.host}`);
