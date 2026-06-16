@@ -29,8 +29,7 @@ Site web vitrine pour MALTY, freelance développeur web.
 ├── sites/                  # Sites clients (Digital Flow, Mario Consulting, Shop Eco)
 ├── emails/                 # Templates d'emails de prospection
 ├── docs/                   # Guides, scripts d'appel, prospects
-├── pikbowl/                # DossierProspection Pikbowl
-└── discord/                # Plan serveur Discord + bot
+└── pikbowl/                # DossierProspection Pikbowl
 ```
 
 ## Fonctionnalités
