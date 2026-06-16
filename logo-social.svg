@@ -2,55 +2,23 @@
   <defs>
     <linearGradient id="lf" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#7dd3fc"/>
-      <stop offset="30%" stop-color="#38bdf8"/>
-      <stop offset="70%" stop-color="#0ea5e9"/>
+      <stop offset="40%" stop-color="#38bdf8"/>
       <stop offset="100%" stop-color="#0284c7"/>
-    </linearGradient>
-    <linearGradient id="lff" x1="0%" y1="0%" x2="80%" y2="100%">
-      <stop offset="0%" stop-color="#bae6fd"/>
-      <stop offset="25%" stop-color="#7dd3fc"/>
-      <stop offset="60%" stop-color="#38bdf8"/>
-      <stop offset="100%" stop-color="#0ea5e9"/>
     </linearGradient>
     <linearGradient id="rf" x1="100%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#38bdf8"/>
-      <stop offset="30%" stop-color="#0ea5e9"/>
-      <stop offset="70%" stop-color="#0284c7"/>
+      <stop offset="40%" stop-color="#0ea5e9"/>
       <stop offset="100%" stop-color="#0369a1"/>
     </linearGradient>
-    <linearGradient id="rff" x1="100%" y1="0%" x2="20%" y2="100%">
-      <stop offset="0%" stop-color="#7dd3fc"/>
-      <stop offset="25%" stop-color="#38bdf8"/>
-      <stop offset="60%" stop-color="#0ea5e9"/>
-      <stop offset="100%" stop-color="#0284c7"/>
-    </linearGradient>
-    <linearGradient id="cd" x1="50%" y1="0%" x2="50%" y2="100%">
+    <linearGradient id="cv" x1="50%" y1="0%" x2="50%" y2="100%">
       <stop offset="0%" stop-color="#0c4a6e"/>
-      <stop offset="50%" stop-color="#082f49"/>
       <stop offset="100%" stop-color="#0c1929"/>
-    </linearGradient>
-    <linearGradient id="cl" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#0369a1"/>
-      <stop offset="100%" stop-color="#075985"/>
-    </linearGradient>
-    <linearGradient id="ts" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#e0f2fe" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#bae6fd" stop-opacity="0.1"/>
     </linearGradient>
   </defs>
   <rect width="512" height="512" rx="80" fill="#0a0f1a"/>
-  <ellipse cx="256" cy="256" rx="200" ry="220" fill="#0ea5e9" opacity="0.06"/>
-  <polygon points="60,440 60,120 190,60 256,190 190,270 60,330" fill="url(#lf)"/>
-  <polygon points="60,120 190,60 220,130 90,185" fill="url(#lff)" opacity="0.85"/>
-  <polygon points="60,120 190,60 200,85 75,140" fill="url(#ts)"/>
-  <polygon points="452,440 452,120 322,60 256,190 322,270 452,330" fill="url(#rf)"/>
-  <polygon points="452,120 322,60 292,130 422,185" fill="url(#rff)" opacity="0.8"/>
-  <polygon points="452,120 322,60 312,85 437,140" fill="url(#ts)" opacity="0.7"/>
-  <polygon points="190,270 256,190 322,270 256,400" fill="url(#cd)"/>
-  <polygon points="190,270 256,190 256,300" fill="url(#cl)" opacity="0.7"/>
-  <polygon points="322,270 256,190 256,280" fill="#0ea5e9" opacity="0.25"/>
-  <line x1="60" y1="120" x2="190" y2="60" stroke="#e0f2fe" stroke-width="2.5" opacity="0.45"/>
-  <line x1="452" y1="120" x2="322" y2="60" stroke="#e0f2fe" stroke-width="2.5" opacity="0.35"/>
-  <line x1="190" y1="60" x2="256" y2="190" stroke="#bae6fd" stroke-width="1.8" opacity="0.3"/>
-  <line x1="322" y1="60" x2="256" y2="190" stroke="#bae6fd" stroke-width="1.8" opacity="0.25"/>
+  <polygon points="100,420 100,80 250,20 400,80 400,420 310,340 250,400 190,340" fill="url(#lf)" opacity="0"/>
+  <polygon points="80,430 80,70 250,15 432,70 432,430 320,340 250,400 180,340" fill="url(#cv)" opacity="0"/>
+  <polygon points="100,420 100,80 250,20 310,200 250,280 100,340" fill="url(#lf)"/>
+  <polygon points="412,420 412,80 262,20 200,200 262,280 412,340" fill="url(#rf)"/>
+  <polygon points="250,280 200,200 310,200 250,380" fill="url(#cv)"/>
 </svg>

@@ -2,12 +2,12 @@
   <defs>
     <linearGradient id="lf" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#7dd3fc"/>
-      <stop offset="50%" stop-color="#0ea5e9"/>
+      <stop offset="40%" stop-color="#38bdf8"/>
       <stop offset="100%" stop-color="#0284c7"/>
     </linearGradient>
     <linearGradient id="rf" x1="100%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#38bdf8"/>
-      <stop offset="50%" stop-color="#0284c7"/>
+      <stop offset="40%" stop-color="#0ea5e9"/>
       <stop offset="100%" stop-color="#0369a1"/>
     </linearGradient>
     <linearGradient id="cv" x1="50%" y1="0%" x2="50%" y2="100%">
@@ -15,7 +15,7 @@
       <stop offset="100%" stop-color="#0c1929"/>
     </linearGradient>
   </defs>
-  <polygon points="3,28 3,5 12,2 16,12 12,16 3,20" fill="url(#lf)"/>
-  <polygon points="29,28 29,5 20,2 16,12 20,16 29,20" fill="url(#rf)"/>
-  <polygon points="12,16 16,12 20,16 16,24" fill="url(#cv)"/>
+  <polygon points="3,28 3,3 12,1 16,14 12,18 3,22" fill="url(#lf)"/>
+  <polygon points="29,28 29,3 20,1 16,14 20,18 29,22" fill="url(#rf)"/>
+  <polygon points="12,18 16,14 20,18 16,26" fill="url(#cv)"/>
 </svg>
