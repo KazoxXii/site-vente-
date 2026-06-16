@@ -262,7 +262,7 @@ const API_BASE = '/api/admin';
 // Check session on load
 async function checkSession() {
   try {
-    const res = await fetch('/api/auth?action=check', { credentials: 'include' });
+    const res = await fetch('/api/admin?action=check', { credentials: 'include' });
     if (res.ok) {
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('dashboard').style.display = 'block';
@@ -282,7 +282,7 @@ async function login() {
   if (!pwd) return;
   
   try {
-    const res = await fetch('/api/auth?action=login', {
+    const res = await fetch('/api/admin?action=login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -306,7 +306,7 @@ async function login() {
 }
 
 async function logout() {
-  await fetch('/api/auth?action=logout', { method: 'POST', credentials: 'include' });
+  await fetch('/api/admin?action=logout', { method: 'POST', credentials: 'include' });
   document.getElementById('loginScreen').style.display = 'flex';
   document.getElementById('dashboard').style.display = 'none';
 }
