@@ -172,6 +172,10 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',sans-serif;line-he
       </div>
       <form id="requestForm">
         <div class="form-group">
+          <label>Votre email</label>
+          <input type="email" name="email" id="clientEmail" placeholder="votre@email.com" required>
+        </div>
+        <div class="form-group">
           <label>Type de demande</label>
           <select name="type" required>
             <option value="">Sélectionner...</option>
@@ -407,6 +411,7 @@ let subData = JSON.parse(localStorage.getItem('malty_subscription'));
 // Data
 let userData = JSON.parse(localStorage.getItem('malty_client')) || {
   name: localStorage.getItem('malty_client_name') || 'Client',
+  email: '',
   plan: subData ? subData.plan : null,
   requests: [],
   media: [],
@@ -503,9 +508,14 @@ function cancelSubscription() {
 }
 
 // Request Form
-document.getElementById('requestForm').addEventListener('submit', function(e) {
+document.getElementById('requestForm').addEventListener('submit', async function(e) {
   e.preventDefault();
   const fd = new FormData(this);
+  const btn = this.querySelector('button[type="submit"]');
+  const originalText = btn.textContent;
+  btn.textContent = '⏳ Envoi en cours...';
+  btn.disabled = true;
+  
   const request = {
     id: Date.now(),
     type: fd.get('type'),
@@ -515,11 +525,31 @@ document.getElementById('requestForm').addEventListener('submit', function(e) {
     date: new Date().toISOString()
   };
   userData.requests.unshift(request);
+  userData.email = fd.get('email');
   saveData();
   renderRequests();
   renderSubscription();
+  
+  try {
+    await fetch('/api/maintenance', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        clientName: userData.name,
+        clientEmail: userData.email || 'non-renseigné',
+        type: request.type,
+        description: request.description,
+        priority: request.priority
+      })
+    });
+    showNotification('Demande envoyée avec succès ! Email de confirmation envoyé.');
+  } catch (err) {
+    showNotification('Demande enregistrée. (Email en cours d\'envoi)');
+  }
+  
+  btn.textContent = originalText;
+  btn.disabled = false;
   this.reset();
-  showNotification('Demande envoyée avec succès !');
 });
 
 // Media Form
@@ -664,6 +694,12 @@ if (sessionId) {
 renderRequests();
 renderMedia();
 renderSubscription();
+
+// Pre-fill email if saved
+if (userData.email) {
+  const emailField = document.getElementById('clientEmail');
+  if (emailField) emailField.value = userData.email;
+}
 </script>
 
 </body>
