@@ -21,7 +21,7 @@ async function sendEmail(to, subject, html) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      from: 'MALTY <noreply@maltyshop.vercel.app>',
+      from: 'MALTY <onboarding@resend.dev>',
       to: [to],
       subject: subject,
       html: html

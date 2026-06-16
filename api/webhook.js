@@ -1,5 +1,71 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
+// Send email via Resend
+async function sendEmail(to, subject, html) {
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: 'MALTY <onboarding@resend.dev>',
+        to: [to],
+        subject: subject,
+        html: html
+      })
+    });
+    if (!response.ok) {
+      const error = await response.text();
+      console.error('Resend error:', error);
+    }
+  } catch (err) {
+    console.error('Email send failed:', err.message);
+  }
+}
+
+function welcomeEmailHtml(name, plan) {
+  return `
+  <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#0a0a1a;color:#e0e0e0;padding:40px;border-radius:12px;">
+    <h1 style="color:#3b82f6;font-size:24px;">Bienvenue chez MALTY !</h1>
+    <p>Bonjour <strong>${name}</strong>,</p>
+    <p>Votre abonnement <strong>${plan}</strong> est maintenant actif.</p>
+    <div style="background:#111;border-left:4px solid #3b82f6;padding:16px;margin:20px 0;border-radius:6px;">
+      <p style="margin:0;"><strong>🚀 Ce qui est inclus :</strong></p>
+      <ul style="margin:8px 0;padding-left:20px;">
+        <li>Suivi de votre site en temps réel</li>
+        <li>Modifications mensuelles incluses</li>
+        <li>Support prioritaire par email</li>
+      </ul>
+    </div>
+    <p>Connectez-vous à votre espace client : <a href="https://maltyshop.vercel.app/espace-client.html" style="color:#3b82f6;">maltyshop.vercel.app/espace-client</a></p>
+    <p style="color:#888;font-size:12px;margin-top:30px;">— L'équipe MALTY</p>
+  </div>`;
+}
+
+function paymentConfirmationHtml(name, plan, amount) {
+  return `
+  <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#0a0a1a;color:#e0e0e0;padding:40px;border-radius:12px;">
+    <h1 style="color:#22c55e;font-size:24px;">Paiement confirmé</h1>
+    <p>Bonjour <strong>${name}</strong>,</p>
+    <p>Votre paiement de <strong>${amount}€</strong> pour le forfait <strong>${plan}</strong> a bien été reçu.</p>
+    <p>Prochain prélèvement automatique dans 30 jours.</p>
+    <p style="color:#888;font-size:12px;margin-top:30px;">— L'équipe MALTY</p>
+  </div>`;
+}
+
+function paymentFailedHtml(name) {
+  return `
+  <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#0a0a1a;color:#e0e0e0;padding:40px;border-radius:12px;">
+    <h1 style="color:#ef4444;font-size:24px;">Paiement échoué</h1>
+    <p>Bonjour <strong>${name}</strong>,</p>
+    <p>Nous n'avons pas pu renouveler votre abonnement.</p>
+    <p>Veuillez mettre à jour votre moyen de paiement depuis votre <a href="https://maltyshop.vercel.app/espace-client.html" style="color:#3b82f6;">espace client</a>.</p>
+    <p style="color:#888;font-size:12px;margin-top:30px;">— L'équipe MALTY</p>
+  </div>`;
+}
+
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -11,7 +77,6 @@ module.exports = async (req, res) => {
   let event;
   
   try {
-    // For Vercel, raw body is available in req.body
     const body = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
     event = stripe.webhooks.constructEvent(body, sig, endpointSecret);
   } catch (err) {
@@ -19,41 +84,61 @@ module.exports = async (req, res) => {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
   
-  // Handle events
   switch (event.type) {
-    case 'checkout.session.completed':
+    case 'checkout.session.completed': {
       const session = event.data.object;
       console.log('✅ Subscription created:', session.id);
-      console.log('Customer:', session.customer_email);
-      console.log('Plan:', session.metadata.plan);
-      // TODO: Save to database
-      break;
       
-    case 'invoice.paid':
+      const name = session.metadata?.firstName || session.customer_details?.name || 'Client';
+      const email = session.customer_email || session.customer_details?.email;
+      const plan = session.metadata?.plan === 'premium' ? 'Premium 39€' : 'Essentiel 19€';
+      
+      if (email) {
+        await sendEmail(email, 'Bienvenue chez MALTY !', welcomeEmailHtml(name, plan));
+      }
+      break;
+    }
+    
+    case 'invoice.paid': {
       const invoice = event.data.object;
       console.log('💰 Payment received:', invoice.id);
-      console.log('Amount:', invoice.amount_paid / 100, '€');
-      // TODO: Update subscription status
-      break;
       
-    case 'invoice.payment_failed':
+      const email = invoice.customer_email;
+      const name = invoice.customer_name || 'Client';
+      const amount = invoice.amount_paid / 100;
+      const plan = invoice.lines?.data?.[0]?.metadata?.plan === 'premium' ? 'Premium' : 'Essentiel';
+      
+      if (email) {
+        await sendEmail(email, 'Paiement confirmé — MALTY', paymentConfirmationHtml(name, plan, amount));
+      }
+      break;
+    }
+    
+    case 'invoice.payment_failed': {
       const failedInvoice = event.data.object;
       console.log('❌ Payment failed:', failedInvoice.id);
-      // TODO: Notify customer, suspend service
-      break;
       
-    case 'customer.subscription.deleted':
+      const email = failedInvoice.customer_email;
+      const name = failedInvoice.customer_name || 'Client';
+      
+      if (email) {
+        await sendEmail(email, '⚠️ Paiement échoué — MALTY', paymentFailedHtml(name));
+      }
+      break;
+    }
+    
+    case 'customer.subscription.deleted': {
       const subscription = event.data.object;
       console.log('🗑️ Subscription cancelled:', subscription.id);
-      // TODO: Remove access
       break;
-      
-    case 'customer.subscription.updated':
+    }
+    
+    case 'customer.subscription.updated': {
       const updatedSub = event.data.object;
       console.log('🔄 Subscription updated:', updatedSub.id);
-      // TODO: Update plan
       break;
-      
+    }
+    
     default:
       console.log(`Unhandled event type: ${event.type}`);
   }
