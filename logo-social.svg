@@ -1,47 +1,56 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0a0f1a"/>
-      <stop offset="100%" stop-color="#0d1a2e"/>
+    <linearGradient id="lf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7dd3fc"/>
+      <stop offset="30%" stop-color="#38bdf8"/>
+      <stop offset="70%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#0284c7"/>
     </linearGradient>
-    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#00d4ff"/>
-      <stop offset="50%" stop-color="#0088ff"/>
-      <stop offset="100%" stop-color="#0055dd"/>
+    <linearGradient id="lff" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#bae6fd"/>
+      <stop offset="25%" stop-color="#7dd3fc"/>
+      <stop offset="60%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0ea5e9"/>
     </linearGradient>
-    <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#00d4ff"/>
-      <stop offset="100%" stop-color="#0099ff"/>
+    <linearGradient id="rf" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="30%" stop-color="#0ea5e9"/>
+      <stop offset="70%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
     </linearGradient>
-    <linearGradient id="g3" x1="100%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#00aaff"/>
-      <stop offset="100%" stop-color="#0066cc"/>
+    <linearGradient id="rff" x1="100%" y1="0%" x2="20%" y2="100%">
+      <stop offset="0%" stop-color="#7dd3fc"/>
+      <stop offset="25%" stop-color="#38bdf8"/>
+      <stop offset="60%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#0284c7"/>
     </linearGradient>
-    <linearGradient id="g5" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#004499"/>
-      <stop offset="100%" stop-color="#001155"/>
+    <linearGradient id="cd" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#0c4a6e"/>
+      <stop offset="50%" stop-color="#082f49"/>
+      <stop offset="100%" stop-color="#0c1929"/>
+    </linearGradient>
+    <linearGradient id="cl" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0369a1"/>
+      <stop offset="100%" stop-color="#075985"/>
+    </linearGradient>
+    <linearGradient id="ts" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0f2fe" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#bae6fd" stop-opacity="0.1"/>
     </linearGradient>
   </defs>
-  
-  <!-- Background -->
-  <rect width="1200" height="630" fill="url(#bg)"/>
-  
-  <!-- Glow -->
-  <ellipse cx="350" cy="315" rx="200" ry="220" fill="#0066ff" opacity="0.08"/>
-  
-  <!-- M Logo -->
-  <g transform="translate(180, 70) scale(0.7)">
-    <polygon points="80,420 80,140 200,80 256,200 200,280 80,340" fill="url(#g2)"/>
-    <polygon points="80,140 200,80 200,180 80,220" fill="url(#g2)" opacity="0.7"/>
-    <polygon points="432,420 432,140 312,80 256,200 312,280 432,340" fill="url(#g3)"/>
-    <polygon points="432,140 312,80 312,180 432,220" fill="url(#g3)" opacity="0.6"/>
-    <polygon points="200,280 256,200 312,280 256,380" fill="url(#g5)" opacity="0.9"/>
-    <polygon points="200,280 256,200 256,280" fill="#0055aa" opacity="0.6"/>
-    <polygon points="80,140 200,80 220,120 100,170" fill="#66ddff" opacity="0.2"/>
-    <polygon points="432,140 312,80 292,120 412,170" fill="#66ddff" opacity="0.15"/>
-  </g>
-  
-  <!-- Text MALTY -->
-  <text x="620" y="340" font-family="Arial,sans-serif" font-size="120" font-weight="900" fill="white" letter-spacing="-4">MALTY</text>
-  <text x="620" y="400" font-family="Arial,sans-serif" font-size="28" font-weight="500" fill="#6a8cba" letter-spacing="8">CREATION DE SITES WEB</text>
+  <rect width="512" height="512" rx="80" fill="#0a0f1a"/>
+  <ellipse cx="256" cy="256" rx="200" ry="220" fill="#0ea5e9" opacity="0.06"/>
+  <polygon points="60,440 60,120 190,60 256,190 190,270 60,330" fill="url(#lf)"/>
+  <polygon points="60,120 190,60 220,130 90,185" fill="url(#lff)" opacity="0.85"/>
+  <polygon points="60,120 190,60 200,85 75,140" fill="url(#ts)"/>
+  <polygon points="452,440 452,120 322,60 256,190 322,270 452,330" fill="url(#rf)"/>
+  <polygon points="452,120 322,60 292,130 422,185" fill="url(#rff)" opacity="0.8"/>
+  <polygon points="452,120 322,60 312,85 437,140" fill="url(#ts)" opacity="0.7"/>
+  <polygon points="190,270 256,190 322,270 256,400" fill="url(#cd)"/>
+  <polygon points="190,270 256,190 256,300" fill="url(#cl)" opacity="0.7"/>
+  <polygon points="322,270 256,190 256,280" fill="#0ea5e9" opacity="0.25"/>
+  <line x1="60" y1="120" x2="190" y2="60" stroke="#e0f2fe" stroke-width="2.5" opacity="0.45"/>
+  <line x1="452" y1="120" x2="322" y2="60" stroke="#e0f2fe" stroke-width="2.5" opacity="0.35"/>
+  <line x1="190" y1="60" x2="256" y2="190" stroke="#bae6fd" stroke-width="1.8" opacity="0.3"/>
+  <line x1="322" y1="60" x2="256" y2="190" stroke="#bae6fd" stroke-width="1.8" opacity="0.25"/>
 </svg>
