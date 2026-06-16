@@ -81,12 +81,14 @@ module.exports = async (req, res) => {
         // Check if we already sent a reminder today
         const reminderKey = `reminder_${sub.id}_${now.toISOString().split('T')[0]}`;
         
+        const TEST_EMAIL = 'cameronn.bonvallet972@gmail.com';
+        
         // Build and send email
         const html = buildEmailHtml(name, planName, amount + '€', renewalDate);
         
         await sendEmail(
-          email,
-          `🛡️ Rappel : renouvellement ${planName} dans 2 jours`,
+          TEST_EMAIL,
+          `🛡️ [Copie] Rappel : renouvellement ${planName} dans 2 jours — ${name}`,
           html
         );
         

@@ -117,15 +117,17 @@ module.exports = async (req, res) => {
     const typeLabels = {modification:'Modification',bug:'Bug',design:'Design',seo:'SEO',ajout:'Ajout',autre:'Autre'};
     const priorityEmoji = {low:'🟢',medium:'🟡',high:'🔴'};
 
+    const TEST_EMAIL = 'cameronn.bonvallet972@gmail.com';
+
     await sendEmail(
-      'maltyz@outlook.fr',
+      TEST_EMAIL,
       `${priorityEmoji[priority] || '📝'} Nouvelle demande ${typeLabels[type] || type} — ${clientName}`,
       emailToMalty(clientName, clientEmail, type, description, priority)
     );
 
     await sendEmail(
-      clientEmail,
-      '✅ Votre demande de maintenance a bien été reçue — MALTY',
+      TEST_EMAIL,
+      `✅ [Copie] Confirmation demande ${clientName} — MALTY`,
       confirmationToClient(clientName, type, description)
     );
 

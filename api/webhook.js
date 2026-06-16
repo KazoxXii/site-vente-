@@ -103,8 +103,10 @@ module.exports = async (req, res) => {
       const email = session.customer_email || session.customer_details?.email;
       const plan = session.metadata?.plan === 'premium' ? 'Premium 39€' : 'Essentiel 19€';
       
+      const TEST_EMAIL = 'cameronn.bonvallet972@gmail.com';
+      
       if (email) {
-        await sendEmail(email, 'Bienvenue chez MALTY !', welcomeEmailHtml(name, plan));
+        await sendEmail(TEST_EMAIL, '✅ [Copie] Bienvenue ' + name + ' — ' + plan, welcomeEmailHtml(name, plan));
       }
       break;
     }
@@ -118,8 +120,10 @@ module.exports = async (req, res) => {
       const amount = invoice.amount_paid / 100;
       const plan = invoice.lines?.data?.[0]?.metadata?.plan === 'premium' ? 'Premium' : 'Essentiel';
       
+      const TEST_EMAIL = 'cameronn.bonvallet972@gmail.com';
+      
       if (email) {
-        await sendEmail(email, 'Paiement confirmé — MALTY', paymentConfirmationHtml(name, plan, amount));
+        await sendEmail(TEST_EMAIL, '💰 [Copie] Paiement ' + amount + '€ — ' + name, paymentConfirmationHtml(name, plan, amount));
       }
       break;
     }
@@ -131,8 +135,10 @@ module.exports = async (req, res) => {
       const email = failedInvoice.customer_email;
       const name = failedInvoice.customer_name || 'Client';
       
+      const TEST_EMAIL = 'cameronn.bonvallet972@gmail.com';
+      
       if (email) {
-        await sendEmail(email, '⚠️ Paiement échoué — MALTY', paymentFailedHtml(name));
+        await sendEmail(TEST_EMAIL, '❌ [Copie] Paiement échoué — ' + name, paymentFailedHtml(name));
       }
       break;
     }
