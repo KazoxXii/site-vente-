@@ -1,4 +1,5 @@
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const { notifyMaintenanceRequest } = require('./telegram');
 
 async function sendEmail(to, subject, html) {
   const response = await fetch('https://api.resend.com/emails', {
@@ -128,6 +129,8 @@ module.exports = async (req, res) => {
       `✅ [Copie] Confirmation demande ${clientName} — MALTY`,
       confirmationToClient(clientName, type, description)
     );
+
+    await notifyMaintenanceRequest(clientName, clientEmail, type, description, priority);
 
     return res.status(200).json({ success: true, message: 'Emails envoyés avec succès' });
 

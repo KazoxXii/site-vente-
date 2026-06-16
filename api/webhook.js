@@ -1,4 +1,5 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const { notifyNewSubscription, notifyPayment, notifyPaymentFailed } = require('./telegram');
 
 module.exports.config = { api: { bodyParser: false } };
 
@@ -106,6 +107,7 @@ module.exports = async (req, res) => {
       if (email) {
         await sendEmail('maltyz@outlook.fr', '✅ [Copie] Bienvenue ' + name + ' — ' + plan, welcomeEmailHtml(name, plan));
       }
+      await notifyNewSubscription(name, email || 'N/A', plan);
       break;
     }
     
@@ -121,6 +123,7 @@ module.exports = async (req, res) => {
       if (email) {
         await sendEmail('maltyz@outlook.fr', '💰 [Copie] Paiement ' + amount + '€ — ' + name, paymentConfirmationHtml(name, plan, amount));
       }
+      await notifyPayment(name, amount, plan);
       break;
     }
     
@@ -134,6 +137,7 @@ module.exports = async (req, res) => {
       if (email) {
         await sendEmail('maltyz@outlook.fr', '❌ [Copie] Paiement échoué — ' + name, paymentFailedHtml(name));
       }
+      await notifyPaymentFailed(name);
       break;
     }
     

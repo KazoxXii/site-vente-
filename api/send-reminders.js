@@ -1,4 +1,5 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const { notifyReminder } = require('./telegram');
 
 // Email template
 function buildEmailHtml(prenom, formule, montant, datePrelevement) {
@@ -89,6 +90,8 @@ module.exports = async (req, res) => {
           `🛡️ [Copie] Rappel : renouvellement ${planName} dans 2 jours — ${name}`,
           html
         );
+        
+        await notifyReminder(name, planName, amount + '€', renewalDate);
         
         results.push({
           subscription: sub.id,
