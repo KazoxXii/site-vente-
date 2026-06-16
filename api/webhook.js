@@ -1,5 +1,15 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
+module.exports.config = { api: { bodyParser: false } };
+
+async function getRawBody(req) {
+  const chunks = [];
+  for await (const chunk of req) {
+    chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
+  }
+  return Buffer.concat(chunks);
+}
+
 // Send email via Resend
 async function sendEmail(to, subject, html) {
   try {
@@ -77,8 +87,8 @@ module.exports = async (req, res) => {
   let event;
   
   try {
-    const body = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
-    event = stripe.webhooks.constructEvent(body, sig, endpointSecret);
+    const rawBody = await getRawBody(req);
+    event = stripe.webhooks.constructEvent(rawBody, sig, endpointSecret);
   } catch (err) {
     console.error('Webhook signature verification failed:', err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
