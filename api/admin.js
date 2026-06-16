@@ -104,6 +104,7 @@ module.exports = async (req, res) => {
     if (req.method === 'GET' && action === 'stats') {
       const subscriptions = await stripe.subscriptions.list({ limit: 100 });
       const invoices = await stripe.invoices.list({ limit: 100 });
+      const customers = await stripe.customers.list({ limit: 100 });
 
       const activeSubs = subscriptions.data.filter(s => s.status === 'active').length;
       const totalRevenue = invoices.data
@@ -115,16 +116,16 @@ module.exports = async (req, res) => {
         activeSubscriptions: activeSubs,
         totalRevenue: totalRevenue,
         pendingInvoices: pendingInvoices,
-        totalCustomers: (await stripe.customers.list({ limit: 1 })).total_count || 0
+        totalCustomers: customers.total_count || customers.data.length
       });
     }
 
     if (req.method === 'POST' && action === 'respond') {
-      const { clientEmail, clientName, responseType, message } = await new Promise((resolve) => {
-        let body = '';
-        req.on('data', chunk => body += chunk);
-        req.on('end', () => resolve(JSON.parse(body)));
-      });
+      const { clientEmail, clientName, responseType, message } = req.body || {};
+
+      if (!clientEmail || !message) {
+        return res.status(400).json({ error: 'Email et message requis' });
+      }
 
       await sendEmail(
         clientEmail,
