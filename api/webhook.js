@@ -104,10 +104,20 @@ module.exports = async (req, res) => {
       const email = session.customer_email || session.customer_details?.email;
       const plan = session.metadata?.plan === 'premium' ? 'Premium 39€' : 'Essentiel 19€';
       
+      const now = new Date().toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
+      
       if (email) {
         await sendEmail('maltyz@outlook.fr', '✅ [Copie] Bienvenue ' + name + ' — ' + plan, welcomeEmailHtml(name, plan));
       }
-      await notifyNewSubscription(name, email || 'N/A', plan);
+      await notifyNewSubscription({
+        name,
+        email: email || 'N/A',
+        domain: session.metadata?.domain || 'N/A',
+        plan,
+        amount: plan === 'Premium 39€' ? '39€' : '19€',
+        sessionId: session.id,
+        date: now
+      });
       break;
     }
     
@@ -120,10 +130,20 @@ module.exports = async (req, res) => {
       const amount = invoice.amount_paid / 100;
       const plan = invoice.lines?.data?.[0]?.metadata?.plan === 'premium' ? 'Premium' : 'Essentiel';
       
+      const now = new Date().toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
+      
       if (email) {
         await sendEmail('maltyz@outlook.fr', '💰 [Copie] Paiement ' + amount + '€ — ' + name, paymentConfirmationHtml(name, plan, amount));
       }
-      await notifyPayment(name, amount, plan);
+      await notifyPayment({
+        name,
+        email: email || 'N/A',
+        plan,
+        amount,
+        invoiceId: invoice.id,
+        invoiceUrl: invoice.hosted_invoice_url || 'N/A',
+        date: now
+      });
       break;
     }
     
@@ -134,10 +154,18 @@ module.exports = async (req, res) => {
       const email = failedInvoice.customer_email;
       const name = failedInvoice.customer_name || 'Client';
       
+      const now = new Date().toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
+      
       if (email) {
         await sendEmail('maltyz@outlook.fr', '❌ [Copie] Paiement échoué — ' + name, paymentFailedHtml(name));
       }
-      await notifyPaymentFailed(name);
+      await notifyPaymentFailed({
+        name,
+        email: email || 'N/A',
+        invoiceId: failedInvoice.id,
+        invoiceUrl: failedInvoice.hosted_invoice_url || 'N/A',
+        date: now
+      });
       break;
     }
     

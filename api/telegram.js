@@ -13,8 +13,7 @@ async function sendTelegram(message) {
       headers: { 'Content-Type': 'application/json; charset=utf-8' },
       body: JSON.stringify({
         chat_id: CHAT_ID,
-        text: message,
-        parse_mode: 'HTML'
+        text: message
       })
     });
     return await response.json();
@@ -23,56 +22,71 @@ async function sendTelegram(message) {
   }
 }
 
-function notifyNewSubscription(name, email, plan) {
-  const planEmoji = plan === 'Premium' ? '⭐' : '🔷';
+function notifyNewSubscription(data) {
   return sendTelegram(
-    `${planEmoji} NOUVEL ABONNEMENT\n\n` +
-    `Client: ${name}\n` +
-    `Email: ${email}\n` +
-    `Formule: ${plan}\n` +
+    `⭐ NOUVEL ABONNEMENT\n\n` +
+    `👤 Client: ${data.name}\n` +
+    `📧 Email: ${data.email}\n` +
+    `🌐 Domaine: ${data.domain}\n` +
+    `🔷 Formule: ${data.plan}\n` +
+    `💰 Montant: ${data.amount}/mois\n` +
+    `🆔 Session: ${data.sessionId}\n` +
+    `📅 Date: ${data.date}\n` +
     `Statut: ✅ Actif`
   );
 }
 
-function notifyPayment(name, amount, plan) {
+function notifyPayment(data) {
   return sendTelegram(
     `💰 PAIEMENT RECU\n\n` +
-    `Client: ${name}\n` +
-    `Montant: ${amount}€\n` +
-    `Formule: ${plan}\n` +
+    `👤 Client: ${data.name}\n` +
+    `📧 Email: ${data.email}\n` +
+    `🔷 Formule: ${data.plan}\n` +
+    `💰 Montant: ${data.amount}€\n` +
+    `🆔 Facture: ${data.invoiceId}\n` +
+    `🔗 Lien: ${data.invoiceUrl}\n` +
+    `📅 Date: ${data.date}\n` +
     `Statut: ✅ Confirme`
   );
 }
 
-function notifyPaymentFailed(name) {
+function notifyPaymentFailed(data) {
   return sendTelegram(
     `❌ PAIEMENT ECHEC\n\n` +
-    `Client: ${name}\n` +
+    `👤 Client: ${data.name}\n` +
+    `📧 Email: ${data.email}\n` +
+    `🆔 Facture: ${data.invoiceId}\n` +
+    `🔗 Lien: ${data.invoiceUrl}\n` +
+    `📅 Date: ${data.date}\n` +
     `Statut: ⚠️ A relancer\n` +
-    `Action: Mettre a jour le moyen de paiement`
+    `Action: Client doit mettre a jour sa carte`
   );
 }
 
-function notifyMaintenanceRequest(clientName, clientEmail, type, description, priority) {
-  const priorityEmoji = {low:'🟢',medium:'🟡',high:'🔴'};
-  const typeLabels = {modification:'Modification',bug:'Bug',design:'Design',seo:'SEO',ajout:'Ajout',autre:'Autre'};
+function notifyMaintenanceRequest(data) {
+  const priorityEmoji = {low:'🟢 Normale',medium:'🟡 Moyenne',high:'🔴 Urgente'};
+  const typeLabels = {modification:'Modification de contenu',bug:'Signaler un bug',design:'Changement de design',seo:'Optimisation SEO',ajout:'Ajout de fonctionnalite',autre:'Autre'};
   return sendTelegram(
-    `${priorityEmoji[priority] || '📝'} DEMANDE MAINTENANCE\n\n` +
-    `Client: ${clientName}\n` +
-    `Email: ${clientEmail}\n` +
-    `Type: ${typeLabels[type] || type}\n` +
-    `Priorite: ${priorityEmoji[priority] || '🟡'}\n` +
-    `Description: ${description.substring(0, 200)}`
+    `📝 DEMANDE MAINTENANCE\n\n` +
+    `👤 Client: ${data.clientName}\n` +
+    `📧 Email: ${data.clientEmail}\n` +
+    `📂 Type: ${typeLabels[data.type] || data.type}\n` +
+    `🚦 Priorite: ${priorityEmoji[data.priority] || '🟡 Moyenne'}\n` +
+    `💬 Description:\n${data.description.substring(0, 300)}\n\n` +
+    `📅 Date: ${data.date}\n` +
+    `⚡ Action requise`
   );
 }
 
-function notifyReminder(name, plan, amount, renewalDate) {
+function notifyReminder(data) {
   return sendTelegram(
     `🛡️ RAPPEL RENOUVELLEMENT\n\n` +
-    `Client: ${name}\n` +
-    `Formule: ${plan}\n` +
-    `Montant: ${amount}\n` +
-    `Renouvellement: ${renewalDate}`
+    `👤 Client: ${data.name}\n` +
+    `📧 Email: ${data.email}\n` +
+    `🔷 Formule: ${data.plan}\n` +
+    `💰 Montant: ${data.amount}\n` +
+    `📅 Renouvellement: ${data.renewalDate}\n\n` +
+    `Email de rappel envoye au client.`
   );
 }
 

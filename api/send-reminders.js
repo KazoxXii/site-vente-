@@ -91,7 +91,13 @@ module.exports = async (req, res) => {
           html
         );
         
-        await notifyReminder(name, planName, amount + '€', renewalDate);
+        await notifyReminder({
+          name,
+          email: customer.email || 'N/A',
+          plan: planName,
+          amount: amount + '€',
+          renewalDate
+        });
         
         results.push({
           subscription: sub.id,

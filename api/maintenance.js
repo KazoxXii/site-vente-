@@ -130,7 +130,14 @@ module.exports = async (req, res) => {
       confirmationToClient(clientName, type, description)
     );
 
-    await notifyMaintenanceRequest(clientName, clientEmail, type, description, priority);
+    await notifyMaintenanceRequest({
+      clientName,
+      clientEmail,
+      type,
+      description,
+      priority,
+      date: new Date().toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'})
+    });
 
     return res.status(200).json({ success: true, message: 'Emails envoyés avec succès' });
 
