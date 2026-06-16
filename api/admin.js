@@ -1,6 +1,6 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { sendTelegram } = require('./telegram');
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'malty2026';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Maman972lol';
 
 async function sendEmail(to, subject, html) {
   try {
