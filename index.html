@@ -277,6 +277,19 @@
     .footer-socials { display:flex; gap:16px; }
     .footer-socials a { color:var(--muted); text-decoration:none; transition:color .2s; }
     .footer-socials a:hover { color:var(--fg); }
+    .page-devis .devis-box { max-width:800px; margin:0 auto; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:48px; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+    .form-group { margin-bottom:24px; }
+    .form-group label { display:block; font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; margin-bottom:8px; color:var(--muted); }
+    .form-group input, .form-group select, .form-group textarea { width:100%; padding:14px 16px; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--fg); font:400 .95rem var(--font); outline:none; transition:border-color .2s,box-shadow .2s; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-10); }
+    .form-step { display:none; }
+    .form-step.active { display:block; }
+    .pay-step { text-align:center; padding:24px 0; }
+    .pay-step h3 { font-size:1.6rem; font-weight:800; margin-bottom:12px; }
+    .pay-step .pay-amount { font-size:5rem; font-weight:900; color:var(--accent); line-height:1; margin:24px 0; letter-spacing:-0.04em; }
+    .pay-actions { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin:32px 0; }
+    .pay-note { color:var(--muted); font-size:.85rem; }
     @media (max-width:768px) {
       section { padding:80px 0; }
       .container { padding:0 20px; }
@@ -308,7 +321,7 @@
           <li><a href="ou-acheter.html" target="_blank">Guide</a></li>
           <li><a href="maintenance.html">Maintenance</a></li>
           <li><a href="support.html">Support</a></li>
-          <li><a href="support.html" class="btn btn-primary nav-cta">Commander</a></li>
+          <li><a href="#" class="btn btn-primary nav-cta" onclick="nav('devis');return false">Commander</a></li>
         </ul>
       </nav>
     </header>
@@ -322,7 +335,7 @@
             <h1>Votre site web<br>professionnel sur mesure</h1>
             <p>Sites vitrine, e-commerce et landing pages pour les artisans, commerçants et entreprises. Design moderne, rapide et optimisé Google. À partir de 99€, sans abonnement.</p>
             <div class="hero-actions">
-              <a href="support.html" class="btn btn-primary">Commander mon pack maintenant</a>
+              <a href="#" class="btn btn-primary" onclick="nav('devis');return false">Commander mon pack maintenant</a>
               <a href="#" class="btn btn-outline" onclick="nav('home','#tarifs');return false">Consulter le catalogue</a>
             </div>
             <p style="margin-top:20px;font-size:.78rem;color:var(--muted)">Disponible partout dans le monde</p>
@@ -521,8 +534,59 @@
             <h2>Prêt à passer à la vitesse supérieure ?</h2>
             <p>Discutons de votre projet. Devis gratuit, réponse sous 24h.</p>
             <div class="cta-actions">
-              <a href="support.html" class="btn btn-primary">Demander un devis</a>
+              <a href="#" class="btn btn-primary" onclick="nav('devis');return false">Demander un devis</a>
               <a href="mailto:maltyz@outlook.fr" class="btn btn-outline">Envoyer un email</a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="page-devis" class="page page-devis">
+        <section style="padding-top:180px">
+          <div class="container">
+            <div class="section-header"><h2>Votre projet</h2><p>Discutons de vos besoins. Je vous réponds sous 24h.</p></div>
+            <div class="devis-box">
+              <div class="form-step active" id="formStep1">
+                <form id="devisForm">
+                  <div class="form-row">
+                    <div class="form-group"><label>Votre nom / Entreprise</label><input type="text" name="nom" placeholder="Votre identité..." required></div>
+                    <div class="form-group"><label>Votre email</label><input type="email" name="email" placeholder="votre@email.com" required></div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group"><label>Votre téléphone</label><input type="tel" name="telephone" placeholder="06 XX XX XX XX" required></div>
+                    <div class="form-group"><label>Ville / Secteur</label><input type="text" name="ville" placeholder="Paris, Montréal, New York..."></div>
+                  </div>
+                  <div class="form-group"><label>Pack qui vous intéresse</label>
+                    <select name="formule" id="formuleSelect" required>
+                      <option value="" disabled selected>Sélectionner...</option>
+                      <option value="Landing Page">Pack Landing Page — 99€</option>
+                      <option value="Portfolio">Pack Portfolio — 249€</option>
+                      <option value="Vitrine">Pack Site Vitrine — 449€</option>
+                      <option value="Premium">Pack Sur-Mesure — 899€</option>
+                      <option value="Je ne sais pas encore">Je ne sais pas encore, conseillez-moi</option>
+                    </select></div>
+                  <div class="form-group"><label>Parlez-moi de votre projet</label>
+                    <textarea name="desc" rows="5" placeholder="Quel est votre activité ? Quel est votre objectif ? Vous avez déjà du contenu (logo, photos, textes) ?" required></textarea></div>
+                  <div style="display:flex;gap:12px;margin-top:8px;flex-wrap:wrap">
+                    <button type="submit" class="btn btn-primary" style="flex:1">Envoyer ma demande</button>
+                    <button type="button" class="btn btn-outline" onclick="directPay()">Je veux payer directement →</button>
+                  </div>
+                </form>
+              </div>
+              <div class="form-step" id="formStep2">
+                <div class="pay-step">
+                  <h3>Règlement Sécurisé</h3>
+                  <p style="color:var(--muted);margin-bottom:8px">Vous savez exactement ce que vous voulez ? Commandez directement.</p>
+                  <div class="pay-amount" id="payAmount"></div>
+                  <div class="pay-actions">
+                    <a href="#" class="btn btn-primary" id="btnStripe" target="_blank">Payer par Carte</a>
+                    <a href="#" class="btn btn-outline" id="btnPaypal" target="_blank">Payer par PayPal</a>
+                  </div>
+                  <p class="pay-note">Une fois le paiement effectué, cliquez ci-dessous pour m'envoyer votre brief.</p>
+                  <button class="btn btn-primary" style="width:100%;margin-top:16px" onclick="confirmPay()">J'ai payé • Envoyer mon brief</button>
+                  <button class="btn btn-outline" style="width:100%;margin-top:12px" onclick="nav('home')">Retour au catalogue</button>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -659,10 +723,71 @@
     }
 
     function selectPlan(nom) {
-      window.location.href = 'support.html?pack=' + encodeURIComponent(nom);
+      nav('devis');
+      var sel = document.getElementById('formuleSelect');
+      var map = { "Pack Landing Page Vendeuse": "Landing Page", "Pack Portfolio d'Image": "Portfolio", "Pack Site Vitrine Business": "Vitrine", "Solution Web Sur-Mesure": "Premium" };
+      if (sel) sel.value = map[nom] || nom;
     }
 
     var pendingOrder = null;
+
+    function directPay() {
+      var sel = document.getElementById('formuleSelect');
+      if (!sel || !sel.value || sel.value === 'Je ne sais pas encore') { alert('Veuillez d\'abord sélectionner un pack.'); return; }
+      var form = document.getElementById('devisForm');
+      if (form) {
+        var fd = new FormData(form);
+        var data = Object.fromEntries(fd);
+        data._subject = 'Nouvelle commande MALTY - ' + (data.nom || 'Client');
+        data._replyto = data.email;
+        fetch(WEBHOOK, { method: 'POST', headers: { Accept: 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).catch(function(){});
+      }
+      showPay(sel.value);
+    }
+
+    function showPay(nom) {
+      var cfg = getConfig();
+      var mid = { "Landing Page": "landing", "Portfolio": "portfolio", "Vitrine": "vitrine", "Premium": "premium" };
+      var f = cfg.formules ? cfg.formules.find(function(x) { return x.id === mid[nom]; }) : null;
+      if (!f) { alert('Pack non trouvé'); return; }
+      var amt = document.getElementById('payAmount');
+      var sBtn = document.getElementById('btnStripe');
+      var pBtn = document.getElementById('btnPaypal');
+      if (amt) amt.textContent = f.prix + '€';
+      if (sBtn) sBtn.href = f.stripe || '#';
+      if (pBtn) pBtn.href = f.paypal || '#';
+      document.getElementById('formStep1').classList.remove('active');
+      document.getElementById('formStep2').classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function confirmPay() { window.location.href = 'merci.html'; }
+
+    var devisForm = document.getElementById('devisForm');
+    if (devisForm) {
+      devisForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var fd = new FormData(e.target);
+        var formule = fd.get('formule');
+        var data = Object.fromEntries(fd);
+        data._subject = 'Nouveau contact MALTY - ' + (data.nom || 'Anonyme');
+        data._replyto = data.email;
+        var btn = e.target.querySelector('button[type="submit"]');
+        var orig = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'Envoi...';
+        if (formule === 'Je ne sais pas encore' || !formule) {
+          fetch(WEBHOOK, { method: 'POST', headers: { Accept: 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+            .then(function(r) { if (r.ok) { alert('Message envoyé ! Je vous réponds sous 24h.'); e.target.reset(); } else { alert('Erreur d\'envoi, réessayez ou contactez-moi par email.'); } })
+            .catch(function(){ alert('Erreur réseau. Envoyez-moi un email à maltyz@outlook.fr'); })
+            .finally(function() { btn.disabled = false; btn.textContent = orig; });
+        } else {
+          fetch(WEBHOOK, { method: 'POST', headers: { Accept: 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+            .catch(function(){})
+            .finally(function() { btn.disabled = false; btn.textContent = orig; showPay(formule); });
+        }
+      });
+    }
 
     window.addEventListener('load', function() { renderPricing(); renderFAQ(); });
     document.getElementById('pricingGrid').addEventListener('click', function(e) {
