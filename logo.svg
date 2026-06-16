@@ -1,20 +1,63 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0070ff"/>
-      <stop offset="100%" stop-color="#0056cc"/>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00b4ff"/>
+      <stop offset="50%" stop-color="#0088ff"/>
+      <stop offset="100%" stop-color="#0055dd"/>
     </linearGradient>
-    <filter id="g">
-      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#0070ff" flood-opacity="0.3"/>
+    <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00d4ff"/>
+      <stop offset="100%" stop-color="#0099ff"/>
+    </linearGradient>
+    <linearGradient id="g3" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#00aaff"/>
+      <stop offset="100%" stop-color="#0066cc"/>
+    </linearGradient>
+    <linearGradient id="g4" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#0077dd"/>
+      <stop offset="100%" stop-color="#003388"/>
+    </linearGradient>
+    <linearGradient id="g5" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#004499"/>
+      <stop offset="100%" stop-color="#001155"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="15" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0044aa" flood-opacity="0.4"/>
     </filter>
   </defs>
-  <!-- Abstract M monogram -->
-  <rect x="0" y="0" width="44" height="44" rx="12" fill="url(#g)"/>
-  <text x="22" y="32" font-family="'Space Grotesk', Arial, sans-serif" font-size="26" font-weight="900" fill="#fff" text-anchor="middle" letter-spacing="-1">M</text>
-  <!-- MALTY text -->
-  <text x="60" y="30" font-family="'Space Grotesk', Arial, sans-serif" font-size="28" font-weight="800" fill="#ffffff" letter-spacing="-1.5">MALTY</text>
-  <!-- Dot -->
-  <circle cx="169" cy="14" r="4" fill="#0070ff" filter="url(#g)"/>
-  <!-- Tagline -->
-  <text x="60" y="48" font-family="'Inter', Arial, sans-serif" font-size="9" font-weight="500" fill="#aaaaaa" letter-spacing="3">DÉVELOPPEUR WEB</text>
+  
+  <!-- Background glow -->
+  <ellipse cx="256" cy="260" rx="180" ry="200" fill="url(#g1)" opacity="0.15"/>
+  
+  <!-- Left leg -->
+  <polygon points="80,420 80,140 200,80 256,200 200,280 80,340" fill="url(#g2)" filter="url(#shadow)"/>
+  
+  <!-- Left face highlight -->
+  <polygon points="80,140 200,80 200,180 80,220" fill="url(#g2)" opacity="0.7"/>
+  
+  <!-- Right leg -->
+  <polygon points="432,420 432,140 312,80 256,200 312,280 432,340" fill="url(#g3)" filter="url(#shadow)"/>
+  
+  <!-- Right face highlight -->
+  <polygon points="432,140 312,80 312,180 432,220" fill="url(#g3)" opacity="0.6"/>
+  
+  <!-- Center V shape (dark) -->
+  <polygon points="200,280 256,200 312,280 256,380" fill="url(#g5)" opacity="0.9"/>
+  
+  <!-- Center V highlight -->
+  <polygon points="200,280 256,200 256,280" fill="url(#g4)" opacity="0.6"/>
+  
+  <!-- Top reflections -->
+  <polygon points="80,140 200,80 220,120 100,170" fill="#66ddff" opacity="0.25"/>
+  <polygon points="432,140 312,80 292,120 412,170" fill="#66ddff" opacity="0.2"/>
+  
+  <!-- Edge highlights -->
+  <line x1="80" y1="140" x2="200" y2="80" stroke="#88eeff" stroke-width="2" opacity="0.4"/>
+  <line x1="432" y1="140" x2="312" y2="80" stroke="#88eeff" stroke-width="2" opacity="0.3"/>
+  <line x1="200" y1="80" x2="256" y2="200" stroke="#88eeff" stroke-width="1.5" opacity="0.3"/>
+  <line x1="312" y1="80" x2="256" y2="200" stroke="#88eeff" stroke-width="1.5" opacity="0.25"/>
 </svg>
