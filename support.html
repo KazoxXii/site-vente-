@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Maintenance de votre site web à partir de 19€/mois. Mises à jour sécurité, sauvegardes, support prioritaire et modifications de contenu incluses.">
+  <meta name="description" content="Support technique MALTY — Contactez-nous 24h/24, 7j/7. Réponse garantie sous 24h.">
   <meta name="robots" content="index, follow">
-  <title>Maintenance Site Web — 19€/mois | MALTY</title>
-  <meta property="og:title" content="Maintenance Site Web — 19€/mois | MALTY">
-  <meta property="og:description" content="Mises à jour sécurité, sauvegardes, support prioritaire et modifications de contenu. 19€/mois.">
+  <title>Support 24h/24 — MALTY</title>
+  <meta property="og:title" content="Support 24h/24 — MALTY">
+  <meta property="og:description" content="Contactez MALTY directement depuis votre navigateur. Réponse sous 24h.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://maltyshop.vercel.app/maintenance.html">
+  <meta property="og:url" content="https://maltyshop.vercel.app/support.html">
   <link rel="icon" type="image/svg+xml" href="logo.svg">
-  <link rel="canonical" href="https://maltyshop.vercel.app/maintenance.html">
+  <link rel="canonical" href="https://maltyshop.vercel.app/support.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -70,44 +70,30 @@
     .hero h1 { font-size:clamp(2.5rem,6vw,4.5rem); font-weight:900; letter-spacing:-0.04em; line-height:.92; margin-bottom:24px; background:linear-gradient(180deg,var(--fg) 50%,var(--accent)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
     .hero p { font-size:clamp(1rem,2vw,1.2rem); color:var(--muted); max-width:640px; margin:0 auto 36px; }
     .hero-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-    .price-hero { font-size:clamp(3rem,6vw,5rem); font-weight:900; color:var(--accent); letter-spacing:-0.04em; margin:24px 0 8px; }
-    .price-hero span { font-size:1.2rem; font-weight:500; color:var(--muted); }
+    .status-badge { display:inline-flex; align-items:center; gap:8px; padding:8px 16px; background:rgba(34,197,94,.12); color:#22c55e; border-radius:100px; font-size:.8rem; font-weight:600; margin-bottom:32px; }
+    .status-dot { width:8px; height:8px; border-radius:50%; background:#22c55e; animation:pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.4; } }
+    .form-card { max-width:720px; margin:0 auto; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:48px; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px; }
+    .form-group { margin-bottom:20px; }
+    .form-group label { display:block; font-size:.8rem; font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:8px; }
+    .form-group input, .form-group select, .form-group textarea {
+      width:100%; padding:14px 16px; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--fg); font-family:var(--font); font-size:.95rem; transition:border-color .2s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-10); }
+    .form-group textarea { resize:vertical; min-height:120px; }
+    .form-group select { cursor:pointer; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 16px center; }
+    .form-group select option { background:var(--surface); color:var(--fg); }
     .features-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; margin-top:48px; }
     .feature-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:32px; transition:all .4s var(--ease); }
     .feature-card:hover { border-color:var(--accent-20); transform:translateY(-4px); box-shadow:0 8px 40px var(--accent-10); }
     .feature-icon { font-size:2rem; margin-bottom:16px; }
     .feature-card h3 { font-size:1.1rem; font-weight:700; margin-bottom:8px; }
     .feature-card p { color:var(--muted); font-size:.9rem; line-height:1.6; }
-    .compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:800px; margin:0 auto; }
-    .compare-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:36px; text-align:center; }
-    .compare-card.popular { border-color:var(--accent); box-shadow:0 0 0 1px var(--accent),0 8px 32px var(--accent-20); }
-    .compare-card h3 { font-size:1.2rem; font-weight:700; margin-bottom:8px; }
-    .compare-card .price { font-size:2.2rem; font-weight:800; color:var(--accent); margin-bottom:4px; }
-    .compare-card .sub { font-size:.8rem; color:var(--muted); margin-bottom:20px; }
-    .compare-card ul { list-style:none; text-align:left; margin-bottom:24px; }
-    .compare-card ul li { font-size:.85rem; color:var(--muted); padding:8px 0; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
-    .compare-card ul li::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--accent); flex-shrink:0; }
-    .compare-card ul li:last-child { border-bottom:none; }
-    .compare-card ul li.unavailable { opacity:.35; }
-    .compare-card ul li.unavailable::before { background:var(--muted); }
-    .badge-pop { position:absolute; top:-1px; right:24px; background:var(--accent); color:#fff; padding:4px 16px; font-size:.65rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; border-radius:0 0 var(--radius-sm) var(--radius-sm); }
-    .faq-list { max-width:800px; margin:0 auto; }
-    .faq-item { border-bottom:1px solid var(--border); }
-    .faq-trigger { width:100%; padding:28px 0; background:none; border:none; color:var(--fg); font-size:1.05rem; font-weight:600; cursor:pointer; display:flex; justify-content:space-between; align-items:center; text-align:left; transition:color .2s; }
-    .faq-trigger:hover { color:var(--accent); }
-    .faq-trigger .icon { font-size:1.3rem; color:var(--muted); transition:transform .3s var(--ease); flex-shrink:0; margin-left:16px; }
-    .faq-item.open .faq-trigger .icon { transform:rotate(45deg); color:var(--accent); }
-    .faq-panel { max-height:0; overflow:hidden; transition:max-height .5s var(--ease); }
-    .faq-panel p { padding:0 0 28px; color:var(--muted); font-size:.95rem; line-height:1.7; }
     .cta-section { text-align:center; background:var(--surface); }
     .cta-section h2 { font-size:clamp(2rem,5vw,3.2rem); font-weight:800; letter-spacing:-0.03em; margin-bottom:16px; }
     .cta-section p { color:var(--muted); font-size:1.1rem; margin-bottom:40px; }
     .cta-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-    .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:32px; max-width:900px; margin:0 auto; }
-    .step { text-align:center; }
-    .step-num { width:48px; height:48px; border-radius:50%; background:var(--accent-10); color:var(--accent); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.2rem; margin:0 auto 16px; }
-    .step h3 { font-size:1rem; font-weight:700; margin-bottom:8px; }
-    .step p { color:var(--muted); font-size:.85rem; }
     footer { padding:80px 0 40px; border-top:1px solid var(--border); }
     .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1.5fr; gap:48px; margin-bottom:48px; }
     .footer-brand p { margin-top:16px; color:var(--muted); font-size:.9rem; line-height:1.6; }
@@ -121,6 +107,10 @@
     .footer-socials { display:flex; gap:16px; }
     .footer-socials a { color:var(--muted); text-decoration:none; transition:color .2s; }
     .footer-socials a:hover { color:var(--fg); }
+    .success-msg { display:none; text-align:center; padding:48px; }
+    .success-msg svg { width:64px; height:64px; color:var(--success); margin-bottom:24px; }
+    .success-msg h3 { font-size:1.5rem; font-weight:700; margin-bottom:12px; }
+    .success-msg p { color:var(--muted); font-size:1rem; }
     @media (max-width:768px) {
       section { padding:80px 0; }
       .container { padding:0 20px; }
@@ -132,8 +122,8 @@
       .hamburger { display:flex; z-index:10; }
       .footer-grid { grid-template-columns:1fr; gap:32px; }
       .features-grid { grid-template-columns:1fr; }
-      .compare-grid { grid-template-columns:1fr; }
-      .steps { grid-template-columns:1fr; }
+      .form-row { grid-template-columns:1fr; }
+      .form-card { padding:32px 24px; }
     }
     @media (min-width:769px) { .hamburger { display:none; } }
   </style>
@@ -149,9 +139,9 @@
         <ul class="nav-links" id="navLinks">
           <li><a href="index.html">Accueil</a></li>
           <li><a href="index.html#tarifs">Tarifs</a></li>
-          <li><a href="index.html#faq">FAQ</a></li>
-          <li><a href="support.html">Support</a></li>
-          <li><a href="index.html" class="btn btn-primary nav-cta">Commander</a></li>
+          <li><a href="maintenance.html">Maintenance</a></li>
+          <li><a href="espace-client.html">Espace Client</a></li>
+          <li><a href="support.html" class="btn btn-primary nav-cta">Support</a></li>
         </ul>
       </nav>
     </header>
@@ -160,129 +150,96 @@
       <section class="hero">
         <div class="hero-glow"></div>
         <div class="container">
-          <div class="hero-badge">— Maintenance & Support</div>
-          <h1>Gardez votre site<br>en parfait état</h1>
-          <p>Mises à jour sécurité, sauvegardes automatiques, support prioritaire et modifications de contenu. Concentrez-vous sur votre activité, je m'occupe de tout.</p>
-          <div class="price-hero">19€ <span>/mois</span></div>
-          <p style="font-size:.85rem;color:var(--muted);margin-bottom:32px">Sans engagement • Résiliable à tout moment</p>
+          <div class="hero-badge">— Support & Contact</div>
+          <div class="status-badge"><span class="status-dot"></span> En ligne — Réponse sous 24h</div>
+          <h1>Support technique<br>24h/24, 7j/7</h1>
+          <p>Un problème ? Une question ? Une demande spécifique ? Contactez-moi directement depuis cette page. Je réponds sous 24 heures garanti.</p>
           <div class="hero-actions">
-            <a href="abonnement.html" class="btn btn-primary btn-lg">Voir les offres</a>
-            <a href="support.html" class="btn btn-outline btn-lg">Contacter MALTY</a>
+            <a href="#form" class="btn btn-primary btn-lg">Envoyer un message</a>
+            <a href="mailto:maltyz@outlook.fr" class="btn btn-outline btn-lg">maltyz@outlook.fr</a>
           </div>
         </div>
       </section>
 
       <section>
         <div class="container">
-          <div class="section-header"><h2>Pourquoi un forfait maintenance ?</h2><p>Un site web, c'est comme une voiture : il a besoin d'entretien régulier pour rester performant et sécurisé.</p></div>
+          <div class="section-header"><h2>Comment puis-je vous aider ?</h2><p>Sélectionnez le type de votre demande pour une réponse plus rapide.</p></div>
           <div class="features-grid">
             <div class="feature-card">
-              <div class="feature-icon">🔒</div>
-              <h3>Sécurité renforcée</h3>
-              <p>Mises à jour régulières des dépendances, corrections de vulnérabilités et protection contre les attaques. Votre site reste inviolable.</p>
-            </div>
-            <div class="feature-card">
-              <div class="feature-icon">💾</div>
-              <h3>Sauvegardes automatiques</h3>
-              <p>Sauvegardes hebdomadaires de l'intégralité de votre site. En cas de problème, restauration en quelques heures.</p>
-            </div>
-            <div class="feature-card">
-              <div class="feature-icon">⚡</div>
-              <h3>Performance optimisée</h3>
-              <p>Monitoring continu, optimisation du cache, compression des images. Votre site reste ultra-rapide et bien noté sur Google.</p>
+              <div class="feature-icon">🐛</div>
+              <h3>Bug ou problème technique</h3>
+              <p>Votre site affiche une erreur, une page ne s'affiche plus correctement, ou un élément ne fonctionne pas.</p>
             </div>
             <div class="feature-card">
               <div class="feature-icon">✏️</div>
-              <h3>Modifications de contenu</h3>
-              <p>2 modifications de contenu par mois incluses : texte, images, ajout de pages. Envoyez-moi vos changements.</p>
+              <h3>Modification de contenu</h3>
+              <p>Changer un texte, une image, ajouter une page ou modifier le design de votre site existant.</p>
             </div>
             <div class="feature-card">
-              <div class="feature-icon">🛡️</div>
-              <h3>SSL & Domaine</h3>
-              <p>Renouvellement automatique du certificat SSL et suivi du nom de domaine. Zéro interruption de service.</p>
+              <div class="feature-icon">📦</div>
+              <h3>Demande de devis</h3>
+              <p>Vous souhaitez créer un nouveau site, une landing page ou ajouter une fonctionnalité à votre site actuel.</p>
             </div>
             <div class="feature-card">
-              <div class="feature-icon">📊</div>
-              <h3>Rapport mensuel</h3>
-              <p>Un rapport clair chaque mois : nombre de visiteurs, performance, actions effectuées. Vous savez exactement où en est votre site.</p>
+              <div class="feature-icon">💳</div>
+              <h3>Facturation & Abonnement</h3>
+              <p>Question sur votre abonnement, besoin de modifier votre formule, ou problème de paiement.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🚀</div>
+              <h3>Déploiement & Mise en ligne</h3>
+              <p>Besoin d'aide pour mettre votre site en ligne ou configurer votre hébergement.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">💡</div>
+              <h3>Autre demande</h3>
+              <p>Toute autre question ou demande qui ne rentre pas dans les catégories ci-dessus.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="offres">
+      <section id="form">
         <div class="container">
-          <div class="section-header"><h2>Choisissez votre formule</h2><p>De la maintenance de base au support complet, il y a une offre pour chaque besoin.</p></div>
-          <div class="compare-grid">
-            <div class="compare-card">
-              <h3>Essentiel</h3>
-              <div class="price">19€<span style="font-size:.8rem;font-weight:500;color:var(--muted)">/mois</span></div>
-              <div class="sub">Le minimum vital pour un site serein</div>
-              <ul>
-                <li>Mises à jour sécurité mensuelles</li>
-                <li>Sauvegardes hebdomadaires</li>
-                <li>Certificat SSL renouvelé</li>
-                <li>Monitoring uptime 24/7</li>
-                <li>Support par email (48h)</li>
-              </ul>
-              <a href="abonnement.html" class="btn btn-outline" style="width:100%">Choisir Essentiel</a>
-            </div>
-            <div class="compare-card popular" style="position:relative">
-              <div class="badge-pop">Recommandé</div>
-              <h3>Premium</h3>
-              <div class="price">39€<span style="font-size:.8rem;font-weight:500;color:var(--muted)">/mois</span></div>
-              <div class="sub">Le tout-en-un pour les pros</div>
-              <ul>
-                <li>Tout du pack Essentiel</li>
-                <li>2 modifications de contenu/mois</li>
-                <li>Optimisation performance trimestrielle</li>
-                <li>Rapport mensuel détaillé</li>
-                <li>Support prioritaire (24h)</li>
-                <li>Sauvegardes quotidiennes</li>
-              </ul>
-              <a href="abonnement.html" class="btn btn-primary" style="width:100%">Choisir Premium</a>
+          <div class="section-header"><h2>Envoyez votre message</h2><p>Remplissez le formulaire ci-dessous. Tous les champs sont obligatoires.</p></div>
+          <div class="form-card">
+            <form id="supportForm">
+              <div class="form-row">
+                <div class="form-group"><label>Nom / Entreprise</label><input type="text" name="nom" placeholder="Votre identité..." required></div>
+                <div class="form-group"><label>Email</label><input type="email" name="email" placeholder="votre@email.com" required></div>
+              </div>
+              <div class="form-group"><label>Type de demande</label>
+                <select name="type" required>
+                  <option value="" disabled selected>Sélectionner...</option>
+                  <option value="Bug / Problème technique">Bug / Problème technique</option>
+                  <option value="Modification de contenu">Modification de contenu</option>
+                  <option value="Demande de devis">Demande de devis</option>
+                  <option value="Facturation / Abonnement">Facturation / Abonnement</option>
+                  <option value="Déploiement / Mise en ligne">Déploiement / Mise en ligne</option>
+                  <option value="Autre">Autre</option>
+                </select>
+              </div>
+              <div class="form-group"><label>Site concerné (si applicable)</label><input type="text" name="site" placeholder="https://votre-site.com ou nom du site"></div>
+              <div class="form-group"><label>Votre message</label>
+                <textarea name="message" rows="6" placeholder="Décrivez votre demande en détail. Plus je dispose d'informations, plus je pourrai vous répondre rapidement." required></textarea></div>
+              <button type="submit" class="btn btn-primary" style="width:100%">Envoyer ma demande</button>
+            </form>
+            <div class="success-msg" id="successMsg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              <h3>Message envoyé !</h3>
+              <p>Je vous réponds sous 24 heures. Vérifiez également votre boîte de réception (et les spams).</p>
+              <a href="index.html" class="btn btn-outline" style="margin-top:24px">Retour à l'accueil</a>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section>
-        <div class="container">
-          <div class="section-header"><h2>Comment ça marche ?</h2><p>En 3 étapes simples, votre site est entre de bonnes mains.</p></div>
-          <div class="steps">
-            <div class="step">
-              <div class="step-num">1</div>
-              <h3>Vous souscrivez</h3>
-              <p>Contactez-moi ou choisissez votre formule directement. Pas d'engagement, vous pouvez annuler à tout moment.</p>
-            </div>
-            <div class="step">
-              <div class="step-num">2</div>
-              <h3>Je prends en main</h3>
-              <p>Je configure le monitoring, les sauvegardes et les mises à jour. Votre site est monitoré en permanence.</p>
-            </div>
-            <div class="step">
-              <div class="step-num">3</div>
-              <h3>Vous êtes tranquille</h3>
-              <p>Vous recevez un rapport mensuel et vous pouvez me contacter pour toute modification. Zéro stress.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <div class="container">
-          <div class="section-header"><h2>Questions fréquentes</h2></div>
-          <div class="faq-list" id="faqList"></div>
         </div>
       </section>
 
       <section class="cta-section">
         <div class="container">
-          <h2>Protégez votre site dès maintenant</h2>
-          <p>Un site sans maintenance, c'est un site à risque. Passez en mode tranquille.</p>
+          <h2>Besoin d'une réponse rapide ?</h2>
+          <p>Envoyez-moi directement un email — je réponds en quelques heures.</p>
           <div class="cta-actions">
-            <a href="abonnement.html" class="btn btn-primary btn-lg">Souscrire maintenant</a>
-            <a href="mailto:maltyz@outlook.fr" class="btn btn-outline btn-lg">Envoyer un email</a>
+            <a href="mailto:maltyz@outlook.fr?subject=Demande%20support%20—%20MALTY" class="btn btn-primary btn-lg">Envoyer un email</a>
           </div>
         </div>
       </section>
@@ -291,60 +248,99 @@
     <footer>
       <div class="container">
         <div class="footer-grid">
-          <div class="footer-brand">
+            <div class="footer-brand">
             <a href="index.html" class="logo" style="margin-bottom:0">
               <svg viewBox="0 0 100 90" height="48"><defs><linearGradient id="lg6" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#bae6fd"/><stop offset="20%" stop-color="#7dd3fc"/><stop offset="50%" stop-color="#38bdf8"/><stop offset="80%" stop-color="#0ea5e9"/><stop offset="100%" stop-color="#0284c7"/></linearGradient><linearGradient id="lg7" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#38bdf8"/><stop offset="20%" stop-color="#0ea5e9"/><stop offset="50%" stop-color="#0284c7"/><stop offset="80%" stop-color="#0369a1"/><stop offset="100%" stop-color="#075985"/></linearGradient><linearGradient id="lg8" x1="50%" y1="0%" x2="50%" y2="100%"><stop offset="0%" stop-color="#0c4a6e"/><stop offset="40%" stop-color="#082f49"/><stop offset="100%" stop-color="#0c1929"/></linearGradient><linearGradient id="lg9" x1="0%" y1="0%" x2="60%" y2="100%"><stop offset="0%" stop-color="#e0f2fe" stop-opacity="0.7"/><stop offset="100%" stop-color="#bae6fd" stop-opacity="0.1"/></linearGradient></defs><polygon points="8,82 8,14 28,6 50,36 28,48 8,58" fill="url(#lg6)"/><polygon points="8,14 28,6 33,16 13,24" fill="url(#lg9)"/><polygon points="92,82 92,14 72,6 50,36 72,48 92,58" fill="url(#lg7)"/><polygon points="92,14 72,6 67,16 87,24" fill="url(#lg9)" opacity="0.7"/><polygon points="28,48 50,36 72,48 50,72" fill="url(#lg8)"/><line x1="8" y1="14" x2="28" y2="6" stroke="#e0f2fe" stroke-width="1.5" opacity="0.5"/><line x1="92" y1="14" x2="72" y2="6" stroke="#e0f2fe" stroke-width="1.5" opacity="0.4"/><line x1="28" y1="6" x2="50" y2="36" stroke="#bae6fd" stroke-width="1" opacity="0.3"/><line x1="72" y1="6" x2="50" y2="36" stroke="#bae6fd" stroke-width="1" opacity="0.25"/></svg>
             </a>
             <p>Créateur de sites web professionnels. Sites vitrine, e-commerce et landing pages à partir de 99€, sans abonnement mensuel.</p>
           </div>
-          <div class="footer-col"><h4>Navigation</h4><ul class="footer-links"><li><a href="index.html">Accueil</a></li><li><a href="index.html#tarifs">Tarifs</a></li><li><a href="maintenance.html">Maintenance</a></li><li><a href="abonnement.html">Abonnement</a></li><li><a href="espace-client.html">Espace Client</a></li><li><a href="support.html">Support</a></li></ul></div>
-          <div class="footer-col"><h4>Infos</h4><ul class="footer-links"><li><a href="index.html#faq">FAQ</a></li><li><a href="mailto:maltyz@outlook.fr">Email</a></li></ul></div>
-          <div class="footer-col"><h4>Contact</h4><p style="color:var(--muted);font-size:.85rem;margin-bottom:8px"> Freelance — Monde entier</p><a href="mailto:maltyz@outlook.fr" style="color:var(--accent);text-decoration:none;font-weight:600;font-size:.85rem">maltyz@outlook.fr</a><p style="color:var(--muted);font-size:.75rem;margin-top:8px">Développeur web freelance</p></div>
+          <div class="footer-col">
+            <h4>Navigation</h4>
+            <ul class="footer-links">
+              <li><a href="index.html">Accueil</a></li>
+              <li><a href="index.html#tarifs">Tarifs</a></li>
+              <li><a href="ou-acheter.html">Guide</a></li>
+              <li><a href="maintenance.html">Maintenance</a></li>
+              <li><a href="support.html">Support</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Services</h4>
+            <ul class="footer-links">
+              <li><a href="abonnement.html">Abonnement</a></li>
+              <li><a href="espace-client.html">Espace Client</a></li>
+              <li><a href="admin.html">Admin</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <p style="color:var(--muted);font-size:.85rem;margin-bottom:8px"> Freelance — Monde entier</p>
+            <a href="mailto:maltyz@outlook.fr" style="color:var(--accent);text-decoration:none;font-weight:600;font-size:.85rem">maltyz@outlook.fr</a>
+            <p style="color:var(--muted);font-size:.75rem;margin-top:8px">Développeur web freelance</p>
+          </div>
         </div>
         <div class="footer-bottom">
-          <p>© 2026 MALTY PRODUCTIONS. Tous droits réservés.</p>
+          <p>© 2026 MALTY. Tous droits réservés.</p>
+          <div class="footer-socials">
+            <a href="https://www.instagram.com/malty_web/" target="_blank" aria-label="Instagram">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="https://x.com/MALTYWEB" target="_blank" aria-label="X">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+          </div>
         </div>
       </div>
     </footer>
   </div>
 
   <script>
-    var header = document.getElementById('header');
+    // Header scroll
+    window.addEventListener('scroll', function() {
+      document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Hamburger
     var hamburger = document.getElementById('hamburger');
     var navLinks = document.getElementById('navLinks');
-    hamburger.addEventListener('click', function() { hamburger.classList.toggle('open'); navLinks.classList.toggle('open'); });
-    navLinks.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', function() { hamburger.classList.remove('open'); navLinks.classList.remove('open'); }); });
-    window.addEventListener('scroll', function() { if (window.scrollY > 100) header.classList.add('scrolled'); else header.classList.remove('scrolled'); });
+    hamburger.addEventListener('click', function() {
+      hamburger.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() {
+        hamburger.classList.remove('open');
+        navLinks.classList.remove('open');
+      });
+    });
 
-    var faqData = [
-      { q: "Est-ce un engagement de durée ?", a: "Non, absolument pas. Vous pouvez résilier à tout moment, sans frais cachés. Le forfait est mensuel et sans engagement." },
-      { q: "Que se passe-t-il si mon site tombe en panne ?", a: "Le monitoring 24/7 détecte toute coupure. Je suis alerté immédiatement et j'interviens dans les plus brefs délais. Les interventions d'urgence sont incluses." },
-      { q: "Les modifications de contenu sont-elles vraiment incluses ?", a: "Oui, le pack Essentiel comprend les mises à jour sécurité uniquement. Le pack Premium inclut 2 modifications de contenu par mois (texte, images, nouvelles pages simples)." },
-      { q: "Mon site est hébergé ailleurs, ça pose problème ?", a: "Non, je peux maintenir votre site quel que soit l'hébergeur. J'ai besoin d'un accès aux fichiers et au panneau d'administration." },
-      { q: "Que comprend exactement la maintenance ?", a: "Mises à jour de sécurité, sauvegardes, renouvellement SSL, monitoring uptime, optimisation performance, et rapport mensuel selon la formule choisie." },
-      { q: "Puis-je changer de formule ?", a: "Oui, vous pouvez passer de l'Essentiel au Premium (ou inversement) à tout moment. Le changement prend effet au mois suivant." }
-    ];
+    // Submit form
+    var form = document.getElementById('supportForm');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var data = {};
+        new FormData(form).forEach(function(v, k) { data[k] = v; });
+        data._subject = 'Demande support — ' + (data.nom || 'Anonyme');
+        data.source = 'support.html';
 
-    var list = document.getElementById('faqList');
-    if (list) {
-      list.innerHTML = faqData.map(function(item) {
-        return '<div class="faq-item">' +
-          '<button class="faq-trigger" onclick="toggleFAQ(this)">' +
-            '<span>' + item.q + '</span>' +
-            '<span class="icon">+</span>' +
-          '</button>' +
-          '<div class="faq-panel"><p>' + item.a + '</p></div>' +
-        '</div>';
-      }).join('');
-    }
-
-    function toggleFAQ(btn) {
-      var item = btn.parentElement;
-      var panel = item.querySelector('.faq-panel');
-      var isOpen = item.classList.contains('open');
-      item.classList.toggle('open');
-      if (isOpen) panel.style.maxHeight = '0';
-      else panel.style.maxHeight = panel.scrollHeight + 'px';
+        fetch('/api/support', {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: { 'Content-Type': 'application/json' }
+        })
+        .then(function(r) {
+          if (r.ok) {
+            document.getElementById('supportForm').style.display = 'none';
+            document.getElementById('successMsg').style.display = 'block';
+          } else {
+            alert('Erreur d\'envoi, réessayez ou contactez-moi par email à maltyz@outlook.fr');
+          }
+        })
+        .catch(function() {
+          alert('Erreur réseau. Vérifiez votre connexion et réessayez, ou envoyez un email à maltyz@outlook.fr');
+        });
+      });
     }
   </script>
 </body>

@@ -90,11 +90,33 @@ function notifyReminder(data) {
   );
 }
 
+function notifySupportRequest(data) {
+  const typeEmoji = {
+    'Bug / Problème technique': '🐛',
+    'Modification de contenu': '✏️',
+    'Demande de devis': '📦',
+    'Facturation / Abonnement': '💳',
+    'Déploiement / Mise en ligne': '🚀',
+    'Autre': '💡'
+  };
+  return sendTelegram(
+    `${typeEmoji[data.type] || '📩'} DEMANDE SUPPORT\n\n` +
+    `👤 Nom: ${data.nom}\n` +
+    `📧 Email: ${data.email}\n` +
+    `📂 Type: ${data.type}\n` +
+    `🌐 Site: ${data.site || 'Non précisé'}\n` +
+    `💬 Message:\n${data.message.substring(0, 400)}\n\n` +
+    `📅 Date: ${data.date}\n` +
+    `⚡ Action requise`
+  );
+}
+
 module.exports = {
   sendTelegram,
   notifyNewSubscription,
   notifyPayment,
   notifyPaymentFailed,
   notifyMaintenanceRequest,
-  notifyReminder
+  notifyReminder,
+  notifySupportRequest
 };

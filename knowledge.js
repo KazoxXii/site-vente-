@@ -55,17 +55,6 @@ window.MALTY_CONFIG = {
             stripe: 'https://buy.stripe.com/7sY9AN8RB8Kz0fC4BC0oM08',
             paypal: 'https://paypal.me/Maltyzz/899',
             ventes: 42
-        },
-        { 
-            id: 'maintenance', 
-            nom: 'Maintenance & Support Mensuel', 
-            prix: 19, 
-            delai: 'Mensuel',
-            desc: 'Gardez votre site à jour et sécurisé. Maintenance technique, mises à jour de contenu et support inclus.',
-            features: ['Mises à jour de sécurité', 'Backup mensuel du site', 'Support prioritaire par email', '2 modifications de contenu/mois', 'Rapport mensuel de performance'],
-            stripe: '',
-            paypal: '',
-            ventes: 0
         }
     ],
 
@@ -113,12 +102,12 @@ window.MALTY_CONFIG = {
         },
         { 
             q: "Et si je veux changer des choses après la livraison ?", 
-            a: "Vous bénéficiez d'une garantie de conformité de 30 jours après la livraison des fichiers pour corriger d'éventuels bugs. Pour des modifications ultérieures, je propose des prestations de mise à jour ponctuelle ou un forfait maintenance à 19€/mois.",
+            a: "Vous bénéficiez d'une garantie de conformité de 30 jours après la livraison des fichiers pour corriger d'éventuels bugs. Pour des modifications ultérieures, je propose des prestations de mise à jour ponctuelle ou un forfait maintenance sur notre page dédiée.",
             keywords: ['support', 'aide', 'apres', 'maintenance', 'modifier', 'bug']
         },
         { 
             q: "Proposez-vous un service de maintenance ?", 
-            a: "Oui ! Je propose un forfait maintenance mensuel à 19€/mois. Il comprend : les mises à jour de sécurité, un backup mensuel du site, le support prioritaire par email, 2 modifications de contenu par mois, et un rapport mensuel de performance.",
+            a: "Oui ! Consultez notre page Maintenance pour découvrir nos forfaits de maintenance mensuels avec mises à jour de sécurité, backups, support prioritaire et plus.",
             keywords: ['maintenance', 'mensuel', 'abonnement', 'support', 'mise a jour', 'backup', 'securite']
         },
         { 
