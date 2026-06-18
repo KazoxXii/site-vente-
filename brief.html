@@ -282,9 +282,21 @@
               <p>Cliquez ou glissez vos photos ici</p>
               <p class="formats">JPG, PNG, WebP — Max 10 Mo par fichier</p>
             </div>
-            <input type="file" id="fileInput" multiple accept="image/*" style="display:none" onchange="handleFiles(this.files)">
-            <div class="file-list" id="fileList"></div>
+            <input type="file" id="fileInput" multiple accept="image/*" style="display:none" onchange="handleFiles(this.files,'realisations')">
+            <div class="file-list" id="fileListRealisations"></div>
             <p class="hint">Minimum 5 photos avant/après. Vous pouvez aussi envoyer un lien Google Photos / WeTransfer.</p>
+          </div>
+
+          <div class="field">
+            <label>Photo du local / boutique</label>
+            <div class="upload-zone" id="uploadZoneLocal" onclick="document.getElementById('fileInputLocal').click()">
+              <div class="icon">🏪</div>
+              <p>Cliquez ou glissez la photo de votre local</p>
+              <p class="formats">JPG, PNG, WebP — Max 10 Mo</p>
+            </div>
+            <input type="file" id="fileInputLocal" accept="image/*" style="display:none" onchange="handleFiles(this.files,'local')">
+            <div class="file-list" id="fileListLocal"></div>
+            <p class="hint">Une photo de la devanture ou de l'intérieur de votre boutique.</p>
           </div>
 
           <div class="field">
@@ -400,7 +412,7 @@
   <script>
     let currentStep = 1;
     const totalSteps = 6;
-    let uploadedFiles = [];
+    let uploadedFiles = { realisations: [], local: [] };
 
     function showStep(n) {
       document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
@@ -449,26 +461,32 @@
     const zone = document.getElementById('uploadZone');
     zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
     zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
-    zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('dragover'); handleFiles(e.dataTransfer.files); });
+    zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('dragover'); handleFiles(e.dataTransfer.files, 'realisations'); });
 
-    function handleFiles(files) {
+    const zoneLocal = document.getElementById('uploadZoneLocal');
+    zoneLocal.addEventListener('dragover', e => { e.preventDefault(); zoneLocal.classList.add('dragover'); });
+    zoneLocal.addEventListener('dragleave', () => zoneLocal.classList.remove('dragover'));
+    zoneLocal.addEventListener('drop', e => { e.preventDefault(); zoneLocal.classList.remove('dragover'); handleFiles(e.dataTransfer.files, 'local'); });
+
+    function handleFiles(files, type) {
       Array.from(files).forEach(f => {
         if (f.size > 10 * 1024 * 1024) return alert(f.name + ' est trop volumineux (max 10 Mo)');
-        uploadedFiles.push(f);
+        uploadedFiles[type].push(f);
       });
-      renderFiles();
+      renderFiles(type);
     }
 
-    function renderFiles() {
-      const list = document.getElementById('fileList');
-      list.innerHTML = uploadedFiles.map((f, i) =>
-        `<div class="file-item"><span class="name">${f.name}</span><span class="size">${(f.size/1024).toFixed(0)} Ko</span><button type="button" class="remove" onclick="removeFile(${i})">×</button></div>`
+    function renderFiles(type) {
+      const listId = type === 'local' ? 'fileListLocal' : 'fileListRealisations';
+      const list = document.getElementById(listId);
+      list.innerHTML = uploadedFiles[type].map((f, i) =>
+        `<div class="file-item"><span class="name">${f.name}</span><span class="size">${(f.size/1024).toFixed(0)} Ko</span><button type="button" class="remove" onclick="removeFile('${type}',${i})">×</button></div>`
       ).join('');
     }
 
-    function removeFile(i) {
-      uploadedFiles.splice(i, 1);
-      renderFiles();
+    function removeFile(type, i) {
+      uploadedFiles[type].splice(i, 1);
+      renderFiles(type);
     }
 
     // Submit
@@ -476,7 +494,8 @@
       e.preventDefault();
       const data = {};
       new FormData(this).forEach((v, k) => data[k] = v);
-      data.files = uploadedFiles.map(f => f.name);
+      data.filesRealisations = uploadedFiles.realisations.map(f => f.name);
+      data.filesLocal = uploadedFiles.local.map(f => f.name);
       data._subject = 'Brief client — ' + (data.businessName || 'Inconnu');
       data.source = 'brief.html';
 
