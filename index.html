@@ -559,14 +559,11 @@
                   <div class="form-group"><label>Pack qui vous intéresse</label>
                     <select name="formule" id="formuleSelect" required>
                       <option value="" disabled selected>Sélectionner...</option>
-                      <option value="Landing Page">Pack Landing Page — 99€</option>
                       <option value="Portfolio">Pack Portfolio — 249€</option>
                       <option value="Vitrine">Pack Site Vitrine — 449€</option>
                       <option value="Premium">Pack Sur-Mesure — 899€</option>
                       <option value="Je ne sais pas encore">Je ne sais pas encore, conseillez-moi</option>
                     </select></div>
-                  <div class="form-group"><label>Parlez-moi de votre projet</label>
-                    <textarea name="desc" rows="5" placeholder="Quel est votre activité ? Quel est votre objectif ? Vous avez déjà du contenu (logo, photos, textes) ?" required></textarea></div>
                   <div style="display:flex;gap:12px;margin-top:8px;flex-wrap:wrap">
                     <button type="submit" class="btn btn-primary" style="flex:1">Envoyer ma demande</button>
                     <button type="button" class="btn btn-outline" onclick="directPay()">Je veux payer directement →</button>
@@ -723,9 +720,13 @@
     }
 
     function selectPlan(nom) {
+      if (nom === 'Pack Landing Page Vendeuse') {
+        window.location.href = 'brief.html';
+        return;
+      }
       nav('devis');
       var sel = document.getElementById('formuleSelect');
-      var map = { "Pack Landing Page Vendeuse": "Landing Page", "Pack Portfolio d'Image": "Portfolio", "Pack Site Vitrine Business": "Vitrine", "Solution Web Sur-Mesure": "Premium" };
+      var map = { "Pack Portfolio d'Image": "Portfolio", "Pack Site Vitrine Business": "Vitrine", "Solution Web Sur-Mesure": "Premium" };
       if (sel) sel.value = map[nom] || nom;
     }
 
