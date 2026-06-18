@@ -300,6 +300,18 @@
           </div>
 
           <div class="field">
+            <label>Votre logo</label>
+            <div class="upload-zone" id="uploadZoneLogo" onclick="document.getElementById('fileInputLogo').click()">
+              <div class="icon">🎨</div>
+              <p>Cliquez ou glissez votre logo ici</p>
+              <p class="formats">JPG, PNG, SVG, WebP — Max 5 Mo</p>
+            </div>
+            <input type="file" id="fileInputLogo" accept="image/*,.svg" style="display:none" onchange="handleFiles(this.files,'logo')">
+            <div class="file-list" id="fileListLogo"></div>
+            <p class="hint">PNG ou SVG de préférence, fond transparent si possible.</p>
+          </div>
+
+          <div class="field">
             <label>Lien Google Photos / WeTransfer (optionnel)</label>
             <input type="url" name="photosLink" placeholder="https://photos.google.com/...">
           </div>
@@ -342,20 +354,6 @@
           <div class="field">
             <label>Lien(s) existant(s)</label>
             <input type="text" name="existingLinks" placeholder="Instagram, Facebook, site actuel...">
-          </div>
-
-          <div class="field">
-            <label>Avez-vous un logo ?</label>
-            <div class="radio-group">
-              <div class="radio-item" onclick="toggleRadio(this)">
-                <input type="radio" name="hasLogo" value="oui" id="logoYes">
-                <label for="logoYes">Oui, je l'envoie</label>
-              </div>
-              <div class="radio-item" onclick="toggleRadio(this)">
-                <input type="radio" name="hasLogo" value="non" id="logoNo">
-                <label for="logoNo">Non, à créer</label>
-              </div>
-            </div>
           </div>
 
           <div class="field">
@@ -412,7 +410,7 @@
   <script>
     let currentStep = 1;
     const totalSteps = 6;
-    let uploadedFiles = { realisations: [], local: [] };
+    let uploadedFiles = { realisations: [], local: [], logo: [] };
 
     function showStep(n) {
       document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
@@ -468,6 +466,11 @@
     zoneLocal.addEventListener('dragleave', () => zoneLocal.classList.remove('dragover'));
     zoneLocal.addEventListener('drop', e => { e.preventDefault(); zoneLocal.classList.remove('dragover'); handleFiles(e.dataTransfer.files, 'local'); });
 
+    const zoneLogo = document.getElementById('uploadZoneLogo');
+    zoneLogo.addEventListener('dragover', e => { e.preventDefault(); zoneLogo.classList.add('dragover'); });
+    zoneLogo.addEventListener('dragleave', () => zoneLogo.classList.remove('dragover'));
+    zoneLogo.addEventListener('drop', e => { e.preventDefault(); zoneLogo.classList.remove('dragover'); handleFiles(e.dataTransfer.files, 'logo'); });
+
     function handleFiles(files, type) {
       Array.from(files).forEach(f => {
         if (f.size > 10 * 1024 * 1024) return alert(f.name + ' est trop volumineux (max 10 Mo)');
@@ -496,6 +499,7 @@
       new FormData(this).forEach((v, k) => data[k] = v);
       data.filesRealisations = uploadedFiles.realisations.map(f => f.name);
       data.filesLocal = uploadedFiles.local.map(f => f.name);
+      data.filesLogo = uploadedFiles.logo.map(f => f.name);
       data._subject = 'Brief client — ' + (data.businessName || 'Inconnu');
       data.source = 'brief.html';
 
