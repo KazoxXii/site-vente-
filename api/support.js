@@ -255,7 +255,7 @@ function supportConfirmationToClient(nom, type, message) {
   </div>`;
 }
 
-function notifySupportTelegram(data) {
+function notifySupportTelegram(data, requestId) {
   const typeEmoji = {
     'Bug / Problème technique': '🐛',
     'Modification de contenu': '✏️',
@@ -264,6 +264,7 @@ function notifySupportTelegram(data) {
     'Déploiement / Mise en ligne': '🚀',
     'Autre': '💡'
   };
+  const { acceptButton } = require('./telegram');
   return sendTelegram(
     `${typeEmoji[data.type] || '📩'} DEMANDE SUPPORT\n\n` +
     `👤 Nom: ${data.nom}\n` +
@@ -272,7 +273,8 @@ function notifySupportTelegram(data) {
     `🌐 Site: ${data.site || 'Non précisé'}\n` +
     `💬 Message:\n${data.message.substring(0, 400)}\n\n` +
     `📅 Date: ${data.date}\n` +
-    `⚡ Action requise`
+    `⚡ Action requise`,
+    requestId ? acceptButton(requestId) : undefined
   );
 }
 
@@ -344,8 +346,10 @@ module.exports = async function handler(req, res) {
       }
 
       // Save to Redis FIRST
+      var savedId = null;
       try {
-        await saveRequest({ nom: data.nom, email: data.email, type: data.type, site: data.site || '', message: data.message, date: now });
+        var saved = await saveRequest({ nom: data.nom, email: data.email, type: data.type, site: data.site || '', message: data.message, date: now });
+        savedId = saved ? saved.id : null;
       } catch (e) {
         console.error('Redis save error:', e.message);
       }
@@ -361,9 +365,9 @@ module.exports = async function handler(req, res) {
         console.error('Email client error:', e.message);
       }
 
-      // Telegram
+      // Telegram with Accept button
       try {
-        await notifySupportTelegram({ ...data, date: now });
+        await notifySupportTelegram({ ...data, date: now }, savedId);
       } catch (e) {
         console.error('Telegram error:', e.message);
       }

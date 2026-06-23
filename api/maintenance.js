@@ -168,8 +168,9 @@ module.exports = async (req, res) => {
     const now = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
 
     // Save to Redis FIRST
+    var savedId = null;
     try {
-      await saveRequest({
+      var saved = await saveRequest({
         nom: clientName,
         email: clientEmail,
         type: 'Maintenance — ' + (typeLabels[type] || type),
@@ -178,6 +179,7 @@ module.exports = async (req, res) => {
         date: now,
         priority: priority || 'low'
       });
+      savedId = saved ? saved.id : null;
     } catch (e) {
       console.error('Redis save error:', e.message);
     }
@@ -193,7 +195,7 @@ module.exports = async (req, res) => {
       console.error('Email client error:', e.message);
     }
 
-    // Telegram
+    // Telegram with Accept button
     try {
       await notifyMaintenanceRequest({
         clientName,
@@ -202,7 +204,7 @@ module.exports = async (req, res) => {
         description,
         priority,
         date: now
-      });
+      }, savedId);
     } catch (e) {
       console.error('Telegram error:', e.message);
     }

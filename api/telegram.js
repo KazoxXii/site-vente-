@@ -1,25 +1,58 @@
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
-async function sendTelegram(message) {
+async function sendTelegram(message, replyMarkup) {
   if (!BOT_TOKEN || !CHAT_ID) {
     console.error('Telegram config missing');
     return;
   }
   
   try {
+    const body = {
+      chat_id: CHAT_ID,
+      text: message
+    };
+    if (replyMarkup) body.reply_markup = replyMarkup;
+    
     const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json; charset=utf-8' },
-      body: JSON.stringify({
-        chat_id: CHAT_ID,
-        text: message
-      })
+      body: JSON.stringify(body)
     });
     return await response.json();
   } catch (err) {
     console.error('Telegram error:', err.message);
   }
+}
+
+async function answerCallback(callbackQueryId, text) {
+  if (!BOT_TOKEN) return;
+  try {
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/answerCallbackQuery`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify({ callback_query_id: callbackQueryId, text: text || '', show_alert: false })
+    });
+  } catch (err) {}
+}
+
+async function editMessage(chatId, messageId, newText, replyMarkup) {
+  if (!BOT_TOKEN) return;
+  try {
+    const body = { chat_id: chatId, message_id: messageId, text: newText };
+    if (replyMarkup) body.reply_markup = replyMarkup;
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/editMessageText`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify(body)
+    });
+  } catch (err) {}
+}
+
+function acceptButton(requestId) {
+  return JSON.stringify({
+    inline_keyboard: [[{ text: '✅ Accepter la demande', callback_data: 'accept:' + requestId }]]
+  });
 }
 
 function notifyNewSubscription(data) {
@@ -63,7 +96,7 @@ function notifyPaymentFailed(data) {
   );
 }
 
-function notifyMaintenanceRequest(data) {
+function notifyMaintenanceRequest(data, requestId) {
   const priorityEmoji = {low:'🟢 Normale',medium:'🟡 Moyenne',high:'🔴 Urgente'};
   const typeLabels = {modification:'Modification de contenu',bug:'Signaler un bug',design:'Changement de design',seo:'Optimisation SEO',ajout:'Ajout de fonctionnalite',autre:'Autre'};
   return sendTelegram(
@@ -74,7 +107,8 @@ function notifyMaintenanceRequest(data) {
     `🚦 Priorite: ${priorityEmoji[data.priority] || '🟡 Moyenne'}\n` +
     `💬 Description:\n${data.description.substring(0, 300)}\n\n` +
     `📅 Date: ${data.date}\n` +
-    `⚡ Action requise`
+    `⚡ Action requise`,
+    requestId ? acceptButton(requestId) : undefined
   );
 }
 
@@ -90,7 +124,7 @@ function notifyReminder(data) {
   );
 }
 
-function notifySupportRequest(data) {
+function notifySupportRequest(data, requestId) {
   const typeEmoji = {
     'Bug / Problème technique': '🐛',
     'Modification de contenu': '✏️',
@@ -107,12 +141,16 @@ function notifySupportRequest(data) {
     `🌐 Site: ${data.site || 'Non précisé'}\n` +
     `💬 Message:\n${data.message.substring(0, 400)}\n\n` +
     `📅 Date: ${data.date}\n` +
-    `⚡ Action requise`
+    `⚡ Action requise`,
+    requestId ? acceptButton(requestId) : undefined
   );
 }
 
 module.exports = {
   sendTelegram,
+  answerCallback,
+  editMessage,
+  acceptButton,
   notifyNewSubscription,
   notifyPayment,
   notifyPaymentFailed,
