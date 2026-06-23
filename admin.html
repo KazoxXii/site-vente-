@@ -159,17 +159,26 @@ tr:hover{background:rgba(0,102,255,0.03)}
           <div class="stat-label">Clients</div>
         </div>
         <div class="card stat-card">
-          <div class="card-icon">⏳</div>
-          <div class="stat-value" id="statPending">—</div>
-          <div class="stat-label">Factures en attente</div>
+          <div class="card-icon">📝</div>
+          <div class="stat-value" id="statRequests">—</div>
+          <div class="stat-label">Demandes reçues</div>
         </div>
       </div>
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">📋 Dernières factures</span>
-          <button class="btn btn-sm btn-outline" onclick="switchTab('invoices')">Voir tout</button>
+      <div class="grid" style="grid-template-columns:1fr 1fr">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📋 Dernières factures</span>
+            <button class="btn btn-sm btn-outline" onclick="switchTab('invoices')">Voir tout</button>
+          </div>
+          <div id="recentInvoices"><div class="loading">Chargement...</div></div>
         </div>
-        <div id="recentInvoices"><div class="loading">Chargement...</div></div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📝 Dernières demandes</span>
+            <button class="btn btn-sm btn-outline" onclick="switchTab('requests')">Voir tout</button>
+          </div>
+          <div id="recentRequests"><div class="loading">Chargement...</div></div>
+        </div>
       </div>
     </div>
 
@@ -237,6 +246,7 @@ tr:hover{background:rgba(0,102,255,0.03)}
           <span class="card-title">📨 Répondre à un client</span>
         </div>
         <input type="hidden" id="respRequestId" value="">
+        <input type="hidden" id="respClientMsg" value="">
         <div class="form-group">
           <label>Email du client</label>
           <input type="email" id="respEmail" placeholder="client@email.com">
@@ -266,7 +276,18 @@ tr:hover{background:rgba(0,102,255,0.03)}
         </div>
         <div class="form-group">
           <label>Message</label>
-          <textarea id="respMessage" placeholder="Votre réponse au client..."></textarea>
+          <div style="display:flex;gap:8px;align-items:stretch;">
+            <textarea id="respMessage" placeholder="Votre réponse au client..." style="flex:1"></textarea>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <button class="btn btn-sm btn-outline" onclick="generateAIReply()" id="aiBtn" style="white-space:nowrap;min-height:44px;">✨ IA</button>
+              <select id="aiTone" style="padding:6px 8px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--fg);font-size:.75rem;min-height:36px;">
+                <option value="pro">🤖 Pro</option>
+                <option value="amical">😊 Amical</option>
+                <option value="formel">🎩 Formel</option>
+              </select>
+            </div>
+          </div>
+          <p id="aiStatus" style="font-size:.75rem;color:var(--muted);margin-top:6px;display:none;">⏳ Génération en cours...</p>
         </div>
         <button class="btn btn-primary" onclick="sendResponse()">📨 Envoyer la réponse</button>
       </div>
@@ -338,6 +359,7 @@ async function login() {
       loadCustomers();
       loadInvoices();
       loadUsers();
+      loadRequests();
     } else {
       showToast('Mot de passe incorrect', 'error');
     }
@@ -389,9 +411,31 @@ async function loadStats() {
     document.getElementById('statActiveSubs').textContent = data.activeSubscriptions || 0;
     document.getElementById('statRevenue').textContent = (data.totalRevenue || 0) + '€';
     document.getElementById('statCustomers').textContent = data.totalCustomers || 0;
-    document.getElementById('statPending').textContent = data.pendingInvoices || 0;
   } catch (err) {
     console.error('Stats error:', err);
+  }
+  try {
+    const rData = await apiCall('requests');
+    var rList = rData.requests || [];
+    document.getElementById('statRequests').textContent = rList.length;
+    var recent = document.getElementById('recentRequests');
+    if (rList.length === 0) {
+      recent.innerHTML = '<p style="color:var(--muted);text-align:center;padding:24px">Aucune demande.</p>';
+    } else {
+      var statusColors = { pending: '#f59e0b', accepted: '#22c55e', in_progress: '#f59e0b', completed: '#0066ff', rejected: '#ef4444' };
+      var html = '<div style="display:flex;flex-direction:column;gap:8px;">';
+      rList.slice(0, 5).forEach(function(r) {
+        var color = statusColors[r.status] || '#f59e0b';
+        html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#0d1525;border-radius:8px;border:1px solid #1a2a4a;">';
+        html += '<div><strong style="color:#fff;font-size:.85rem;">' + (r.nom || 'N/A') + '</strong> <span style="color:#4a6a8a;font-size:.75rem;">' + (r.type || '') + '</span></div>';
+        html += '<span style="background:' + color + ';color:#fff;padding:2px 8px;border-radius:10px;font-size:.7rem;font-weight:600;">' + (r.status || 'pending') + '</span>';
+        html += '</div>';
+      });
+      html += '</div>';
+      recent.innerHTML = html;
+    }
+  } catch (err) {
+    console.error('Requests stats error:', err);
   }
 }
 
@@ -555,12 +599,52 @@ function replyToRequest(r) {
   document.getElementById('respEmail').value = r.email;
   document.getElementById('respName').value = r.nom;
   document.getElementById('respRequestId').value = r.id;
+  document.getElementById('respClientMsg').value = r.message || '';
   var sel = document.getElementById('respRequestType');
   for (var i = 0; i < sel.options.length; i++) {
     if (sel.options[i].value === r.type) { sel.selectedIndex = i; break; }
   }
   document.getElementById('respMessage').value = '';
   document.getElementById('respMessage').focus();
+}
+
+async function generateAIReply() {
+  var name = document.getElementById('respName').value;
+  var type = document.getElementById('respRequestType').value;
+  var clientMsg = document.getElementById('respClientMsg').value;
+  var tone = document.getElementById('aiTone').value;
+  var btn = document.getElementById('aiBtn');
+  var status = document.getElementById('aiStatus');
+
+  if (!clientMsg) {
+    showToast('Pas de message client à analyter', 'error');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = '⏳';
+  status.style.display = 'block';
+
+  try {
+    var res = await fetch('/api/ai-reply', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ clientName: name, requestType: type, clientMessage: clientMsg, tone: tone })
+    });
+    var data = await res.json();
+    if (data.response) {
+      document.getElementById('respMessage').value = data.response;
+      showToast('Réponse IA générée ! Vérifie et envoie.');
+    } else {
+      showToast('Erreur: ' + (data.error || 'Réponse vide'), 'error');
+    }
+  } catch (err) {
+    showToast('Erreur IA: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '✨ IA';
+    status.style.display = 'none';
+  }
 }
 
 async function loadRequests() {
