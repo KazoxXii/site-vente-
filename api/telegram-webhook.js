@@ -38,13 +38,14 @@ async function redisSet(key, value) {
 }
 
 async function sendEmail(to, subject, html) {
-  try {
-    await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ from: 'MALTY <onboarding@resend.dev>', to: [to], subject, html })
-    });
-  } catch(e) {}
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from: 'MALTY <onboarding@resend.dev>', to: [to], subject, html })
+  });
+  const result = await response.json();
+  if (!response.ok) console.error('Resend error:', JSON.stringify(result));
+  return result;
 }
 
 function acceptEmailHtml(clientName, requestType) {
@@ -108,8 +109,11 @@ module.exports = async (req, res) => {
 
       // Send email to client
       try {
-        await sendEmail(r.email, '[MALTY] Votre demande a été acceptée ✅', acceptEmailHtml(r.nom, r.type));
-      } catch(e) {}
+        const emailResult = await sendEmail(r.email, '[MALTY] Votre demande a été acceptée ✅', acceptEmailHtml(r.nom, r.type));
+        console.log('Email sent to:', r.email, 'Result:', JSON.stringify(emailResult));
+      } catch(e) {
+        console.error('Email send error:', e.message);
+      }
 
       // Answer callback
       await answerCallback(cb.id, '✅ Demande acceptée ! Email envoyé au client.');
