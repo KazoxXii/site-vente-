@@ -277,12 +277,36 @@ module.exports = async (req, res) => {
       return res.status(200).json({ ok: true, deleted: emailList.length });
     }
 
+    // LIST ALL SUPPORT REQUESTS
+    if (req.method === 'GET' && action === 'requests') {
+      const idsRaw = await redisGet('request:ids');
+      const ids = Array.isArray(idsRaw) ? idsRaw : [];
+      const requests = [];
+      for (const id of ids) {
+        const r = await redisGet('request:' + id);
+        if (r) requests.push(r);
+      }
+      return res.status(200).json({ requests: requests, total: requests.length });
+    }
+
+    // RESPOND TO CLIENT + UPDATE REQUEST STATUS
     if (req.method === 'POST' && action === 'respond') {
-      const { clientEmail, clientName, responseType, message } = req.body || {};
+      const { clientEmail, clientName, responseType, message, requestId, requestType } = req.body || {};
       if (!clientEmail || !message) return res.status(400).json({ error: 'Email et message requis' });
 
-      await sendEmail(clientEmail, `Reponse MALTY — ${responseType}`, responseEmailHtml(clientName, responseType, message));
-      await sendTelegram(`📨 REPONSE ENVOYEE\n\nClient: ${clientName}\nEmail: ${clientEmail}\nStatut: ${responseType}`);
+      const typeLabelsFR = { accepted: 'Acceptée', rejected: 'Refusée', in_progress: 'En cours', completed: 'Terminée' };
+      await sendEmail(clientEmail, `[MALTY] Votre demande — ${typeLabelsFR[responseType] || responseType}`, responseEmailHtml(clientName, responseType, requestType || 'Support', message));
+      await sendTelegram(`📨 REPONSE ENVOYEE\n\nClient: ${clientName}\nEmail: ${clientEmail}\nStatut: ${typeLabelsFR[responseType] || responseType}`);
+
+      if (requestId) {
+        const r = await redisGet('request:' + requestId);
+        if (r) {
+          r.status = responseType;
+          r.response = message;
+          r.respondedAt = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
+          await redisSet('request:' + requestId, r);
+        }
+      }
 
       return res.status(200).json({ success: true });
     }
@@ -318,19 +342,41 @@ async function sendEmail(to, subject, html) {
   }
 }
 
-function responseEmailHtml(adminName, responseType, message) {
-  const typeLabels = {accepted:'✅ Acceptee',rejected:'❌ Refusee',in_progress:'🔄 En cours',completed:'✅ Terminee'};
+function responseEmailHtml(clientName, responseType, requestType, message) {
+  const typeLabels = { accepted: 'Acceptée', rejected: 'Refusée', in_progress: 'En cours', completed: 'Terminée' };
+  const typeEmoji = { accepted: '✅', rejected: '❌', in_progress: '🔄', completed: '🎉' };
+  const statusColor = { accepted: '#22c55e', rejected: '#ef4444', in_progress: '#f59e0b', completed: '#0066ff' };
+  const label = typeLabels[responseType] || responseType;
+  const emoji = typeEmoji[responseType] || '📩';
+  const color = statusColor[responseType] || '#0066ff';
+
   return `
-  <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#0a0f1a;color:#e0e8f0;padding:40px;border-radius:12px;">
-    <h1 style="color:#0066ff;font-size:22px;text-align:center;margin-bottom:24px;">Reponse de MALTY</h1>
-    <div style="background:#111f35;border:1px solid #1a2a4a;border-radius:12px;padding:24px;margin-bottom:24px;">
-      <p style="margin:0 0 12px;"><strong>Statut:</strong> ${typeLabels[responseType] || responseType}</p>
-      <p style="margin:0 0 12px;"><strong>Message:</strong></p>
-      <div style="background:#0d1a2e;border-left:4px solid #0066ff;padding:16px;border-radius:0 8px 8px 0;margin-top:8px;">
-        <p style="margin:0;line-height:1.6;white-space:pre-wrap;">${message}</p>
-      </div>
+  <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:600px;margin:0 auto;background:#0a0f1a;color:#e0e8f0;padding:0;border-radius:16px;overflow:hidden;border:1px solid #1a2a4a;">
+    <div style="background:linear-gradient(135deg,#0066ff,#0044cc);padding:32px 40px;text-align:center;">
+      <div style="font-size:36px;margin-bottom:8px;">${emoji}</div>
+      <h1 style="color:#ffffff;font-size:24px;margin:0;font-weight:700;">Réponse MALTY</h1>
+      <p style="color:rgba(255,255,255,0.8);font-size:14px;margin:8px 0 0;">Concernant votre demande ${requestType}</p>
     </div>
-    <p style="color:#6a8cba;font-size:13px;text-align:center;">Connectez-vous a votre espace client pour suivre l'avancement.</p>
-    <p style="color:#6a8cba;font-size:11px;text-align:center;margin-top:24px;">— L'equipe MALTY</p>
+    <div style="padding:32px 40px;">
+      <p style="font-size:16px;margin:0 0 24px;">Bonjour <strong style="color:#ffffff;">${clientName || 'Client'}</strong>,</p>
+      <p style="font-size:15px;color:#b0c4de;margin:0 0 24px;line-height:1.6;">Nous avons traité votre demande et voici notre réponse :</p>
+      <div style="background:#111f35;border:1px solid #1a2a4a;border-radius:12px;padding:20px;margin-bottom:24px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+          <span style="background:${color};color:#fff;padding:4px 12px;border-radius:20px;font-size:13px;font-weight:600;">${label}</span>
+          <span style="color:#6a8cba;font-size:13px;">${requestType}</span>
+        </div>
+        <div style="background:#0d1a2e;border-left:4px solid ${color};padding:16px;border-radius:0 8px 8px 0;">
+          <p style="margin:0;line-height:1.7;white-space:pre-wrap;font-size:15px;">${message}</p>
+        </div>
+      </div>
+      <div style="text-align:center;margin:32px 0;">
+        <a href="https://maltyshop.vercel.app/espace-client.html" style="display:inline-block;background:#0066ff;color:#fff;text-decoration:none;padding:14px 32px;border-radius:8px;font-weight:600;font-size:15px;">Mon espace client →</a>
+      </div>
+      <p style="font-size:14px;color:#6a8cba;text-align:center;line-height:1.5;">Si vous avez d'autres questions, n'hésitez pas à nous contacter via votre espace client.</p>
+    </div>
+    <div style="background:#0d1525;padding:20px 40px;text-align:center;border-top:1px solid #1a2a4a;">
+      <p style="margin:0;font-size:13px;color:#4a6a8a;">— L'équipe MALTY</p>
+      <p style="margin:4px 0 0;font-size:11px;color:#3a5a7a;">maltyshop.vercel.app</p>
+    </div>
   </div>`;
 }
