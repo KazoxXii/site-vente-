@@ -1,6 +1,54 @@
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const { notifyMaintenanceRequest } = require('./telegram');
 
+function getRedis() {
+  let url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (url) url = url.replace(/\/+$/, '');
+  return { url, token };
+}
+
+async function redisGet(key) {
+  const { url, token } = getRedis();
+  if (!url || !token) return null;
+  try {
+    const res = await fetch(url + '/get/' + encodeURIComponent(key), {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    const data = await res.json();
+    if (data.result === null || data.result === undefined) return null;
+    if (typeof data.result === 'string') {
+      try { return JSON.parse(data.result); } catch(e) { return data.result; }
+    }
+    return data.result;
+  } catch(e) { return null; }
+}
+
+async function redisSet(key, value) {
+  const { url, token } = getRedis();
+  if (!url || !token) return null;
+  const serialized = typeof value === 'string' ? value : JSON.stringify(value);
+  try {
+    const res = await fetch(url + '/set/' + encodeURIComponent(key), {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'text/plain' },
+      body: serialized
+    });
+    return await res.json();
+  } catch(e) { return null; }
+}
+
+async function saveRequest(reqData) {
+  const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  const request = { id, ...reqData, status: 'pending', response: null, respondedAt: null };
+  await redisSet('request:' + id, request);
+  const listRaw = await redisGet('request:ids');
+  const list = Array.isArray(listRaw) ? listRaw : [];
+  list.unshift(id);
+  await redisSet('request:ids', list);
+  return request;
+}
+
 async function sendEmail(to, subject, html) {
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -117,6 +165,22 @@ module.exports = async (req, res) => {
 
     const typeLabels = {modification:'Modification',bug:'Bug',design:'Design',seo:'SEO',ajout:'Ajout',autre:'Autre'};
     const priorityEmoji = {low:'🟢',medium:'🟡',high:'🔴'};
+    const now = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
+
+    // Save to Redis FIRST
+    try {
+      await saveRequest({
+        nom: clientName,
+        email: clientEmail,
+        type: 'Maintenance — ' + (typeLabels[type] || type),
+        site: '',
+        message: description,
+        date: now,
+        priority: priority || 'low'
+      });
+    } catch (e) {
+      console.error('Redis save error:', e.message);
+    }
 
     await sendEmail(
       'maltyz@outlook.fr',

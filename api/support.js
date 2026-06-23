@@ -302,6 +302,21 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ error: 'Champs manquants' });
       }
 
+      // Save to Redis FIRST
+      try {
+        const briefMsg = 'Projet: ' + (data.businessName || '') + ' | Type: ' + (data.siteType || '') + ' | Pages: ' + (data.pages || '') + ' | Budget: ' + (data.budget || '') + ' | Description: ' + (data.description || '');
+        await saveRequest({
+          nom: data.businessName,
+          email: data.email,
+          type: 'Brief — Landing Page',
+          site: data.businessName || '',
+          message: briefMsg,
+          date: now
+        });
+      } catch (e) {
+        console.error('Redis save error:', e.message);
+      }
+
       // Email to Malty
       await sendEmail(
         'maltyz@outlook.fr',
