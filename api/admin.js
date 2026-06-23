@@ -1,6 +1,55 @@
 const crypto = require('crypto');
 const { sendTelegram } = require('./telegram');
 
+function getRedis() {
+  let url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (url) url = url.replace(/\/+$/, '');
+  return { url, token };
+}
+
+async function redisGet(key) {
+  const { url, token } = getRedis();
+  if (!url || !token) return null;
+  try {
+    const res = await fetch(url + '/get/' + encodeURIComponent(key), {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    const data = await res.json();
+    if (data.result === null || data.result === undefined) return null;
+    if (typeof data.result === 'string') {
+      try { return JSON.parse(data.result); } catch(e) { return data.result; }
+    }
+    return data.result;
+  } catch(e) { return null; }
+}
+
+async function redisSet(key, value) {
+  const { url, token } = getRedis();
+  if (!url || !token) return null;
+  const serialized = typeof value === 'string' ? value : JSON.stringify(value);
+  try {
+    const res = await fetch(url + '/set/' + encodeURIComponent(key), {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ value: serialized })
+    });
+    return await res.json();
+  } catch(e) { return null; }
+}
+
+async function redisDel(key) {
+  const { url, token } = getRedis();
+  if (!url || !token) return null;
+  try {
+    await fetch(url + '/del/' + encodeURIComponent(key), {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+      body: '{}'
+    });
+  } catch(e) {}
+}
+
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Maman972lol';
 const JWT_SECRET = process.env.JWT_SECRET || 'malty-admin-secret-2026-secure';
 const TOKEN_EXPIRY = 24 * 60 * 60 * 1000;
@@ -68,6 +117,45 @@ module.exports = async (req, res) => {
   if (req.method === 'POST' && action === 'logout') {
     res.setHeader('Set-Cookie', `admin_token=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0`);
     return res.status(200).json({ ok: true });
+  }
+
+  // TEST REDIS
+  if (req.method === 'GET' && action === 'testRedis') {
+    try {
+      const r = getRedis();
+      const baseUrl = r.url || 'MISSING';
+      const hasToken = !!r.token;
+      
+      const setRes = await fetch(baseUrl + '/set/_test123', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + r.token, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ value: 'bonjour' })
+      });
+      const setData = await setRes.json();
+      
+      const getRes = await fetch(baseUrl + '/get/_test123', {
+        headers: { Authorization: 'Bearer ' + r.token }
+      });
+      const getData = await getRes.json();
+      
+      const delRes = await fetch(baseUrl + '/del/_test123', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + r.token, 'Content-Type': 'application/json' },
+        body: '{}'
+      });
+      const delData = await delRes.json();
+
+      return res.status(200).json({
+        baseUrl: baseUrl.substring(0, 50),
+        hasToken: hasToken,
+        setResponse: setData,
+        getResponse: getData,
+        delResponse: delData,
+        match: getData.result === 'bonjour'
+      });
+    } catch (e) {
+      return res.status(200).json({ error: e.message, stack: e.stack });
+    }
   }
 
   // PROTECTED ZONE — verify token for all other actions
@@ -142,6 +230,51 @@ module.exports = async (req, res) => {
         date: new Date(inv.created * 1000).toLocaleDateString('fr-FR'),
         url: inv.hosted_invoice_url
       }))});
+    }
+
+    // LIST ALL REGISTERED USERS
+    if (req.method === 'GET' && action === 'users') {
+      const emailListRaw = await redisGet('user:emails');
+      const emailList = Array.isArray(emailListRaw) ? emailListRaw : [];
+      const users = [];
+      for (const email of emailList) {
+        const u = await redisGet(`user:${email}`);
+        if (u) {
+          users.push({
+            nom: u.nom || 'N/A',
+            email: u.email,
+            phone: u.phone || '',
+            plan: u.plan || null,
+            createdAt: u.createdAt || 'N/A',
+            sites: u.sites || []
+          });
+        }
+      }
+      return res.status(200).json({ users: users, total: users.length });
+    }
+
+    // DELETE USER
+    if (req.method === 'POST' && action === 'deleteUser') {
+      const { email: targetEmail } = req.body || {};
+      if (!targetEmail) return res.status(400).json({ error: 'Email requis' });
+      const em = targetEmail.toLowerCase();
+      await redisDel(`user:${em}`);
+      const emailListRaw = await redisGet('user:emails');
+      const emailList = Array.isArray(emailListRaw) ? emailListRaw : [];
+      const filtered = emailList.filter(e => e !== em);
+      await redisSet('user:emails', filtered);
+      return res.status(200).json({ ok: true });
+    }
+
+    // DELETE ALL USERS
+    if (req.method === 'POST' && action === 'deleteAllUsers') {
+      const emailListRaw = await redisGet('user:emails');
+      const emailList = Array.isArray(emailListRaw) ? emailListRaw : [];
+      for (const email of emailList) {
+        await redisDel(`user:${email}`);
+      }
+      await redisSet('user:emails', []);
+      return res.status(200).json({ ok: true, deleted: emailList.length });
     }
 
     if (req.method === 'POST' && action === 'respond') {
