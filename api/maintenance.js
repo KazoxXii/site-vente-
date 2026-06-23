@@ -182,28 +182,32 @@ module.exports = async (req, res) => {
       console.error('Redis save error:', e.message);
     }
 
-    await sendEmail(
-      'maltyz@outlook.fr',
-      `${priorityEmoji[priority] || '📝'} Nouvelle demande ${typeLabels[type] || type} — ${clientName}`,
-      emailToMalty(clientName, clientEmail, type, description, priority)
-    );
+    // Confirmation to client
+    try {
+      await sendEmail(
+        clientEmail,
+        `✅ [MALTY] Demande de maintenance reçue`,
+        confirmationToClient(clientName, type, description)
+      );
+    } catch (e) {
+      console.error('Email client error:', e.message);
+    }
 
-    await sendEmail(
-      'maltyz@outlook.fr',
-      `✅ [Copie] Confirmation demande ${clientName} — MALTY`,
-      confirmationToClient(clientName, type, description)
-    );
+    // Telegram
+    try {
+      await notifyMaintenanceRequest({
+        clientName,
+        clientEmail,
+        type,
+        description,
+        priority,
+        date: now
+      });
+    } catch (e) {
+      console.error('Telegram error:', e.message);
+    }
 
-    await notifyMaintenanceRequest({
-      clientName,
-      clientEmail,
-      type,
-      description,
-      priority,
-      date: new Date().toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'})
-    });
-
-    return res.status(200).json({ success: true, message: 'Emails envoyés avec succès' });
+    return res.status(200).json({ success: true, message: 'Demande reçue' });
 
   } catch (error) {
     console.error('Maintenance email error:', error.message);
