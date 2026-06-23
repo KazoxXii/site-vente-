@@ -311,6 +311,26 @@ module.exports = async (req, res) => {
       return res.status(200).json({ success: true });
     }
 
+    // ACCEPT REQUEST — sends auto email to client
+    if (req.method === 'POST' && action === 'acceptRequest') {
+      const { requestId } = req.body || {};
+      if (!requestId) return res.status(400).json({ error: 'requestId requis' });
+
+      const r = await redisGet('request:' + requestId);
+      if (!r) return res.status(404).json({ error: 'Demande introuvable' });
+
+      r.status = 'accepted';
+      r.respondedAt = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
+      await redisSet('request:' + requestId, r);
+
+      const autoMessage = `Bonjour ${r.nom},\n\nVotre demande (${r.type}) a bien été prise en compte par notre équipe !\n\nNous allons travailler dessus et elle sera prête dans les 24 heures qui suivent.\n\nSi votre demande est urgente, n'hésitez pas à nous en informer.\n\nMerci pour votre confiance.\n\nL'équipe MALTY`;
+
+      await sendEmail(r.email, '[MALTY] Votre demande a été acceptée ✅', acceptEmailHtml(r.nom, r.type, r.message));
+      await sendTelegram(`✅ DEMANDE ACCEPTÉE\n\nClient: ${r.nom}\nEmail: ${r.email}\nType: ${r.type}\nDate: ${r.respondedAt}`);
+
+      return res.status(200).json({ success: true, message: 'Demande acceptée, email envoyé au client' });
+    }
+
     return res.status(400).json({ error: 'Action invalide' });
 
   } catch (error) {
@@ -373,6 +393,39 @@ function responseEmailHtml(clientName, responseType, requestType, message) {
         <a href="https://maltyshop.vercel.app/espace-client.html" style="display:inline-block;background:#0066ff;color:#fff;text-decoration:none;padding:14px 32px;border-radius:8px;font-weight:600;font-size:15px;">Mon espace client →</a>
       </div>
       <p style="font-size:14px;color:#6a8cba;text-align:center;line-height:1.5;">Si vous avez d'autres questions, n'hésitez pas à nous contacter via votre espace client.</p>
+    </div>
+    <div style="background:#0d1525;padding:20px 40px;text-align:center;border-top:1px solid #1a2a4a;">
+      <p style="margin:0;font-size:13px;color:#4a6a8a;">— L'équipe MALTY</p>
+      <p style="margin:4px 0 0;font-size:11px;color:#3a5a7a;">maltyshop.vercel.app</p>
+    </div>
+  </div>`;
+}
+
+function acceptEmailHtml(clientName, requestType, originalMessage) {
+  return `
+  <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:600px;margin:0 auto;background:#0a0f1a;color:#e0e8f0;padding:0;border-radius:16px;overflow:hidden;border:1px solid #1a2a4a;">
+    <div style="background:linear-gradient(135deg,#22c55e,#16a34a);padding:32px 40px;text-align:center;">
+      <div style="font-size:48px;margin-bottom:8px;">✅</div>
+      <h1 style="color:#ffffff;font-size:24px;margin:0;font-weight:700;">Demande acceptée !</h1>
+    </div>
+    <div style="padding:32px 40px;">
+      <p style="font-size:16px;margin:0 0 24px;">Bonjour <strong style="color:#ffffff;">${clientName || 'Client'}</strong>,</p>
+      <p style="font-size:15px;color:#b0c4de;margin:0 0 24px;line-height:1.7;">Bonne nouvelle ! Votre demande a été <strong style="color:#22c55e;">acceptée</strong> par notre équipe.</p>
+      <div style="background:#111f35;border:1px solid #1a2a4a;border-radius:12px;padding:20px;margin-bottom:24px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+          <span style="background:#22c55e;color:#fff;padding:4px 12px;border-radius:20px;font-size:13px;font-weight:600;">Acceptée</span>
+          <span style="color:#6a8cba;font-size:13px;">${requestType}</span>
+        </div>
+        ${originalMessage ? '<p style="color:#8ab4f8;font-size:13px;margin:0 0 8px;">Votre message :</p><p style="color:#b0c4de;font-size:14px;margin:0;line-height:1.5;">' + originalMessage.substring(0, 300) + '</p>' : ''}
+      </div>
+      <div style="background:#0d2818;border:1px solid #166534;border-radius:12px;padding:20px;margin-bottom:24px;text-align:center;">
+        <p style="margin:0;font-size:15px;color:#86efac;">⏱️ Votre demande sera prête dans les <strong>24 heures</strong></p>
+        <p style="margin:8px 0 0;font-size:13px;color:#4ade80;">Sauf urgence — contactez-nous si besoin</p>
+      </div>
+      <div style="text-align:center;margin:32px 0;">
+        <a href="https://maltyshop.vercel.app/espace-client.html" style="display:inline-block;background:#0066ff;color:#fff;text-decoration:none;padding:14px 32px;border-radius:8px;font-weight:600;font-size:15px;">Mon espace client →</a>
+      </div>
+      <p style="font-size:14px;color:#6a8cba;text-align:center;line-height:1.5;">Merci pour votre confiance. Nous reviendrons vers vous très vite !</p>
     </div>
     <div style="background:#0d1525;padding:20px 40px;text-align:center;border-top:1px solid #1a2a4a;">
       <p style="margin:0;font-size:13px;color:#4a6a8a;">— L'équipe MALTY</p>

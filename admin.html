@@ -608,6 +608,18 @@ function replyToRequest(r) {
   document.getElementById('respMessage').focus();
 }
 
+async function acceptRequest(requestId) {
+  if (!confirm('Accepter cette demande ? Un email sera envoyé au client (prêt sous 24h).')) return;
+  try {
+    await apiCall('acceptRequest', 'POST', { requestId: requestId });
+    showToast('Demande acceptée ! Email envoyé au client.');
+    loadRequests();
+    loadStats();
+  } catch (err) {
+    showToast('Erreur: ' + err.message, 'error');
+  }
+}
+
 async function generateAIReply() {
   var name = document.getElementById('respName').value;
   var type = document.getElementById('respRequestType').value;
@@ -679,7 +691,12 @@ async function loadRequests() {
         html += '<p style="margin:4px 0 0;font-size:13px;color:#b0c4de;">' + r.response.substring(0, 200) + '</p>';
         html += '</div>';
       }
+      html += '<div style="display:flex;gap:8px;flex-wrap:wrap;">';
+      if (r.status === 'pending') {
+        html += '<button class="btn btn-sm btn-success" onclick="acceptRequest(\'' + r.id + '\')">✅ Accepter</button>';
+      }
       html += '<button class="btn btn-sm btn-outline" onclick=\'replyToRequest(' + JSON.stringify(r).replace(/'/g, "&#39;") + ')\'>💬 Répondre</button>';
+      html += '</div>';
       html += '</div>';
     });
     container.innerHTML = html;

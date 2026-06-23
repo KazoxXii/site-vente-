@@ -327,25 +327,41 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ error: 'Champs manquants' });
       }
 
+      // Save to Redis FIRST (before emails)
+      try {
+        await saveRequest({ nom: data.nom, email: data.email, type: data.type, site: data.site || '', message: data.message, date: now });
+      } catch (e) {
+        console.error('Redis save error:', e.message);
+      }
+
       // Email to Malty
-      await sendEmail(
-        'maltyz@outlook.fr',
-        `📩 Nouvelle demande support — ${data.nom}`,
-        supportEmailToMalty(data.nom, data.email, data.type, data.site, data.message)
-      );
+      try {
+        await sendEmail(
+          'maltyz@outlook.fr',
+          `📩 Nouvelle demande support — ${data.nom}`,
+          supportEmailToMalty(data.nom, data.email, data.type, data.site, data.message)
+        );
+      } catch (e) {
+        console.error('Email admin error:', e.message);
+      }
 
       // Confirmation to client
-      await sendEmail(
-        data.email,
-        `✅ [MALTY] Votre message a bien été envoyé`,
-        supportConfirmationToClient(data.nom, data.type, data.message)
-      );
+      try {
+        await sendEmail(
+          data.email,
+          `✅ [MALTY] Votre message a bien été envoyé`,
+          supportConfirmationToClient(data.nom, data.type, data.message)
+        );
+      } catch (e) {
+        console.error('Email client error:', e.message);
+      }
 
       // Telegram
-      await notifySupportTelegram({ ...data, date: now });
-
-      // Save to Redis for admin history
-      await saveRequest({ nom: data.nom, email: data.email, type: data.type, site: data.site || '', message: data.message, date: now });
+      try {
+        await notifySupportTelegram({ ...data, date: now });
+      } catch (e) {
+        console.error('Telegram error:', e.message);
+      }
 
       return res.status(200).json({ ok: true, message: 'Demande envoyée' });
     }
