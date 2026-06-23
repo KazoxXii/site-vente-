@@ -31,8 +31,8 @@ async function redisSet(key, value) {
   try {
     const res = await fetch(url + '/set/' + encodeURIComponent(key), {
       method: 'POST',
-      headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ value: serialized })
+      headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'text/plain' },
+      body: serialized
     });
     return await res.json();
   } catch(e) { return null; }
@@ -128,8 +128,8 @@ module.exports = async (req, res) => {
       
       const setRes = await fetch(baseUrl + '/set/_test123', {
         method: 'POST',
-        headers: { Authorization: 'Bearer ' + r.token, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ value: 'bonjour' })
+        headers: { Authorization: 'Bearer ' + r.token, 'Content-Type': 'text/plain' },
+        body: 'bonjour'
       });
       const setData = await setRes.json();
       
