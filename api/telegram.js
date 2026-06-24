@@ -50,8 +50,9 @@ async function editMessage(chatId, messageId, newText, replyMarkup) {
 }
 
 function acceptButton(requestId) {
+  const url = 'https://maltyshop.vercel.app/api/accept-request?id=' + requestId;
   return JSON.stringify({
-    inline_keyboard: [[{ text: '✅ Accepter la demande', callback_data: 'accept:' + requestId }]]
+    inline_keyboard: [[{ text: '✅ Accepter la demande', url: url }]]
   });
 }
 
