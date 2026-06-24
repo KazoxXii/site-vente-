@@ -331,6 +331,71 @@ module.exports = async (req, res) => {
       return res.status(200).json({ success: true, message: 'Demande acceptée, email envoyé au client' });
     }
 
+    // ACCEPT REQUEST from Telegram URL button (no auth needed)
+    if (req.method === 'GET' && action === 'accept') {
+      const requestId = url.searchParams.get('id');
+      if (!requestId) return res.status(400).json({ error: 'Missing id' });
+
+      const r = await redisGet('request:' + requestId);
+      if (!r) return res.status(404).json({ error: 'Demande introuvable' });
+      if (r.status === 'accepted') return res.status(200).json({ ok: true, message: 'Déjà acceptée' });
+
+      r.status = 'accepted';
+      r.respondedAt = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
+      await redisSet('request:' + requestId, r);
+
+      let emailOk = false;
+      try {
+        const emailRes = await sendEmail(r.email, '[MALTY] Votre demande a été acceptée ✅', acceptEmailHtml(r.nom, r.type, r.message));
+        emailOk = emailRes && emailRes.id;
+      } catch(e) { console.error('Email error:', e.message); }
+
+      await sendTelegram(`✅ DEMANDE ACCEPTÉE\n\nClient: ${r.nom}\nEmail: ${r.email}\nType: ${r.type}\nDate: ${r.respondedAt}\nEmail: ${emailOk ? 'Envoyé' : 'Échoué'}`);
+
+      return res.status(200).json({ ok: true, emailSent: emailOk });
+    }
+
+    // AI REPLY (no auth needed)
+    if (req.method === 'POST' && action === 'ai-reply') {
+      const { clientName, requestType, clientMessage } = req.body || {};
+      if (!clientMessage) return res.status(400).json({ error: 'Message requis' });
+      const name = clientName || 'Client';
+      const type = requestType || 'Support technique';
+      const msg = clientMessage.toLowerCase();
+      let response = '';
+      if (type.includes('Maintenance')) {
+        if (msg.includes('bug') || msg.includes('erreur') || msg.includes('ne fonctionne')) {
+          response = `Bonjour ${name},\n\nMerci pour votre signalement. Notre équipe technique va analyser le problème. En général, ce type de problème est résolu sous 24 à 48h.\n\nNous reviendrons vers vous dès que le correctif sera en place.\n\nCordialement,\nL'équipe MALTY`;
+        } else if (msg.includes('lent') || msg.includes('performance')) {
+          response = `Bonjour ${name},\n\nMerci de nous avoir signalé ce souci de performance. Nous allons examiner les temps de chargement et optimiser le site.\n\nCordialement,\nL'équipe MALTY`;
+        } else {
+          response = `Bonjour ${name},\n\nBien reçu votre demande de maintenance. Notre équipe l'examine et reviendrons vers vous rapidement.\n\nCordialement,\nL'équipe MALTY`;
+        }
+      } else if (type.includes('Abonnement')) {
+        response = `Bonjour ${name},\n\nMerci pour votre message concernant votre abonnement.\n\nNous sommes là pour vous accompagner. N'hésitez pas à nous décrire votre besoin en détail.\n\nCordialement,\nL'équipe MALTY`;
+      } else if (type.includes('devis')) {
+        response = `Bonjour ${name},\n\nMerci pour votre demande de devis ! Pourriez-vous nous décrire votre projet ?\n\n• Type de site souhaité\n• Nombre de pages\n• Fonctionnalités spécifiques\n\nNous préparons votre devis personnalisé.\n\nCordialement,\nL'équipe MALTY`;
+      } else {
+        response = `Bonjour ${name},\n\nMerci pour votre message. Nous l'avons bien reçu et nous reviendrons vers vous très rapidement.\n\nCordialement,\nL'équipe MALTY`;
+      }
+      return res.status(200).json({ response });
+    }
+
+    // SETUP TELEGRAM WEBHOOK (no auth needed)
+    if (req.method === 'GET' && action === 'setupWebhook') {
+      const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+      if (!BOT_TOKEN) return res.status(500).json({ error: 'BOT_TOKEN missing' });
+      const webhookUrl = 'https://maltyshop.vercel.app/api/telegram-webhook';
+      await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/deleteWebhook`);
+      const r = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/setWebhook`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: webhookUrl, allowed_updates: ['callback_query'] })
+      });
+      const data = await r.json();
+      return res.status(200).json({ ok: true, webhook: data, url: webhookUrl });
+    }
+
     return res.status(400).json({ error: 'Action invalide' });
 
   } catch (error) {

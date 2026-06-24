@@ -639,7 +639,7 @@ async function generateAIReply() {
   status.style.display = 'block';
 
   try {
-    var res = await fetch('/api/ai-reply', {
+    var res = await fetch('/api/admin?action=ai-reply', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ clientName: name, requestType: type, clientMessage: clientMsg, tone: tone })
