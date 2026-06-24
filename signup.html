@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Créez votre compte MALTY et accédez à votre espace client.">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Inscription — MALTY</title>
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0a0f1a;--surface:#0d1a2e;--surface2:#111f35;--fg:#e0e8f0;--muted:#6a8cba;--accent:#0066ff;--accent2:#0055dd;--success:#00cc66;--danger:#ff3333;--border:#1a2a4a;--radius:16px;--font:'Inter',sans-serif}
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{-webkit-font-smoothing:antialiased}
+    body{background:var(--bg);color:var(--fg);font-family:var(--font);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;position:relative;overflow:hidden}
+    body::before{content:'';position:absolute;top:-50%;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(ellipse,rgba(0,102,255,.12),transparent 60%);pointer-events:none}
+
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:48px 40px;max-width:440px;width:100%;position:relative;z-index:1}
+    .logo-center{text-align:center;margin-bottom:32px}
+    .logo-center svg{height:56px;width:auto}
+    .logo-center h1{font-size:1.5rem;font-weight:800;margin-top:12px;letter-spacing:-0.02em}
+    .logo-center p{color:var(--muted);font-size:.85rem;margin-top:4px}
+
+    .form-group{margin-bottom:18px}
+    .form-group label{display:block;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
+    .form-group input{width:100%;padding:14px 16px;background:var(--bg);border:1px solid var(--border);border-radius:12px;color:var(--fg);font-family:var(--font);font-size:.9rem;outline:none;transition:border-color .2s,box-shadow .2s}
+    .form-group input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,102,255,.15)}
+    .form-group input::placeholder{color:var(--muted);opacity:.5}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px 24px;border-radius:12px;font-weight:600;font-size:.9rem;cursor:pointer;border:none;transition:all .2s;font-family:var(--font)}
+    .btn-primary{background:var(--accent);color:#fff}
+    .btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
+    .btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+    .error-msg{background:rgba(255,51,51,.1);border:1px solid rgba(255,51,51,.3);border-radius:10px;padding:12px 16px;margin-bottom:20px;font-size:.85rem;color:var(--danger);display:none}
+
+    .login-link{text-align:center;margin-top:24px;font-size:.85rem;color:var(--muted)}
+    .login-link a{color:var(--accent);text-decoration:none;font-weight:600;transition:color .2s}
+    .login-link a:hover{color:var(--fg)}
+
+    .terms{text-align:center;margin-top:16px;font-size:.75rem;color:var(--muted);line-height:1.5}
+
+    @media(max-width:480px){
+      .card{padding:32px 24px}
+      .form-row{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo-center">
+      <svg viewBox="0 0 100 90" height="56"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#bae6fd"/><stop offset="20%" stop-color="#7dd3fc"/><stop offset="50%" stop-color="#38bdf8"/><stop offset="80%" stop-color="#0ea5e9"/><stop offset="100%" stop-color="#0284c7"/></linearGradient><linearGradient id="lg2" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#38bdf8"/><stop offset="20%" stop-color="#0ea5e9"/><stop offset="50%" stop-color="#0284c7"/><stop offset="80%" stop-color="#0369a1"/><stop offset="100%" stop-color="#075985"/></linearGradient><linearGradient id="lg3" x1="50%" y1="0%" x2="50%" y2="100%"><stop offset="0%" stop-color="#0c4a6e"/><stop offset="40%" stop-color="#082f49"/><stop offset="100%" stop-color="#0c1929"/></linearGradient><linearGradient id="lg4" x1="0%" y1="0%" x2="60%" y2="100%"><stop offset="0%" stop-color="#e0f2fe" stop-opacity="0.7"/><stop offset="100%" stop-color="#bae6fd" stop-opacity="0.1"/></linearGradient></defs><polygon points="8,82 8,14 28,6 50,36 28,48 8,58" fill="url(#lg)"/><polygon points="8,14 28,6 33,16 13,24" fill="url(#lg4)"/><polygon points="92,82 92,14 72,6 50,36 72,48 92,58" fill="url(#lg2)"/><polygon points="92,14 72,6 67,16 87,24" fill="url(#lg4)" opacity="0.7"/><polygon points="28,48 50,36 72,48 50,72" fill="url(#lg3)"/><line x1="8" y1="14" x2="28" y2="6" stroke="#e0f2fe" stroke-width="1.5" opacity="0.5"/><line x1="92" y1="14" x2="72" y2="6" stroke="#e0f2fe" stroke-width="1.5" opacity="0.4"/></svg>
+      <h1>Créer un compte</h1>
+      <p>Rejoignez MALTY en quelques secondes</p>
+    </div>
+
+    <div class="error-msg" id="errorMsg"></div>
+
+    <form id="signupForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nom</label>
+          <input type="text" name="nom" placeholder="Votre nom" required>
+        </div>
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input type="tel" name="phone" placeholder="06 XX XX XX XX">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" placeholder="votre@email.com" required autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label>Mot de passe</label>
+        <input type="password" name="password" placeholder="Minimum 6 caractères" required minlength="6" autocomplete="new-password">
+      </div>
+      <button type="submit" class="btn btn-primary" id="submitBtn">Créer mon compte</button>
+    </form>
+
+    <p class="login-link">Déjà un compte ? <a href="login.html">Se connecter</a></p>
+    <p class="terms">En créant un compte, vous acceptez nos conditions d'utilisation.</p>
+  </div>
+
+  <script>
+    // Check if already logged in
+    var token = localStorage.getItem('malty_token');
+    var userEmail = localStorage.getItem('malty_email');
+    if (token && userEmail) {
+      window.location.href = 'index.html';
+    }
+
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var btn = document.getElementById('submitBtn');
+      var errorEl = document.getElementById('errorMsg');
+      btn.disabled = true;
+      btn.textContent = 'Création...';
+      errorEl.style.display = 'none';
+
+      var data = {
+        action: 'register',
+        nom: this.nom.value,
+        email: this.email.value,
+        password: this.password.value,
+        phone: this.phone.value
+      };
+
+      fetch('/api/auth', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (d.ok) {
+          localStorage.setItem('malty_token', d.token);
+          localStorage.setItem('malty_email', d.user.email);
+          localStorage.setItem('malty_user', JSON.stringify(d.user));
+          localStorage.removeItem('malty_guest');
+          window.location.href = 'index.html';
+        } else {
+          errorEl.textContent = d.error || 'Erreur lors de la création du compte';
+          errorEl.style.display = 'block';
+          btn.disabled = false;
+          btn.textContent = 'Créer mon compte';
+        }
+      })
+      .catch(function() {
+        errorEl.textContent = 'Erreur réseau. Vérifiez votre connexion.';
+        errorEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Créer mon compte';
+      });
+    });
+  </script>
+</body>
+</html>

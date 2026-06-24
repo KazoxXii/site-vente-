@@ -1,5 +1,15 @@
-const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const nodemailer = require('nodemailer');
 const { sendTelegram } = require('./telegram');
+
+const transporter = nodemailer.createTransport({
+  host: 'smtp-mail.outlook.com',
+  port: 587,
+  secure: false,
+  auth: {
+    user: 'maltyz@outlook.fr',
+    pass: process.env.OUTLOOK_APP_PASSWORD
+  }
+});
 
 function getRedis() {
   let url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
@@ -50,24 +60,13 @@ async function saveRequest(reqData) {
 }
 
 async function sendEmail(to, subject, html) {
-  const response = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${RESEND_API_KEY}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      from: 'MALTY <onboarding@resend.dev>',
-      to: [to],
-      subject: subject,
-      html: html
-    })
+  const info = await transporter.sendMail({
+    from: '"MALTY" <maltyz@outlook.fr>',
+    to: to,
+    subject: subject,
+    html: html
   });
-  if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`Resend error: ${error}`);
-  }
-  return await response.json();
+  return { id: info.messageId };
 }
 
 // ==================== BRIEF ====================

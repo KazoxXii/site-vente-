@@ -1,5 +1,16 @@
 const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 const { sendTelegram } = require('./telegram');
+
+const transporter = nodemailer.createTransport({
+  host: 'smtp-mail.outlook.com',
+  port: 587,
+  secure: false,
+  auth: {
+    user: 'maltyz@outlook.fr',
+    pass: process.env.OUTLOOK_APP_PASSWORD
+  }
+});
 
 function getRedis() {
   let url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
@@ -407,20 +418,13 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 async function sendEmail(to, subject, html) {
   try {
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        from: 'MALTY <onboarding@resend.dev>',
-        to: [to],
-        subject: subject,
-        html: html
-      })
+    const info = await transporter.sendMail({
+      from: '"MALTY" <maltyz@outlook.fr>',
+      to: to,
+      subject: subject,
+      html: html
     });
-    return await response.json();
+    return { id: info.messageId };
   } catch (err) {
     console.error('Email error:', err.message);
   }

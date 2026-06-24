@@ -1,5 +1,16 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const nodemailer = require('nodemailer');
 const { notifyNewSubscription, notifyPayment, notifyPaymentFailed } = require('./telegram');
+
+const transporter = nodemailer.createTransport({
+  host: 'smtp-mail.outlook.com',
+  port: 587,
+  secure: false,
+  auth: {
+    user: 'maltyz@outlook.fr',
+    pass: process.env.OUTLOOK_APP_PASSWORD
+  }
+});
 
 module.exports.config = { api: { bodyParser: false } };
 
@@ -11,26 +22,16 @@ async function getRawBody(req) {
   return Buffer.concat(chunks);
 }
 
-// Send email via Resend
+// Send email via Outlook SMTP (free)
 async function sendEmail(to, subject, html) {
   try {
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        from: 'MALTY <onboarding@resend.dev>',
-        to: [to],
-        subject: subject,
-        html: html
-      })
+    const info = await transporter.sendMail({
+      from: '"MALTY" <maltyz@outlook.fr>',
+      to: to,
+      subject: subject,
+      html: html
     });
-    if (!response.ok) {
-      const error = await response.text();
-      console.error('Resend error:', error);
-    }
+    return { id: info.messageId };
   } catch (err) {
     console.error('Email send failed:', err.message);
   }

@@ -395,9 +395,43 @@
     <div class="success-screen" id="successScreen">
       <div class="success-icon">✅</div>
       <h2>Brief envoyé !</h2>
-      <p>Merci ! Je commence la création de votre landing page. Vous recevrez un email de confirmation sous peu.</p>
+      <p>Merci ! J'ai bien reçu votre brief. Voici ce qui va se passer :</p>
+
+      <div style="max-width:500px;margin:32px auto;text-align:left">
+        <div style="display:flex;gap:16px;align-items:flex-start;margin-bottom:20px">
+          <div style="background:var(--accent);color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0">1</div>
+          <div>
+            <strong>Confirmation par email</strong>
+            <p style="color:var(--muted);font-size:.85rem;margin:4px 0 0">Vous recevez un email de récapitulatif avec toutes les infos.</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:16px;align-items:flex-start;margin-bottom:20px">
+          <div style="background:var(--accent);color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0">2</div>
+          <div>
+            <strong>Création de votre page</strong>
+            <p style="color:var(--muted);font-size:.85rem;margin:4px 0 0">Je commence la création sous 24h. Délai : 3 à 5 jours ouvrés.</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:16px;align-items:flex-start;margin-bottom:20px">
+          <div style="background:var(--accent);color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0">3</div>
+          <div>
+            <strong>Livraison de votre site</strong>
+            <p style="color:var(--muted);font-size:.85rem;margin:4px 0 0">Vous recevez les fichiers source + guide de mise en ligne.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;max-width:500px;margin:0 auto">
+        <h3 style="font-size:1rem;margin-bottom:16px">En attendant, vous pouvez :</h3>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <a href="support.html" class="btn btn-outline" style="width:100%">💬 Poser une question au support</a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https://maltyshop.vercel.app" target="_blank" class="btn btn-outline" style="width:100%">📢 Partager MALTY sur Facebook</a>
+          <a href="https://www.instagram.com/direct/new/?text=Salut%20!%20Je%20viens%20de%20commander%20un%20site%20chez%20MALTY%20%F0%9F%9A%80%20https://maltyshop.vercel.app" target="_blank" class="btn btn-outline" style="width:100%">📸 Envoyer un DM Instagram</a>
+        </div>
+      </div>
+
       <div style="margin-top:32px">
-        <a href="index.html" class="btn btn-outline">Retour au site</a>
+        <a href="index.html" class="btn btn-primary">Retour au site</a>
       </div>
     </div>
   </div>
@@ -407,6 +441,7 @@
     <p style="margin-top:8px">© 2026 MALTY — Créateur de Sites Web Professionnels</p>
   </div>
 
+  <script src="auth-guard.js"></script>
   <script>
     let currentStep = 1;
     const totalSteps = 6;

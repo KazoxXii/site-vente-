@@ -1,5 +1,16 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const nodemailer = require('nodemailer');
 const { notifyReminder } = require('./telegram');
+
+const transporter = nodemailer.createTransport({
+  host: 'smtp-mail.outlook.com',
+  port: 587,
+  secure: false,
+  auth: {
+    user: 'maltyz@outlook.fr',
+    pass: process.env.OUTLOOK_APP_PASSWORD
+  }
+});
 
 // Email template
 function buildEmailHtml(prenom, formule, montant, datePrelevement) {
@@ -13,28 +24,15 @@ function buildEmailHtml(prenom, formule, montant, datePrelevement) {
   return html;
 }
 
-// Send email via Resend (free tier: 100 emails/day)
+// Send email via Outlook SMTP (free)
 async function sendEmail(to, subject, html) {
-  const response = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      from: 'MALTY <onboarding@resend.dev>',
-      to: [to],
-      subject: subject,
-      html: html
-    })
+  const info = await transporter.sendMail({
+    from: '"MALTY" <maltyz@outlook.fr>',
+    to: to,
+    subject: subject,
+    html: html
   });
-  
-  if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`Resend error: ${error}`);
-  }
-  
-  return await response.json();
+  return { id: info.messageId };
 }
 
 module.exports = async (req, res) => {

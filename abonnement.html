@@ -200,7 +200,36 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',sans-serif;line-he
       <div class="status-icon">✅</div>
       <div class="status-title">Abonnement activé !</div>
       <div class="status-text">Votre forfait <strong id="activePlanName">—</strong> est maintenant actif.<br>Vous recevrez un email de confirmation avec tous les détails.</div>
-      <a href="espace-client.html" class="btn btn-primary" style="max-width:300px;margin:0 auto">Accéder à mon espace client</a>
+
+      <div style="margin:24px 0;text-align:left;max-width:400px;margin-left:auto;margin-right:auto">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+          <div style="background:var(--accent);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0">1</div>
+          <div>
+            <strong style="font-size:.9rem">Email de confirmation</strong>
+            <p style="color:var(--muted);font-size:.8rem;margin:2px 0 0">Récapitulatif de votre abonnement et accès à l'espace client.</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+          <div style="background:var(--accent);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0">2</div>
+          <div>
+            <strong style="font-size:.9rem">Configuration</strong>
+            <p style="color:var(--muted);font-size:.8rem;margin:2px 0 0">Je configure le monitoring et les sauvegardes de votre site.</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+          <div style="background:var(--accent);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0">3</div>
+          <div>
+            <strong style="font-size:.9rem">Votre site est protégé</strong>
+            <p style="color:var(--muted);font-size:.8rem;margin:2px 0 0">Monitoring 24/7, sauvegardes automatiques, support prioritaire.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;max-width:300px;margin:0 auto">
+        <a href="espace-client.html" class="btn btn-primary" style="width:100%">Accéder à mon espace client</a>
+        <a href="support.html" class="btn btn-outline" style="width:100%">💬 Poser une question</a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://maltyshop.vercel.app" target="_blank" class="btn btn-outline" style="width:100%">📢 Partager MALTY sur Facebook</a>
+      </div>
     </div>
   </div>
 
@@ -249,6 +278,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',sans-serif;line-he
   </div>
 </div>
 
+<script src="auth-guard.js"></script>
 <script>
 let selectedPlan = null;
 

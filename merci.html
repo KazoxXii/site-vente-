@@ -8,26 +8,70 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
   <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { background:#0a0a0f; color:#fff; font-family:'Inter',sans-serif; display:flex; align-items:center; justify-content:center; min-height:100vh; text-align:center; }
-    .card { max-width:480px; padding:48px 32px; }
-    .icon { font-size:4rem; margin-bottom:24px; }
-    h1 { font-size:2rem; font-weight:800; margin-bottom:12px; letter-spacing:-0.03em; }
-    p { color:#888; font-size:1rem; line-height:1.7; margin-bottom:32px; }
-    .btn { display:inline-block; padding:14px 32px; background:#0066ff; color:#fff; border-radius:10px; text-decoration:none; font-weight:700; transition:all .3s; }
-    .btn:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(0,102,255,0.3); }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:#0a0a0f;color:#fff;font-family:'Inter',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+    .card{max-width:520px;width:100%;padding:48px 32px;text-align:center}
+    .icon{width:80px;height:80px;border-radius:50%;background:rgba(0,204,102,0.15);display:inline-flex;align-items:center;justify-content:center;font-size:2.5rem;margin-bottom:24px}
+    h1{font-size:2rem;font-weight:800;margin-bottom:12px;letter-spacing:-0.03em}
+    .subtitle{color:#888;font-size:1rem;line-height:1.7;margin-bottom:32px}
+    .steps{text-align:left;margin:0 auto 32px;max-width:400px}
+    .step{display:flex;gap:16px;align-items:flex-start;margin-bottom:20px}
+    .step-num{background:#0066ff;color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0}
+    .step strong{display:block;font-size:.95rem;margin-bottom:2px}
+    .step p{color:#888;font-size:.85rem;margin:0}
+    .divider{border-top:1px solid rgba(255,255,255,0.08);margin:24px 0}
+    .actions{display:flex;flex-direction:column;gap:12px;max-width:400px;margin:0 auto 32px}
+    .btn{display:block;padding:14px 24px;border-radius:10px;text-decoration:none;font-weight:600;font-size:.9rem;transition:all .3s;text-align:center}
+    .btn-primary{background:#0066ff;color:#fff}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,102,255,0.3)}
+    .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.15);color:#fff}
+    .btn-outline:hover{border-color:#0066ff;background:rgba(0,102,255,0.1)}
+    .footer{color:#555;font-size:.75rem;margin-top:24px}
   </style>
 </head>
 <body>
   <div class="card">
     <div class="icon">✅</div>
     <h1>Merci pour votre commande !</h1>
-    <p>Votre paiement a bien été reçu. Je vous envoie un email de confirmation dans les prochaines minutes avec les détails de votre pack.</p>
-    <a href="https://maltyshop.vercel.app/" class="btn">Retour au site</a>
+    <p class="subtitle">Votre paiement a bien été reçu. Je vous envoie un email de confirmation dans les prochaines minutes.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <strong>Email de confirmation</strong>
+          <p>Vous recevez les détails de votre pack et le lien vers le brief.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <strong>Remplir le brief</strong>
+          <p>Quelques minutes pour me donner toutes les infos de votre projet.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <strong>Création de votre site</strong>
+          <p>Je commence la création sous 24h. Livraison en 3 à 5 jours.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="actions">
+      <a href="brief.html" class="btn btn-primary">📋 Remplir mon brief maintenant</a>
+      <a href="support.html" class="btn btn-outline">💬 Poser une question</a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https://maltyshop.vercel.app" target="_blank" class="btn btn-outline">📢 Partager MALTY sur Facebook</a>
+    </div>
+
+    <p class="footer">© 2026 MALTY — Créateur de Sites Web Professionnels</p>
   </div>
 
   <!-- Google Ads Conversion Tracking -->
-  <!-- Remplace G-VXFD06KVJ9 par ton ID de conversion Google Ads si tu en as un -->
 </body>
 </html>

@@ -11,3 +11,5 @@ desktop.ini
 .idea/
 
 .vercel
+api/.env
+*.env.local
