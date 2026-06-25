@@ -13,3 +13,4 @@ desktop.ini
 .vercel
 api/.env
 *.env.local
+api/test-smtp.js
