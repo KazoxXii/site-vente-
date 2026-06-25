@@ -3,12 +3,12 @@ const nodemailer = require('nodemailer');
 const { sendTelegram } = require('./telegram');
 
 const transporter = nodemailer.createTransport({
-  host: 'smtp-mail.outlook.com',
+  host: 'smtp-relay.brevo.com',
   port: 587,
   secure: false,
   auth: {
-    user: 'maltyz@outlook.fr',
-    pass: process.env.OUTLOOK_APP_PASSWORD
+    user: 'afe41f001@smtp-brevo.com',
+    pass: 'xsmtpsib-8aba3f78940af3fa8a0a38c1266229708c637682130772613bbb6bcadd0452f8-q7FUFQaKdSJGh95q'
   }
 });
 
