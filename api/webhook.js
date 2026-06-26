@@ -170,9 +170,6 @@ module.exports = async (req, res) => {
       
       const now = new Date().toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
       
-      if (email) {
-        await sendEmail('maltyz@outlook.fr', '✅ [Copie] Bienvenue ' + name + ' — ' + plan, welcomeEmailHtml(name, plan));
-      }
       await notifyNewSubscription({
         name,
         email: email || 'N/A',
@@ -196,9 +193,6 @@ module.exports = async (req, res) => {
       
       const now = new Date().toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
       
-      if (email) {
-        await sendEmail('maltyz@outlook.fr', '💰 [Copie] Paiement ' + amount + '€ — ' + name, paymentConfirmationHtml(name, plan, amount));
-      }
       await notifyPayment({
         name,
         email: email || 'N/A',
@@ -220,9 +214,6 @@ module.exports = async (req, res) => {
       
       const now = new Date().toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
       
-      if (email) {
-        await sendEmail('maltyz@outlook.fr', '❌ [Copie] Paiement échoué — ' + name, paymentFailedHtml(name));
-      }
       await notifyPaymentFailed({
         name,
         email: email || 'N/A',
