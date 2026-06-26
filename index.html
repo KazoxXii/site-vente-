@@ -646,9 +646,9 @@
         var initials = userName.charAt(0).toUpperCase();
         if (userName.includes(' ')) initials = userName.split(' ').map(function(w){return w.charAt(0)}).join('').toUpperCase().substring(0,2);
         if (avatar) {
-          link.innerHTML = '<span class="nav-avatar"><img src="' + avatar + '" alt="' + userName + '"></span>' + userName;
+          link.innerHTML = '<span class="nav-avatar"><img src="' + avatar + '" alt="' + userName + '"></span>';
         } else {
-          link.innerHTML = '<span class="nav-avatar">' + initials + '</span>' + userName;
+          link.innerHTML = '<span class="nav-avatar">' + initials + '</span>';
         }
         link.href = 'espace-client.html';
         link.className = 'btn btn-outline nav-cta nav-logged';
