@@ -232,6 +232,71 @@ module.exports = async (req, res) => {
     return res.status(200).json({ ok: true, webhook: data, url: webhookUrl });
   }
 
+  // TRACK VISITOR (public, no auth)
+  if (req.method === 'POST' && action === 'track-visit') {
+    try {
+      const ip = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || 'Inconnu';
+      const { page, referrer, screen, lang, ua, lat, lon } = req.body || {};
+
+      let geo = {};
+      try {
+        const geoRes = await fetch('http://ip-api.com/json/' + ip + '?fields=status,country,countryCode,regionName,city,lat,lon,isp,org,as,mobile,proxy,hosting');
+        geo = await geoRes.json();
+      } catch(e) {}
+
+      const now = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
+      const country = geo.status === 'success' ? geo.country : 'Inconnu';
+      const city = geo.status === 'success' ? geo.city : 'Inconnu';
+      const region = geo.status === 'success' ? geo.regionName : '';
+      const isp = geo.status === 'success' ? geo.isp : '';
+      const isProxy = geo.proxy ? '⚠️ VPN/Proxy' : '';
+      const isHosting = geo.hosting ? '🖥️ Serveur' : '';
+      const isMobile = geo.mobile ? '📱 Mobile' : '💻 Desktop';
+      const finalLat = lat || geo.lat;
+      const finalLon = lon || geo.lon;
+      const coords = finalLat && finalLon ? `https://maps.google.com/?q=${finalLat},${finalLon}` : '';
+
+      let browserInfo = '';
+      if (ua) {
+        if (ua.includes('iPhone')) browserInfo = '📱 iPhone';
+        else if (ua.includes('Android')) browserInfo = '📱 Android';
+        else if (ua.includes('iPad')) browserInfo = '📱 iPad';
+        else if (ua.includes('Mac')) browserInfo = '💻 Mac';
+        else if (ua.includes('Windows')) browserInfo = '💻 Windows';
+        else if (ua.includes('Linux')) browserInfo = '💻 Linux';
+        else browserInfo = '💻 ' + ua.substring(0, 50);
+      }
+
+      let msg = `🌍 NOUVEAU VISITEUR\n\n`;
+      msg += `📍 ${city}, ${region}, ${country}\n`;
+      msg += `🌐 IP: ${ip}\n`;
+      msg += `📡 FAI: ${isp}\n`;
+      msg += `${isMobile}\n`;
+      if (browserInfo) msg += `${browserInfo}\n`;
+      if (isProxy) msg += `${isProxy}\n`;
+      if (isHosting) msg += `${isHosting}\n`;
+      msg += `🔗 Page: ${page || '—'}\n`;
+      msg += `🔍 Source: ${referrer || 'Direct'}\n`;
+      msg += `🖥️ Écran: ${screen || '—'}\n`;
+      msg += `🗣️ Langue: ${lang || '—'}\n`;
+      if (coords) msg += `🗺️ GPS: ${coords}\n`;
+      msg += `📅 ${now}`;
+
+      await sendTelegram(msg);
+
+      const visitId = 'visit:' + Date.now();
+      await redisSet(visitId, {
+        ip, page, referrer, screen, lang, ua,
+        country, city, region, isp, lat: finalLat, lon: finalLon,
+        mobile: geo.mobile, proxy: geo.proxy, date: now
+      });
+
+      return res.status(200).json({ ok: true });
+    } catch(e) {
+      return res.status(200).json({ ok: true });
+    }
+  }
+
   // PROTECTED ZONE — verify token for all other actions
   const cookies = req.headers.cookie || '';
   const tokenMatch = cookies.match(/admin_token=([^;]+)/);

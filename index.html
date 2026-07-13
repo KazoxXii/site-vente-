@@ -759,7 +759,8 @@
 
   <script src="knowledge.js"></script>
   <script src="auth-guard.js"></script>
-  <script>
+    <script src="tracker.js"></script>
+    <script>
     const getConfig = () => { try { return window.MALTY_CONFIG; } catch(e) { return {}; } };
     const WEBHOOK = (() => { try { return window.MALTY_CONFIG ? window.MALTY_CONFIG.webhookUrl : 'https://formspree.io/f/xredyerp'; } catch(e) { return 'https://formspree.io/f/xredyerp'; } })();
 
