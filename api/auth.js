@@ -298,5 +298,79 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ ok: true });
   }
 
+  // FORGOT PASSWORD — Send reset code
+  if (action === 'forgot-password') {
+    if (!email) {
+      return res.status(400).json({ error: 'Email requis' });
+    }
+    var em = email.toLowerCase();
+    var u = await rGet('user:' + em);
+    if (!u) {
+      return res.status(200).json({ ok: true, message: 'Si cet email existe, un code de réinitialisation a été envoyé.' });
+    }
+    var code = genCode();
+    await rSetEx('reset:' + em, { code: code, email: em }, 600);
+
+    var html = `
+    <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:600px;margin:0 auto;background:#0a0f1a;color:#e0e8f0;padding:0;border-radius:16px;overflow:hidden;border:1px solid #1a2a4a;">
+      <div style="background:linear-gradient(135deg,#0066ff,#0044cc);padding:40px;text-align:center;">
+        <div style="font-size:48px;margin-bottom:12px;">🔑</div>
+        <h1 style="color:#ffffff;font-size:26px;margin:0;font-weight:700;">Réinitialisation</h1>
+        <p style="color:rgba(255,255,255,0.8);font-size:14px;margin:8px 0 0;">Code de réinitialisation MALTY</p>
+      </div>
+      <div style="padding:32px 40px;text-align:center;">
+        <p style="font-size:15px;color:#b0c4de;margin:0 0 24px;">Voici votre code de réinitialisation de mot de passe :</p>
+        <div style="background:#111f35;border:2px dashed #0066ff;border-radius:16px;padding:24px;margin-bottom:24px;">
+          <p style="font-size:42px;font-weight:900;color:#0066ff;letter-spacing:12px;margin:0;font-family:monospace;">${code}</p>
+        </div>
+        <p style="font-size:14px;color:#6a8cba;margin:0 0 16px;">Ce code expire dans <strong style="color:#e0e8f0;">10 minutes</strong>.</p>
+        <p style="font-size:13px;color:#4a6a8a;">Si vous n'avez pas demandé cette réinitialisation, ignorez cet email.</p>
+      </div>
+      <div style="background:#0d1525;padding:20px 40px;text-align:center;border-top:1px solid #1a2a4a;">
+        <p style="margin:0;font-size:13px;color:#4a6a8a;">— L'équipe MALTY</p>
+        <p style="margin:4px 0 0;font-size:11px;color:#3a5a7a;">maltyshop.vercel.app</p>
+      </div>
+    </div>`;
+    try {
+      await transporter.sendMail({
+        from: '"MALTY" <maltyz@outlook.fr>',
+        to: em,
+        subject: '[MALTY] Code de réinitialisation — ' + code,
+        html: html
+      });
+      notify('🔑 RÉINITIALISATION MOT DE PASSE\n\nEmail: ' + em + '\nDate: ' + now + '\nIP: ' + ip);
+    } catch (err) {
+      console.error('Reset email error:', err.message);
+    }
+    return res.status(200).json({ ok: true, message: 'Si cet email existe, un code de réinitialisation a été envoyé.' });
+  }
+
+  // RESET PASSWORD — Verify code and update password
+  if (action === 'reset-password') {
+    if (!email || !b.code || !b.newPassword) {
+      return res.status(400).json({ error: 'Champs manquants' });
+    }
+    if (b.newPassword.length < 6) {
+      return res.status(400).json({ error: 'Minimum 6 caracteres' });
+    }
+    var em = email.toLowerCase();
+    var reset = await rGet('reset:' + em);
+    if (!reset) {
+      return res.status(400).json({ error: 'Code expiré. Recommencez la réinitialisation.' });
+    }
+    if (reset.code !== b.code) {
+      return res.status(400).json({ error: 'Code incorrect' });
+    }
+    var u = await rGet('user:' + em);
+    if (!u) {
+      return res.status(400).json({ error: 'Compte introuvable' });
+    }
+    u.password = hash(b.newPassword);
+    await rSet('user:' + em, u);
+    await rDel('reset:' + em);
+    notify('✅ MOT DE PASSE RÉINITIALISÉ\n\nEmail: ' + em + '\nDate: ' + now + '\nIP: ' + ip);
+    return res.status(200).json({ ok: true, message: 'Mot de passe réinitialisé. Vous pouvez vous connecter.' });
+  }
+
   return res.status(400).json({ error: 'Action inconnue' });
 };
