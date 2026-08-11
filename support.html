@@ -17,18 +17,22 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: oklch(7% 0.012 255);
-      --surface: oklch(13% 0.018 255);
-      --surface-2: oklch(16% 0.02 255);
-      --fg: oklch(94% 0.005 250);
-      --muted: oklch(58% 0.02 250);
-      --border: oklch(24% 0.025 255);
-      --accent: oklch(65% 0.22 255);
-      --accent-light: oklch(78% 0.15 255);
-      --accent-10: oklch(65% 0.22 255 / 0.1);
-      --accent-20: oklch(65% 0.22 255 / 0.2);
-      --success: oklch(65% 0.17 145);
+      --bg: #06070a;
+      --surface: #0e1016;
+      --surface-2: #14161e;
+      --surface2: #14161e;
+      --fg: #e8eaf0;
+      --muted: #8b93a3;
+      --border: #1e2230;
+      --accent: #2563eb;
+      --accent2: #1d4ed8;
+      --accent-light: #7ea2ff;
+      --accent-10: rgba(37, 99, 235, 0.1);
+      --accent-20: rgba(37, 99, 235, 0.2);
+      --accent-50: rgba(37, 99, 235, 0.5);
+      --success: #16a34a;
       --radius: 16px;
+      --radius-sm: 10px;
       --ease: cubic-bezier(0.16, 1, 0.3, 1);
       --font: 'Inter', -apple-system, sans-serif;
     }
@@ -44,19 +48,11 @@
       overflow: hidden;
       position: relative;
     }
-    .bg-orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.45; animation: float 12s ease-in-out infinite; }
-    .orb-1 { width: 400px; height: 400px; background: var(--accent); top: -10%; left: -5%; animation-delay: 0s; }
-    .orb-2 { width: 300px; height: 300px; background: oklch(55% 0.18 280); bottom: 10%; right: -5%; animation-delay: -4s; }
-    .orb-3 { width: 200px; height: 200px; background: var(--success); bottom: 30%; left: 20%; animation-delay: -8s; opacity: 0.2; }
-    @keyframes float { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -20px) scale(1.05); } 66% { transform: translate(-20px, 15px) scale(0.95); } }
 
     .app { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100dvh; max-width: 720px; width: 100%; margin: 0 auto; }
 
     header {
-      background: rgba(12, 14, 20, 0.75);
-      backdrop-filter: blur(24px) saturate(1.5);
-      -webkit-backdrop-filter: blur(24px) saturate(1.5);
+      background: var(--surface);
       border-bottom: 1px solid var(--border);
       padding: 14px 20px;
       display: flex;
@@ -157,14 +153,13 @@
       height: 36px;
       border-radius: 50%;
       flex-shrink: 0;
-      background: linear-gradient(135deg, var(--accent-light), var(--accent));
+      background: var(--accent);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
       font-size: 0.72rem;
       color: #fff;
-      box-shadow: 0 4px 16px var(--accent-20);
       position: relative;
     }
     .msg-avatar::after {
@@ -193,10 +188,9 @@
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     }
     .msg-row-user .msg-bubble {
-      background: linear-gradient(135deg, var(--accent-light), var(--accent));
+      background: var(--accent);
       color: #fff;
       border-bottom-right-radius: 4px;
-      box-shadow: 0 6px 24px var(--accent-20);
     }
     .msg-row-system .msg-bubble {
       background: var(--accent-10);
@@ -268,9 +262,7 @@
     @keyframes typing { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-8px); opacity: 1; } }
 
     .chat-input-bar {
-      background: rgba(12, 14, 20, 0.85);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
+      background: var(--surface);
       border-top: 1px solid var(--border);
       padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
       flex-shrink: 0;
@@ -312,7 +304,7 @@
       width: 44px;
       height: 44px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent-light), var(--accent));
+      background: var(--accent);
       border: none;
       color: #fff;
       cursor: pointer;
@@ -321,9 +313,8 @@
       justify-content: center;
       transition: all 0.25s var(--ease);
       flex-shrink: 0;
-      box-shadow: 0 4px 16px var(--accent-20);
     }
-    .send-btn:hover:not(:disabled) { transform: scale(1.08); box-shadow: 0 6px 24px var(--accent-20); }
+    .send-btn:hover:not(:disabled) { transform: scale(1.08); background: var(--accent2); }
     .send-btn:active:not(:disabled) { transform: scale(0.95); }
     .send-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; box-shadow: none; }
     .send-btn svg { width: 18px; height: 18px; }
@@ -332,7 +323,6 @@
       position: fixed;
       inset: 0;
       background: rgba(4, 6, 12, 0.8);
-      backdrop-filter: blur(12px);
       z-index: 200;
       display: none;
       align-items: center;
@@ -396,8 +386,8 @@
       transition: all 0.25s var(--ease);
       font-family: var(--font);
     }
-    .btn-primary { background: linear-gradient(135deg, var(--accent-light), var(--accent)); color: #fff; box-shadow: 0 4px 16px var(--accent-20); }
-    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 24px var(--accent-20); }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
     .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--fg); }
     .btn-ghost:hover { border-color: var(--accent-50); background: var(--accent-10); }
 
@@ -410,12 +400,6 @@
   </style>
 </head>
 <body>
-
-  <div class="bg-orbs" aria-hidden="true">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-  </div>
 
   <div class="app">
     <header>

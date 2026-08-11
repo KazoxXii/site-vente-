@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0f1a;--surface:#0d1a2e;--surface2:#111f35;--fg:#e0e8f0;--muted:#6a8cba;--accent:#0066ff;--accent2:#0055dd;--success:#00cc66;--warning:#ff9900;--danger:#ff3333;--border:#1a2a4a;--radius:14px}
+:root{--bg:#06070a;--surface:#0e1016;--surface2:#14161e;--fg:#e8eaf0;--muted:#8b93a3;--accent:#2563eb;--accent2:#1d4ed8;--accent-light:#7ea2ff;--accent-10:rgba(37,99,235,.12);--accent-20:rgba(37,99,235,.2);--accent-50:rgba(37,99,235,.5);--success:#16a34a;--warning:#f59e0b;--danger:#ef4444;--border:#1e2230;--radius:16px;--radius-sm:10px;--ease:cubic-bezier(0.16,1,0.3,1)}
 html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-serif;line-height:1.6;min-height:100vh;padding-bottom:80px}
 
@@ -21,15 +21,15 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 .logo svg{height:40px}
 .header-actions{display:flex;align-items:center;gap:10px}
 .user-pill{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:40px;padding:5px 14px 5px 5px}
-.user-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#38bdf8,#0066ff);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:.8rem;flex-shrink:0}
+.user-avatar{width:32px;height:32px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:.8rem;flex-shrink:0}
 .user-pill-info{display:flex;flex-direction:column;line-height:1.2}
 .user-pill-name{font-weight:700;font-size:.82rem;color:var(--fg)}
 .user-pill-email{font-size:.68rem;color:var(--muted)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 18px;border-radius:10px;font-weight:600;font-size:.82rem;cursor:pointer;border:none;text-decoration:none;transition:all .2s;font-family:inherit;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 18px;border-radius:var(--radius-sm);font-weight:600;font-size:.82rem;cursor:pointer;border:none;text-decoration:none;transition:all .2s;font-family:inherit;white-space:nowrap}
 .btn-primary{background:var(--accent);color:#fff}
 .btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
 .btn-outline{background:transparent;border:1px solid var(--border);color:var(--fg)}
-.btn-outline:hover{border-color:var(--accent);background:rgba(0,102,255,.08)}
+.btn-outline:hover{border-color:var(--accent-50);background:var(--accent-10)}
 .btn-danger{background:var(--danger);color:#fff}
 .btn-danger:hover{opacity:.85}
 .btn-success{background:var(--success);color:#fff}
@@ -67,8 +67,8 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 /* FORM */
 .form-group{margin-bottom:14px}
 .form-label{display:block;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;color:var(--muted)}
-.form-input{width:100%;padding:11px 14px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--fg);font:400 .88rem 'Inter',system-ui,sans-serif;outline:none;transition:border-color .2s,box-shadow .2s}
-.form-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,102,255,.12)}
+.form-input{width:100%;padding:11px 14px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--fg);font:400 .88rem 'Inter',system-ui,sans-serif;outline:none;transition:border-color .2s,box-shadow .2s}
+.form-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-10)}
 .form-input::placeholder{color:var(--muted);opacity:.5}
 select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236a8cba'%3E%3Cpath d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
 textarea.form-input{min-height:90px;resize:vertical}
@@ -79,7 +79,7 @@ textarea.form-input{min-height:90px;resize:vertical}
 .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.68rem;font-weight:600;white-space:nowrap}
 .badge-success{background:rgba(0,204,102,.12);color:var(--success)}
 .badge-warning{background:rgba(255,153,0,.12);color:var(--warning)}
-.badge-info{background:rgba(0,102,255,.12);color:var(--accent)}
+.badge-info{background:var(--accent-10);color:var(--accent)}
 .badge-danger{background:rgba(255,51,51,.12);color:var(--danger)}
 
 /* REQUESTS */
@@ -101,7 +101,7 @@ textarea.form-input{min-height:90px;resize:vertical}
 .media-del{margin-top:6px}
 
 /* SUB */
-.sub-card{background:linear-gradient(135deg,var(--surface),var(--surface2));border:1px solid var(--accent);border-radius:var(--radius);padding:24px 16px;text-align:center;margin-bottom:16px}
+.sub-card{background:var(--surface2);border:1px solid var(--accent);border-radius:var(--radius);padding:24px 16px;text-align:center;margin-bottom:16px}
 .sub-price{font-size:2.2rem;font-weight:900;color:var(--accent);margin:8px 0 2px}
 .sub-period{font-size:.85rem;color:var(--muted);font-weight:400}
 .sub-features{list-style:none;text-align:left;margin:16px 0}
@@ -149,7 +149,7 @@ textarea.form-input{min-height:90px;resize:vertical}
     <svg viewBox="0 0 100 90" height="40"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#bae6fd"/><stop offset="20%" stop-color="#7dd3fc"/><stop offset="50%" stop-color="#38bdf8"/><stop offset="80%" stop-color="#0ea5e9"/><stop offset="100%" stop-color="#0284c7"/></linearGradient><linearGradient id="lg2" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#38bdf8"/><stop offset="20%" stop-color="#0ea5e9"/><stop offset="50%" stop-color="#0284c7"/><stop offset="80%" stop-color="#0369a1"/><stop offset="100%" stop-color="#075985"/></linearGradient><linearGradient id="lg3" x1="50%" y1="0%" x2="50%" y2="100%"><stop offset="0%" stop-color="#0c4a6e"/><stop offset="40%" stop-color="#082f49"/><stop offset="100%" stop-color="#0c1929"/></linearGradient><linearGradient id="lg4" x1="0%" y1="0%" x2="60%" y2="100%"><stop offset="0%" stop-color="#e0f2fe" stop-opacity="0.7"/><stop offset="100%" stop-color="#bae6fd" stop-opacity="0.1"/></linearGradient></defs><polygon points="8,82 8,14 28,6 50,36 28,48 8,58" fill="url(#lg)"/><polygon points="8,14 28,6 33,16 13,24" fill="url(#lg4)"/><polygon points="92,82 92,14 72,6 50,36 72,48 92,58" fill="url(#lg2)"/><polygon points="92,14 72,6 67,16 87,24" fill="url(#lg4)" opacity="0.7"/><polygon points="28,48 50,36 72,48 50,72" fill="url(#lg3)"/><line x1="8" y1="14" x2="28" y2="6" stroke="#e0f2fe" stroke-width="1.5" opacity="0.5"/><line x1="92" y1="14" x2="72" y2="6" stroke="#e0f2fe" stroke-width="1.5" opacity="0.4"/></svg>
   </a>
   <div class="header-actions">
-    <span id="headerAvatar" style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#38bdf8,#0066ff);display:inline-flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:.8rem;flex-shrink:0;overflow:hidden;border:2px solid rgba(56,189,248,0.4);cursor:pointer" onclick="document.getElementById('avatarInput').click()"></span>
+    <span id="headerAvatar" style="width:32px;height:32px;border-radius:50%;background:var(--accent);display:inline-flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:.8rem;flex-shrink:0;overflow:hidden;border:2px solid var(--accent-50);cursor:pointer" onclick="document.getElementById('avatarInput').click()"></span>
     <a href="index.html" class="btn btn-outline btn-sm">Accueil</a>
     <button class="btn btn-outline btn-sm" onclick="maltyLogout()">Déconnexion</button>
   </div>
@@ -203,7 +203,7 @@ textarea.form-input{min-height:90px;resize:vertical}
         <span class="card-title">Photo de profil</span>
       </div>
       <div style="display:flex;align-items:center;gap:24px;padding:8px 0">
-        <div id="avatarPreview" style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#38bdf8,#0066ff);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:1.8rem;flex-shrink:0;overflow:hidden;border:3px solid rgba(56,189,248,0.4);cursor:pointer" onclick="document.getElementById('avatarInput').click()">
+        <div id="avatarPreview" style="width:80px;height:80px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:1.8rem;flex-shrink:0;overflow:hidden;border:3px solid var(--accent-50);cursor:pointer" onclick="document.getElementById('avatarInput').click()">
         </div>
         <div style="flex:1">
           <p style="font-size:.82rem;color:var(--muted);margin:0 0 12px">Cliquez sur la photo pour changer</p>

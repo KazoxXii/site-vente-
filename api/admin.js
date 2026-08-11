@@ -61,12 +61,46 @@ async function redisDel(key) {
   } catch(e) {}
 }
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Maman972lol';
+const ADMIN_USERNAME = (process.env.ADMIN_USERNAME || '').trim();
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
 const JWT_SECRET = process.env.JWT_SECRET || 'malty-admin-secret-2026-secure';
 const TOKEN_EXPIRY = 24 * 60 * 60 * 1000;
 
-function createToken(password) {
-  if (password !== ADMIN_PASSWORD) return null;
+function safeEqual(a, b) {
+  const bufA = Buffer.from(String(a));
+  const bufB = Buffer.from(String(b));
+  if (bufA.length !== bufB.length) return false;
+  return crypto.timingSafeEqual(bufA, bufB);
+}
+
+async function isRateLimited(ip) {
+  const key = 'admin:fail:' + ip;
+  const data = await redisGet(key);
+  if (!data) return false;
+  if (Date.now() > (data.resetAt || 0)) {
+    await redisDel(key);
+    return false;
+  }
+  return (data.fails || 0) >= 5;
+}
+
+async function recordFailure(ip) {
+  const key = 'admin:fail:' + ip;
+  const data = await redisGet(key);
+  const now = Date.now();
+  let fails = (data && now < (data.resetAt || 0)) ? (data.fails || 0) : 0;
+  fails += 1;
+  await redisSet(key, { fails, resetAt: now + 15 * 60 * 1000 });
+}
+
+async function clearFailures(ip) {
+  await redisDel('admin:fail:' + ip);
+}
+
+function createToken(username, password) {
+  if (!ADMIN_USERNAME || !ADMIN_PASSWORD) return null;
+  if (!safeEqual(username, ADMIN_USERNAME)) return null;
+  if (!safeEqual(password, ADMIN_PASSWORD)) return null;
   const payload = { authenticated: true, created: Date.now(), expires: Date.now() + TOKEN_EXPIRY };
   const data = Buffer.from(JSON.stringify(payload)).toString('base64');
   const signature = crypto.createHmac('sha256', JWT_SECRET).update(data).digest('hex');
@@ -101,17 +135,31 @@ module.exports = async (req, res) => {
 
   // AUTH: Login
   if (req.method === 'POST' && action === 'login') {
-    const { password } = req.body || {};
-    if (!password) return res.status(400).json({ error: 'Mot de passe requis' });
+    const { username, password } = req.body || {};
+    if (!username || !password) return res.status(400).json({ error: 'Identifiant et mot de passe requis' });
 
-    const token = createToken(password);
-    if (!token) {
-      await sendTelegram(`⚠️ TENTATIVE CONNEXION ECHEC\n\nIP: ${req.headers['x-forwarded-for'] || 'Inconnue'}\nDate: ${new Date().toLocaleString('fr-FR', {timeZone: 'Europe/Paris'})}`);
-      return res.status(401).json({ error: 'Mot de passe incorrect' });
+    const ip = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || 'Inconnue';
+
+    if (await isRateLimited(ip)) {
+      await sendTelegram(`🚫 CONNEXION BLOQUÉE (trop de tentatives)\n\nIP: ${ip}\nDate: ${new Date().toLocaleString('fr-FR', {timeZone: 'Europe/Paris'})}`);
+      return res.status(429).json({ error: 'Trop de tentatives. Réessayez dans 15 minutes.' });
     }
 
+    if (!ADMIN_USERNAME || !ADMIN_PASSWORD) {
+      await sendTelegram(`⚠️ CONFIG ADMIN MANQUANTE\n\nLes variables ADMIN_USERNAME / ADMIN_PASSWORD ne sont pas définies sur le serveur.\nDate: ${new Date().toLocaleString('fr-FR', {timeZone: 'Europe/Paris'})}`);
+      return res.status(401).json({ error: 'Connexion refusée' });
+    }
+
+    const token = createToken(username, password);
+    if (!token) {
+      await recordFailure(ip);
+      await sendTelegram(`⚠️ TENTATIVE CONNEXION ECHEC\n\nIdentifiant: "${username}"\nIP: ${ip}\nDate: ${new Date().toLocaleString('fr-FR', {timeZone: 'Europe/Paris'})}`);
+      return res.status(401).json({ error: 'Identifiant ou mot de passe incorrect' });
+    }
+
+    await clearFailures(ip);
     res.setHeader('Set-Cookie', `admin_token=${token}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=86400`);
-    await sendTelegram(`🔓 CONNEXION ADMIN\n\nDate: ${new Date().toLocaleString('fr-FR', {timeZone: 'Europe/Paris'})}`);
+    await sendTelegram(`🔓 CONNEXION ADMIN\n\nIP: ${ip}\nDate: ${new Date().toLocaleString('fr-FR', {timeZone: 'Europe/Paris'})}`);
     return res.status(200).json({ ok: true });
   }
 

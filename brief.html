@@ -9,19 +9,18 @@
   <link rel="icon" type="image/svg+xml" href="logo.svg">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#0a0f1a;--surface:#0d1a2e;--surface2:#111f35;--fg:#e0e8f0;--muted:#6a8cba;--accent:#0066ff;--accent2:#0055dd;--success:#00cc66;--border:#1a2a4a;--radius:12px}
+    :root{--bg:#06070a;--surface:#0e1016;--surface2:#14161e;--fg:#e8eaf0;--muted:#8b93a3;--accent:#2563eb;--accent2:#1d4ed8;--accent-light:#7ea2ff;--accent-10:rgba(37,99,235,.12);--accent-20:rgba(37,99,235,.2);--accent-50:rgba(37,99,235,.5);--success:#16a34a;--border:#1e2230;--radius:16px;--radius-sm:10px;--ease:cubic-bezier(0.16,1,0.3,1)}
     *{margin:0;padding:0;box-sizing:border-box}
     body{background:var(--bg);color:var(--fg);font-family:'Inter',sans-serif;line-height:1.6;min-height:100vh}
 
     .hero{padding:100px 0 60px;text-align:center;position:relative;overflow:hidden}
-    .hero::before{content:'';position:absolute;top:-50%;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(ellipse,rgba(0,102,255,0.15),transparent 60%);pointer-events:none}
-    .hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;letter-spacing:-0.03em;margin-bottom:12px}
-    .hero h1 span{color:var(--accent)}
-    .hero p{color:var(--muted);font-size:1.05rem;max-width:500px;margin:0 auto}
+    .hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-0.04em;margin-bottom:12px}
+    .hero h1 span{color:var(--accent-light)}
+    .hero p{color:var(--muted);font-size:1.05rem;max-width:500px;margin:0 auto;line-height:1.7}
 
     .container{max-width:700px;margin:0 auto;padding:0 20px}
 
-    .progress{position:sticky;top:0;z-index:100;background:rgba(10,15,26,0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:16px 0}
+    .progress{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);padding:16px 0}
     .progress-bar{height:4px;background:var(--border);border-radius:4px;overflow:hidden;margin-top:12px}
     .progress-fill{height:100%;background:var(--accent);border-radius:4px;transition:width .4s ease}
     .progress-text{font-size:.8rem;color:var(--muted);display:flex;justify-content:space-between}
@@ -30,7 +29,7 @@
     .step.active{display:block}
     @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:24px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:24px;box-shadow:0 12px 48px rgba(0,0,0,.25)}
     .card h2{font-size:1.2rem;font-weight:800;margin-bottom:4px}
     .card .subtitle{color:var(--muted);font-size:.9rem;margin-bottom:24px}
     .card .icon{font-size:2rem;margin-bottom:12px}
@@ -38,8 +37,8 @@
     .field{margin-bottom:20px}
     .field label{display:block;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
     .field label .required{color:var(--accent)}
-    .field input,.field select,.field textarea{width:100%;padding:14px 16px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--fg);font:400 .95rem 'Inter',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s}
-    .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,102,255,0.15)}
+    .field input,.field select,.field textarea{width:100%;padding:14px 16px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--fg);font:400 .95rem 'Inter',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s}
+    .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-10)}
     .field textarea{min-height:120px;resize:vertical}
     .field select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236a8cba' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
     .field select option{background:var(--surface);color:var(--fg)}
@@ -47,8 +46,8 @@
     .field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 
     .upload-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:40px;text-align:center;cursor:pointer;transition:all .2s}
-    .upload-zone:hover{border-color:var(--accent);background:rgba(0,102,255,0.05)}
-    .upload-zone.dragover{border-color:var(--accent);background:rgba(0,102,255,0.1)}
+    .upload-zone:hover{border-color:var(--accent);background:var(--accent-10)}
+    .upload-zone.dragover{border-color:var(--accent);background:var(--accent-10)}
     .upload-zone .icon{font-size:2rem;margin-bottom:8px}
     .upload-zone p{color:var(--muted);font-size:.9rem}
     .upload-zone .formats{font-size:.75rem;color:var(--muted);margin-top:8px}
@@ -61,21 +60,21 @@
     .checkbox-group{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .checkbox-item{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s}
     .checkbox-item:hover{border-color:var(--accent)}
-    .checkbox-item.selected{border-color:var(--accent);background:rgba(0,102,255,0.1)}
+    .checkbox-item.selected{border-color:var(--accent);background:var(--accent-10)}
     .checkbox-item input{width:18px;height:18px;accent-color:var(--accent)}
     .checkbox-item label{cursor:pointer;font-size:.9rem}
 
     .radio-group{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .radio-item{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s}
     .radio-item:hover{border-color:var(--accent)}
-    .radio-item.selected{border-color:var(--accent);background:rgba(0,102,255,0.1)}
+    .radio-item.selected{border-color:var(--accent);background:var(--accent-10)}
     .radio-item input{width:18px;height:18px;accent-color:var(--accent)}
 
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:10px;font-weight:600;font-size:.95rem;cursor:pointer;border:none;transition:all .2s}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:var(--radius-sm);font-weight:600;font-size:.95rem;cursor:pointer;border:none;transition:all .2s;font-family:'Inter',sans-serif}
     .btn-primary{background:var(--accent);color:white}
     .btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
     .btn-outline{background:transparent;border:1px solid var(--border);color:var(--fg)}
-    .btn-outline:hover{border-color:var(--accent);background:rgba(0,102,255,0.1)}
+    .btn-outline:hover{border-color:var(--accent-50);background:var(--accent-10)}
     .btn-lg{padding:16px 36px;font-size:1rem}
     .btn-group{display:flex;gap:12px;margin-top:24px}
     .btn-group .btn{flex:1}
