@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /docs/
+Disallow: /assets/
+Allow: /assets/google-ads-square.png
+Disallow: /pikbowl/
+Disallow: /admin.html
+
+Sitemap: https://maltyshop.vercel.app/sitemap.xml

@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Malty, développeur web indépendant. Sites vitrine, e-commerce et landing pages à partir de 99€, sans abonnement. Vous êtes propriétaire de votre site. Devis gratuit.">
+  <meta name="author" content="MALTY">
+  <meta property="og:title" content="Malty — Développeur web indépendant">
+  <meta property="og:description" content="Sites vitrine, e-commerce et landing pages à partir de 99€. Sans agence, sans abonnement.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>Malty — Développeur web indépendant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #06070a;
+      --surface: #0e1016;
+      --surface-2: #14161e;
+      --fg: #e8eaf0;
+      --muted: #8b93a3;
+      --border: #1e2230;
+      --accent: #2563eb;
+      --accent2: #1d4ed8;
+      --accent-light: #7ea2ff;
+      --accent-10: rgba(37, 99, 235, 0.1);
+      --accent-20: rgba(37, 99, 235, 0.2);
+      --accent-50: rgba(37, 99, 235, 0.5);
+      --success: #16a34a;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --display: 'Space Grotesk', 'Inter', sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, monospace;
+      --radius: 12px;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    ::selection { background: var(--accent-20); color: var(--fg); }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font: 400 16px/1.7 var(--font);
+      letter-spacing: -0.01em;
+      overflow-x: hidden;
+    }
+    .container { width: 100%; max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+    a { color: inherit; }
+    .mono { font-family: var(--mono); }
+
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .page { display: none; }
+    .page.active { display: block; animation: pageIn .4s var(--ease) both; }
+    @keyframes pageIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ---------- HEADER ---------- */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: var(--surface); border-bottom: 1px solid var(--border);
+    }
+    nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .logo { display: flex; align-items: baseline; gap: 8px; text-decoration: none; font-weight: 700; }
+    .logo strong { font-family: var(--display); font-size: 1.25rem; letter-spacing: -0.02em; color: var(--fg); }
+    .logo .dot { color: var(--accent-light); }
+    .logo small { font-family: var(--mono); font-size: .62rem; color: var(--muted); letter-spacing: .08em; }
+    .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: .84rem; font-weight: 500;
+      padding: 8px 12px; border-radius: 8px; transition: color .2s, background .2s;
+    }
+    .nav-links a:not(.btn):hover { color: var(--fg); background: var(--accent-10); }
+    .nav-links .btn { margin-left: 10px; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 6px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--fg); border-radius: 2px; transition: all .3s var(--ease); }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ---------- BOUTONS ---------- */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px; justify-content: center;
+      padding: 11px 20px; border-radius: 9px; font-weight: 600; font-size: .88rem;
+      cursor: pointer; border: 1px solid transparent; text-decoration: none; transition: all .25s var(--ease);
+      white-space: nowrap; font-family: var(--font);
+    }
+    .btn svg { width: 15px; height: 15px; transition: transform .25s var(--ease); }
+    .btn:hover svg { transform: translateX(3px); }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+    .btn-outline { background: transparent; border-color: var(--border); color: var(--fg); }
+    .btn-outline:hover { border-color: var(--accent-50); color: var(--accent-light); }
+    .btn-lg { padding: 14px 26px; font-size: .95rem; }
+
+    /* ---------- SECTIONS ---------- */
+    section { padding: 96px 0; border-bottom: 1px solid var(--border); }
+    .sec-top { margin-bottom: 40px; }
+    .sec-num { font-family: var(--mono); font-size: .72rem; letter-spacing: .22em; text-transform: uppercase; color: var(--accent-light); margin-bottom: 14px; }
+    .sec-title { font-family: var(--display); font-size: clamp(1.7rem, 4vw, 2.5rem); font-weight: 600; letter-spacing: -0.025em; line-height: 1.12; color: var(--fg); }
+    .sec-title .accent { color: var(--accent-light); }
+    .sec-desc { color: var(--muted); font-size: 1rem; max-width: 640px; margin-top: 16px; line-height: 1.75; }
+    .sec-desc a { color: var(--accent-light); text-decoration: none; border-bottom: 1px solid var(--accent-50); }
+    .sec-desc a:hover { border-color: var(--accent-light); }
+
+    /* ---------- HERO ---------- */
+    .hero { position: relative; padding: 150px 0 90px; border-bottom: 1px solid var(--border); overflow: hidden; }
+    .hero .container { position: relative; text-align: center; }
+    .hero-status {
+      display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: .72rem;
+      letter-spacing: .06em; color: var(--muted); padding: 6px 14px; border: 1px solid var(--border);
+      border-radius: 100px; background: var(--surface); margin-bottom: 32px;
+    }
+    .hero-status .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); box-shadow: 0 0 8px var(--success); animation: pulse 2.4s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+    .hero h1 { font-family: var(--display); font-size: clamp(2.4rem, 7vw, 4.3rem); font-weight: 600; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 28px; }
+    .hero h1 .accent { color: var(--accent-light); }
+    .hero p { color: var(--muted); font-size: 1.06rem; max-width: 660px; margin: 0 auto 40px; line-height: 1.8; }
+    .hero p strong { color: var(--fg); font-weight: 600; }
+    .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .hero-proof { margin-top: 44px; display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; font-size: .82rem; color: var(--muted); }
+    .hero-proof .sep { width: 1px; height: 14px; background: var(--border); }
+    .hero-proof strong { color: var(--fg); }
+
+    /* ---------- STATS ---------- */
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--border); }
+    .stat { padding: 40px 24px; text-align: center; border-right: 1px solid var(--border); }
+    .stat:last-child { border-right: none; }
+    .stat .v { font-family: var(--display); font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; color: var(--accent-light); }
+    .stat .k { font-family: var(--mono); font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+
+    /* ---------- À PROPOS ---------- */
+    .about-grid { display: grid; grid-template-columns: 320px 1fr; gap: 56px; align-items: start; }
+    .about-visual {
+      border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface);
+    }
+    .about-visual svg { display: block; width: 100%; height: auto; }
+    .about-caption { padding: 14px 18px; border-top: 1px solid var(--border); font-family: var(--mono); font-size: .68rem; color: var(--muted); letter-spacing: .05em; }
+    .about-text p { color: var(--muted); margin-bottom: 18px; line-height: 1.8; }
+    .about-text p strong { color: var(--fg); }
+    .about-list { list-style: none; margin-top: 8px; }
+    .about-list li { display: flex; gap: 12px; align-items: baseline; padding: 12px 0; border-top: 1px solid var(--border); font-size: .92rem; color: var(--fg); }
+    .about-list li .mark { color: var(--accent-light); font-family: var(--mono); font-size: .8rem; }
+    .about-list li span { color: var(--muted); }
+    .about-list li strong { color: var(--fg); font-weight: 600; }
+
+    /* ---------- PROJETS ---------- */
+    .project-row {
+      display: grid; grid-template-columns: 60px 1fr auto; gap: 24px; align-items: center;
+      padding: 34px 8px; border-top: 1px solid var(--border); text-decoration: none; position: relative;
+      transition: background .25s;
+    }
+    .project-row:last-of-type { border-bottom: 1px solid var(--border); }
+    .project-row:hover { background: var(--surface); }
+    .project-idx { font-family: var(--mono); font-size: .8rem; color: var(--muted); }
+    .project-main h3 { font-family: var(--display); font-size: clamp(1.3rem, 3vw, 1.9rem); font-weight: 600; letter-spacing: -0.02em; transition: color .2s; }
+    .project-row:hover .project-main h3 { color: var(--accent-light); }
+    .project-main p { color: var(--muted); font-size: .9rem; margin-top: 4px; }
+    .project-meta { text-align: right; display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+    .project-tag { font-family: var(--mono); font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-light); border: 1px solid var(--accent-20); background: var(--accent-10); padding: 4px 10px; border-radius: 100px; }
+    .project-go { color: var(--muted); font-size: .84rem; display: inline-flex; align-items: center; gap: 6px; transition: color .2s; }
+    .project-go::after { content: '→'; transition: transform .25s var(--ease); }
+    .project-row:hover .project-go { color: var(--accent-light); }
+    .project-row:hover .project-go::after { transform: translateX(4px); }
+
+    /* ---------- PROCESS ---------- */
+    .process-list { max-width: 720px; }
+    .process-item { display: grid; grid-template-columns: 72px 1fr; gap: 20px; padding: 26px 0; border-top: 1px solid var(--border); }
+    .process-item:last-child { border-bottom: 1px solid var(--border); }
+    .process-num { font-family: var(--display); font-size: 1.7rem; font-weight: 700; color: var(--accent-light); line-height: 1; padding-top: 4px; }
+    .process-item h3 { font-family: var(--display); font-size: 1.15rem; font-weight: 600; margin-bottom: 6px; }
+    .process-item p { color: var(--muted); font-size: .93rem; max-width: 560px; }
+    .process-item .hint { font-family: var(--mono); font-size: .72rem; color: var(--muted); margin-top: 8px; }
+    .process-item .hint b { color: var(--success); font-weight: 500; }
+
+    /* ---------- TARIFS ---------- */
+    .price-row {
+      display: grid; grid-template-columns: 1fr auto; gap: 24px; padding: 30px 24px;
+      border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface);
+      transition: border-color .25s;
+    }
+    .price-row + .price-row { margin-top: 14px; }
+    .price-row:hover { border-color: var(--accent-20); }
+    .price-row.reco { border-color: var(--accent-50); box-shadow: 0 0 0 1px var(--accent-20), 0 10px 30px var(--accent-10); }
+    .price-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+    .price-name { font-family: var(--display); font-size: 1.25rem; font-weight: 600; }
+    .price-badge { font-family: var(--mono); font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; color: #fff; background: var(--accent); padding: 4px 10px; border-radius: 100px; }
+    .price-feats { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+    .price-feats span { font-size: .82rem; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
+    .price-feats span::before { content: '✓'; color: var(--accent-light); font-size: .7rem; }
+    .price-val { text-align: right; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; gap: 4px; }
+    .price-val .n { font-family: var(--display); font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; color: var(--fg); }
+    .price-val .n small { font-size: .9rem; color: var(--muted); font-weight: 400; }
+    .price-val .d { font-family: var(--mono); font-size: .68rem; color: var(--muted); }
+    .price-note { margin-top: 28px; font-size: .86rem; color: var(--muted); text-align: center; }
+    .price-note b { color: var(--success); font-weight: 600; }
+
+    /* ---------- TÉMOIGNAGES ---------- */
+    .tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .tst-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; background: var(--surface); display: flex; flex-direction: column; gap: 18px; }
+    .tst-card .quote { color: var(--muted); font-size: .92rem; line-height: 1.75; font-style: italic; flex: 1; }
+    .tst-stars { color: #e8b84b; font-size: .8rem; letter-spacing: 2px; }
+    .tst-who { display: flex; align-items: center; gap: 12px; }
+    .tst-avatar {
+      width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+      background: var(--accent-10); border: 1px solid var(--accent-20); color: var(--accent-light);
+      display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: .72rem; font-weight: 700;
+    }
+    .tst-who strong { font-size: .86rem; display: block; }
+    .tst-who span { font-size: .76rem; color: var(--muted); }
+    .tst-who a { color: var(--accent-light); text-decoration: none; }
+
+    /* ---------- FAQ ---------- */
+    .faq-list { max-width: 760px; }
+    .faq-item { border-top: 1px solid var(--border); }
+    .faq-item:last-child { border-bottom: 1px solid var(--border); }
+    .faq-trigger {
+      width: 100%; padding: 22px 4px; background: none; border: none; color: var(--fg); cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center; gap: 20px; text-align: left;
+      font-family: var(--font); font-size: 1rem; font-weight: 600; transition: color .2s;
+    }
+    .faq-trigger:hover { color: var(--accent-light); }
+    .faq-trigger .plus { font-family: var(--mono); color: var(--muted); font-size: 1.2rem; transition: transform .3s var(--ease), color .2s; flex-shrink: 0; }
+    .faq-item.open .faq-trigger .plus { transform: rotate(45deg); color: var(--accent-light); }
+    .faq-panel { max-height: 0; overflow: hidden; transition: max-height .5s var(--ease); }
+    .faq-panel p { padding: 0 4px 22px; color: var(--muted); font-size: .93rem; line-height: 1.75; max-width: 640px; }
+
+    /* ---------- CONTACT ---------- */
+    .contact-box {
+      max-width: 720px; margin: 0 auto; text-align: center;
+      border: 1px solid var(--border); border-radius: 16px; padding: 56px 40px; background: var(--surface);
+    }
+    .contact-box h2 { font-family: var(--display); font-size: clamp(1.7rem, 4vw, 2.4rem); font-weight: 600; letter-spacing: -0.03em; margin-bottom: 14px; }
+    .contact-box > p { color: var(--muted); margin-bottom: 32px; }
+    .contact-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .contact-mail { margin-top: 28px; font-family: var(--mono); font-size: .86rem; color: var(--muted); }
+    .contact-mail a { color: var(--accent-light); text-decoration: none; border-bottom: 1px solid var(--accent-50); }
+
+    /* ---------- FOOTER ---------- */
+    footer { padding: 56px 0 40px; border-bottom: none; }
+    .footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 32px; flex-wrap: wrap; padding-bottom: 40px; }
+    .footer-brand p { color: var(--muted); font-size: .84rem; margin-top: 10px; max-width: 320px; }
+    .footer-col h4 { font-family: var(--mono); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: var(--fg); text-decoration: none; font-size: .86rem; transition: color .2s; }
+    .footer-col a:hover { color: var(--accent-light); }
+    .footer-bottom { border-top: 1px solid var(--border); padding-top: 22px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom p { font-size: .76rem; color: var(--muted); }
+
+    /* ---------- DEVIS ---------- */
+    .page-devis { padding-top: 120px; }
+    .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); text-decoration: none; font-size: .84rem; font-weight: 500; margin-bottom: 32px; transition: color .2s; }
+    .back-link:hover { color: var(--fg); }
+    .devis-box { max-width: 720px; margin: 0 auto; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 44px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-size: .78rem; font-weight: 600; margin-bottom: 8px; color: var(--fg); }
+    .form-group input, .form-group select {
+      width: 100%; padding: 12px 14px; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 9px; color: var(--fg); font: 400 .94rem var(--font); outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .form-group input:focus, .form-group select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-10); }
+    .form-step { display: none; }
+    .form-step.active { display: block; animation: pageIn .4s var(--ease) both; }
+    .pay-step { text-align: center; padding: 16px 0; }
+    .pay-step h3 { font-family: var(--display); font-size: 1.6rem; font-weight: 600; margin-bottom: 8px; }
+    .pay-step .pay-sub { color: var(--muted); font-size: .92rem; margin-bottom: 24px; }
+    .pay-amount { font-family: var(--display); font-size: 3.8rem; font-weight: 700; color: var(--accent-light); line-height: 1; letter-spacing: -0.03em; margin-bottom: 24px; }
+    .pay-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px; }
+    .pay-note { color: var(--muted); font-size: .84rem; }
+
+    /* ---------- FAB / MOBILE CTA ---------- */
+    .chat-fab {
+      position: fixed; bottom: 22px; right: 22px; z-index: 998; width: 52px; height: 52px; border-radius: 50%;
+      background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center;
+      text-decoration: none; box-shadow: 0 6px 24px var(--accent-20); transition: all .3s var(--ease);
+      border: none; cursor: pointer;
+    }
+    .chat-fab:hover { transform: scale(1.08); background: var(--accent2); }
+    .chat-fab svg { width: 22px; height: 22px; }
+    .mobile-cta {
+      display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 997;
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+      background: var(--bg); border-top: 1px solid var(--border);
+    }
+    .mobile-cta .btn { width: 100%; }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (min-width: 769px) { .hamburger { display: none; } }
+    @media (max-width: 768px) {
+      body { padding-bottom: 70px; }
+      .mobile-cta { display: block; }
+      .chat-fab { bottom: calc(78px + env(safe-area-inset-bottom)); right: 16px; width: 46px; height: 46px; }
+      section { padding: 72px 0; }
+      .container { padding: 0 20px; }
+      .hero { padding: 120px 0 64px; }
+      .nav-links {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 10;
+        background: rgba(7, 10, 16, .98); flex-direction: column; justify-content: center; gap: 12px;
+        transform: translateY(-100%); opacity: 0; transition: all .4s var(--ease);
+      }
+      .nav-links.open { transform: translateY(0); opacity: 1; }
+      .nav-links a { font-size: 1.05rem; padding: 12px 24px; }
+      .nav-links .btn { margin-left: 0; margin-top: 10px; }
+      .hamburger { display: flex; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .stat { border-bottom: 1px solid var(--border); }
+      .stat:nth-child(2) { border-right: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 32px; }
+      .project-row { grid-template-columns: 40px 1fr; gap: 16px; }
+      .project-meta { grid-column: 2; flex-direction: row; align-items: center; }
+      .price-row { grid-template-columns: 1fr; gap: 16px; }
+      .price-val { align-items: flex-start; text-align: left; }
+      .tst-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .devis-box { padding: 30px 20px; }
+      .contact-box { padding: 40px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="root">
+  <!-- ===================== HEADER ===================== -->
+  <header>
+    <nav class="container">
+      <a href="#" class="logo" onclick="nav('home');return false">
+        <strong>Malty<span class="dot">.</span></strong><small>développeur web</small>
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#" onclick="nav('home','#projets');return false">Projets</a></li>
+        <li><a href="#" onclick="nav('home','#tarifs');return false">Tarifs</a></li>
+        <li><a href="#" onclick="nav('home','#faq');return false">FAQ</a></li>
+        <li><a href="#" class="btn btn-primary" onclick="nav('devis');return false">Devis gratuit</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ===================== ACCUEIL ===================== -->
+    <div id="page-home" class="page active">
+
+      <!-- HERO -->
+      <section class="hero">
+        <div class="container">
+          <div class="hero-status"><span class="dot"></span>Disponible pour de nouveaux projets</div>
+          <h1>Des sites web rapides, élégants, <span class="accent">qui rapportent.</span></h1>
+          <p>Salut, moi c'est <strong>Malty</strong>. Je suis développeur web indépendant. Je crée des sites vitrine, des e-commerces et des landing pages pour des artisans, des commerçants et des entreprises — <strong>sans agence, sans abonnement</strong>. Vous restez propriétaire de votre site et de votre code.</p>
+          <div class="hero-actions">
+            <a href="#" class="btn btn-primary btn-lg" onclick="nav('devis');return false">Demander un devis <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a href="#" class="btn btn-outline btn-lg" onclick="nav('home','#tarifs');return false">Voir les tarifs</a>
+          </div>
+          <div class="hero-proof">
+            <strong>460+ sites livrés</strong><span class="sep"></span>
+            <strong>4,9/5</strong> de satisfaction<span class="sep"></span>
+            <span>Réponse sous <strong>24h</strong></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- STATS -->
+      <div class="stats">
+        <div class="stat"><div class="v" data-count="100" data-suffix="/100">0</div><div class="k">Score Google Lighthouse</div></div>
+        <div class="stat"><div class="v">0,8s</div><div class="k">Temps de chargement</div></div>
+        <div class="stat"><div class="v" data-count="5" data-suffix=" j">0</div><div class="k">Délai moyen de livraison</div></div>
+        <div class="stat"><div class="v">0€</div><div class="k">Abonnement mensuel</div></div>
+      </div>
+
+      <!-- À PROPOS -->
+      <section id="apropos">
+        <div class="container">
+          <div class="about-grid">
+            <div class="about-visual reveal">
+              <svg viewBox="0 0 420 340" role="img" aria-label="Illustration d'un développeur à son bureau">
+                <defs>
+                  <linearGradient id="scr" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#0c1220"/>
+                    <stop offset="1" stop-color="#0a0f1a"/>
+                  </linearGradient>
+                  <radialGradient id="glow" cx="0.5" cy="0.4" r="0.7">
+                    <stop offset="0" stop-color="#38bdf8" stop-opacity="0.14"/>
+                    <stop offset="1" stop-color="#38bdf8" stop-opacity="0"/>
+                  </radialGradient>
+                </defs>
+                <rect width="420" height="340" fill="#0b111c"/>
+                <rect width="420" height="340" fill="url(#glow)"/>
+                <g stroke="#1c2740" stroke-width="1">
+                  <line x1="0" y1="68" x2="420" y2="68"/><line x1="0" y1="136" x2="420" y2="136"/>
+                  <line x1="0" y1="204" x2="420" y2="204"/><line x1="0" y1="272" x2="420" y2="272"/>
+                  <line x1="84" y1="0" x2="84" y2="340"/><line x1="168" y1="0" x2="168" y2="340"/>
+                  <line x1="252" y1="0" x2="252" y2="340"/><line x1="336" y1="0" x2="336" y2="340"/>
+                </g>
+                <rect x="60" y="300" width="300" height="16" rx="8" fill="#1a2436"/>
+                <rect x="68" y="296" width="284" height="6" rx="3" fill="#141c2c"/>
+                <rect x="72" y="236" width="148" height="62" rx="8" fill="url(#scr)" stroke="#232f47"/>
+                <rect x="80" y="248" width="40" height="5" rx="2" fill="#38bdf8"/>
+                <rect x="80" y="260" width="90" height="5" rx="2" fill="#2b3a58"/>
+                <rect x="80" y="272" width="66" height="5" rx="2" fill="#2b3a58"/>
+                <rect x="80" y="284" width="46" height="5" rx="2" fill="#34d399"/>
+                <rect x="130" y="292" width="32" height="8" rx="4" fill="#141c2c"/>
+                <rect x="250" y="250" width="90" height="60" rx="10" fill="#152039" stroke="#232f47"/>
+                <rect x="264" y="264" width="40" height="18" rx="4" fill="#38bdf8" opacity=".85"/>
+                <rect x="264" y="288" width="62" height="5" rx="2" fill="#2b3a58"/>
+                <rect x="258" y="310" width="74" height="8" rx="4" fill="#1a2436"/>
+                <circle cx="252" cy="216" r="34" fill="#e0a878"/>
+                <path d="M222 206 a30 26 0 0 1 60 0 l-2 8 a26 22 0 0 0 -56 0 z" fill="#151b2a"/>
+                <rect x="222" y="252" width="60" height="66" rx="14" fill="#2456c9"/>
+                <rect x="228" y="262" width="14" height="46" rx="6" fill="#1d46a8"/>
+                <rect x="262" y="262" width="14" height="46" rx="6" fill="#1d46a8"/>
+                <circle cx="196" cy="120" r="26" fill="none" stroke="#38bdf8" stroke-width="2" opacity=".5"/>
+                <circle cx="196" cy="120" r="6" fill="#38bdf8"/>
+                <path d="M216 108 a40 34 0 0 1 34 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="3 5" opacity=".6"/>
+              </svg>
+              <div class="about-caption">// moi, en train de coder votre prochain site</div>
+            </div>
+            <div class="about-text reveal">
+              <div class="sec-num">01 — À propos</div>
+              <h2 class="sec-title">Un développeur, <span class="accent">pas une agence.</span></h2>
+              <p>J'ai fait ce choix volontairement. Travailler en indépendant, c'est répondre <strong>directement</strong> à la personne qui écrit votre code : pas de commercial, pas de jargon inutile, pas de frais d'agence à payer.</p>
+              <p>Je code chaque site à la main. Ça veut dire des pages qui chargent vite, un score Google proche de 100, et aucune faille de sécurité liée aux CMS du commerce.</p>
+              <ul class="about-list">
+                <li><span class="mark">/</span><span>Réponse garantie sous <strong>24h</strong>, du premier message à la livraison</span></li>
+                <li><span class="mark">/</span><span>Vous êtes propriétaire de <strong>100% du code</strong>, hébergez où vous voulez</span></li>
+                <li><span class="mark">/</span><span><strong>Devis gratuit</strong> et sans engagement pour chaque projet</span></li>
+                <li><span class="mark">/</span><span>Garantie conformité de <strong>30 jours</strong> après la livraison</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJETS -->
+      <section id="projets">
+        <div class="container">
+          <div class="sec-top reveal">
+            <div class="sec-num">02 — Projets récents</div>
+            <h2 class="sec-title">Trois sites livrés <span class="accent">clés en main.</span></h2>
+          </div>
+          <a class="project-row reveal" href="../sites/digitalflow.html" target="_blank">
+            <div class="project-idx">/01</div>
+            <div class="project-main">
+              <h3>Digital Flow</h3>
+              <p>Agence de croissance digitale — vitrine pour capter des leads qualifiés.</p>
+            </div>
+            <div class="project-meta">
+              <span class="project-tag">Site vitrine</span>
+              <span class="project-go">Voir le site</span>
+            </div>
+          </a>
+          <a class="project-row reveal" href="../sites/marioconsulting.html" target="_blank">
+            <div class="project-idx">/02</div>
+            <div class="project-main">
+              <h3>Mario Consulting</h3>
+              <p>Conseil en stratégie exécutive — portfolio premium pour asseoir une image de marque.</p>
+            </div>
+            <div class="project-meta">
+              <span class="project-tag">Portfolio</span>
+              <span class="project-go">Voir le site</span>
+            </div>
+          </a>
+          <a class="project-row reveal" href="../sites/shopeco.html" target="_blank">
+            <div class="project-idx">/03</div>
+            <div class="project-main">
+              <h3>Shop Eco</h3>
+              <p>Boutique éco-responsable — e-commerce rapide, pensé pour convertir sur mobile.</p>
+            </div>
+            <div class="project-meta">
+              <span class="project-tag">E-commerce</span>
+              <span class="project-go">Voir le site</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- PROCESS -->
+      <section id="process">
+        <div class="container">
+          <div class="sec-top reveal">
+            <div class="sec-num">03 — Comment ça se passe</div>
+            <h2 class="sec-title">Un process simple, <span class="accent">sans surprise.</span></h2>
+          </div>
+          <div class="process-list">
+            <div class="process-item reveal">
+              <div class="process-num">1</div>
+              <div>
+                <h3>Vous me parlez de votre projet</h3>
+                <p>Par le formulaire de devis ou directement par email. Vous me décrivez votre activité, vos envies, votre budget. Je vous réponds sous 24h avec une estimation claire.</p>
+                <div class="hint"><b>Gratuit</b> et sans engagement</div>
+              </div>
+            </div>
+            <div class="process-item reveal">
+              <div class="process-num">2</div>
+              <div>
+                <h3>Je développe votre site</h3>
+                <p>Vous recevez une première version en ligne sous 48h pour voir où on va. Le développement continue avec votre validation étape par étape.</p>
+                <div class="hint">Preview sous <b>48h</b></div>
+              </div>
+            </div>
+            <div class="process-item reveal">
+              <div class="process-num">3</div>
+              <div>
+                <h3>On ajuste ensemble</h3>
+                <p>Textes, couleurs, photos : tout se calibre pendant le projet. Vous n'avez rien à comprendre, vous n'avez qu'à dire ce qui vous plaît ou pas.</p>
+                <div class="hint">Autant d'allers-retours <b>que nécessaire</b></div>
+              </div>
+            </div>
+            <div class="process-item reveal">
+              <div class="process-num">4</div>
+              <div>
+                <h3>Vous recevez votre site</h3>
+                <p>Fichiers sources, guide de mise en ligne pas à pas, et support pour l'installation sur votre hébergeur. Votre site vous appartient, à 100%.</p>
+                <div class="hint">Garantie conformité <b>30 jours</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TARIFS -->
+      <section id="tarifs">
+        <div class="container">
+          <div class="sec-top reveal">
+            <div class="sec-num">04 — Tarifs</div>
+            <h2 class="sec-title">Des prix fixes, <span class="accent">un paiement unique.</span></h2>
+            <p class="sec-desc">Pas de forfait caché, pas d'abonnement mensuel. Vous payez une fois, vous êtes propriétaire.</p>
+          </div>
+
+          <div class="price-row reveal" data-plan="Pack Landing Page">
+            <div>
+              <div class="price-head"><span class="price-name">Landing Page</span></div>
+              <p class="sec-desc" style="margin-top:6px;font-size:.9rem">Une page de vente unique, ultra-rapide, pour transformer vos publicités en clients.</p>
+              <div class="price-feats"><span>Structure de vente</span><span>Score 100</span><span>Mobile-first</span><span>Livrée sous 5 j</span></div>
+            </div>
+            <div class="price-val"><div class="n">99€ <small>une fois</small></div><div class="d">/ délai 3–5 j</div></div>
+          </div>
+
+          <div class="price-row reveal" data-plan="Pack Portfolio">
+            <div>
+              <div class="price-head"><span class="price-name">Portfolio</span></div>
+              <p class="sec-desc" style="margin-top:6px;font-size:.9rem">Une vitrine élégante pour créatifs et freelances qui veulent vendre leurs services.</p>
+              <div class="price-feats"><span>Design premium</span><span>Galeries</span><span>SEO image</span><span>Livré sous 7 j</span></div>
+            </div>
+            <div class="price-val"><div class="n">249€ <small>une fois</small></div><div class="d">/ délai 5–7 j</div></div>
+          </div>
+
+          <div class="price-row reco reveal" data-plan="Pack Site Vitrine">
+            <div>
+              <div class="price-head"><span class="price-name">Site Vitrine</span><span class="price-badge">Le plus choisi</span></div>
+              <p class="sec-desc" style="margin-top:6px;font-size:.9rem">Un site complet multi-pages pour asseoir votre marque et générer des demandes de devis.</p>
+              <div class="price-feats"><span>Multi-pages</span><span>SEO complet</span><span>Blog intégré</span><span>CRM & réseaux</span><span>Livré sous 10 j</span></div>
+            </div>
+            <div class="price-val"><div class="n">449€ <small>une fois</small></div><div class="d">/ délai 7–10 j</div></div>
+          </div>
+
+          <div class="price-row reveal" data-plan="Pack Sur-Mesure">
+            <div>
+              <div class="price-head"><span class="price-name">Sur-Mesure</span></div>
+              <p class="sec-desc" style="margin-top:6px;font-size:.9rem">Un site unique avec vos fonctionnalités spécifiques, sans aucune limite technique.</p>
+              <div class="price-feats"><span>Design exclusif</span><span>Fonctions métier</span><span>Documentation</span><span>Livré sous 21 j</span></div>
+            </div>
+            <div class="price-val"><div class="n">899€ <small>une fois</small></div><div class="d">/ délai 14–21 j</div></div>
+          </div>
+
+          <p class="price-note">Besoin de conseil pour choisir ? <a href="#" onclick="nav('devis');return false" style="color:var(--accent-light)">Demandez un devis</a>, je vous oriente gratuitement.</p>
+        </div>
+      </section>
+
+      <!-- TÉMOIGNAGES -->
+      <section id="avis">
+        <div class="container">
+          <div class="sec-top reveal">
+            <div class="sec-num">05 — Ils ont testé</div>
+            <h2 class="sec-title">Ce que disent <span class="accent">mes clients.</span></h2>
+          </div>
+          <div class="tst-grid">
+            <div class="tst-card reveal">
+              <div class="tst-stars">★★★★★</div>
+              <p class="quote">« J'ai pris le pack Site Vitrine pour mon agence. Résultat : 40% de demandes de devis en plus. La vitesse du site est bluffante. »</p>
+              <div class="tst-who">
+                <div class="tst-avatar">JS</div>
+                <div><strong>Julien S.</strong><span>Fondateur, <a href="../sites/digitalflow.html" target="_blank">Digital Flow</a></span></div>
+              </div>
+            </div>
+            <div class="tst-card reveal">
+              <div class="tst-stars">★★★★★</div>
+              <p class="quote">« Malty a transformé ma vision en un outil de vente puissant. Le site est devenu ma meilleure carte de visite. »</p>
+              <div class="tst-who">
+                <div class="tst-avatar">MC</div>
+                <div><strong>Marie C.</strong><span>Consultante, <a href="../sites/marioconsulting.html" target="_blank">Mario Consulting</a></span></div>
+              </div>
+            </div>
+            <div class="tst-card reveal">
+              <div class="tst-stars">★★★★★</div>
+              <p class="quote">« Reçu le code source de ma landing en 4 jours. ROI immédiat sur mes campagnes publicitaires. Service direct, on échange avec le vrai développeur. »</p>
+              <div class="tst-who">
+                <div class="tst-avatar">TP</div>
+                <div><strong>Thomas P.</strong><span>E-commerçant, <a href="../sites/shopeco.html" target="_blank">Shop Eco</a></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq">
+        <div class="container">
+          <div class="sec-top reveal">
+            <div class="sec-num">06 — FAQ</div>
+            <h2 class="sec-title">Les questions <span class="accent">qu'on me pose.</span></h2>
+          </div>
+          <div class="faq-list" id="faqList"></div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="contact-section">
+        <div class="container">
+          <div class="contact-box reveal">
+            <h2>Envie d'en discuter ?</h2>
+            <p>Racontez-moi votre projet, je vous réponds sous 24h avec une estimation claire. Gratuit, sans engagement.</p>
+            <div class="contact-actions">
+              <a href="#" class="btn btn-primary btn-lg" onclick="nav('devis');return false">Demander un devis <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+              <a href="mailto:maltyz@outlook.fr" class="btn btn-outline btn-lg">Envoyer un email</a>
+            </div>
+            <div class="contact-mail">ou par email : <a href="mailto:maltyz@outlook.fr">maltyz@outlook.fr</a></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===================== DEVIS ===================== -->
+    <div id="page-devis" class="page page-devis">
+      <section>
+        <div class="container">
+          <a href="#" class="back-link" onclick="nav('home');return false">← Retour à l'accueil</a>
+          <div class="sec-top">
+            <div class="sec-num">Devis gratuit</div>
+            <h2 class="sec-title">Parlons de votre <span class="accent">projet.</span></h2>
+            <p class="sec-desc">Remplissez le formulaire, je vous réponds sous 24h. Rien de ce que vous écrivez ici ne vous engage.</p>
+          </div>
+          <div class="devis-box">
+            <div class="form-step active" id="formStep1">
+              <form id="devisForm">
+                <div class="form-row">
+                  <div class="form-group"><label for="f-nom">Votre nom / Entreprise</label><input id="f-nom" type="text" name="nom" placeholder="Jean Dupont" required></div>
+                  <div class="form-group"><label for="f-email">Votre email</label><input id="f-email" type="email" name="email" placeholder="jean@entreprise.fr" required></div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group"><label for="f-tel">Téléphone</label><input id="f-tel" type="tel" name="telephone" placeholder="06 12 34 56 78"></div>
+                  <div class="form-group"><label for="formuleSelect">Type de site</label>
+                    <select name="formule" id="formuleSelect" required>
+                      <option value="" disabled selected>Choisir...</option>
+                      <option value="Landing Page">Landing Page — 99€</option>
+                      <option value="Portfolio">Portfolio — 249€</option>
+                      <option value="Vitrine">Site Vitrine — 449€</option>
+                      <option value="Premium">Sur-Mesure — 899€</option>
+                      <option value="Je ne sais pas encore">Je ne sais pas encore</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group"><label for="f-msg">Décrivez votre projet</label><textarea id="f-msg" name="message" rows="4" placeholder="Votre activité, ce que vous voulez, votre budget..." style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:9px;color:var(--fg);font:400 .94rem var(--font);outline:none;resize:vertical;transition:border-color .2s,box-shadow .2s"></textarea></div>
+                <div style="display:flex;gap:12px;flex-wrap:wrap">
+                  <button type="submit" class="btn btn-primary" style="flex:1">Envoyer ma demande</button>
+                  <button type="button" class="btn btn-outline" onclick="directPay()">Commander directement →</button>
+                </div>
+              </form>
+            </div>
+            <div class="form-step" id="formStep2">
+              <div class="pay-step">
+                <h3>Règlement sécurisé</h3>
+                <p class="pay-sub">Vous savez exactement ce qu'il vous faut ? Payez en ligne, je lance le projet immédiatement.</p>
+                <div class="pay-amount" id="payAmount"></div>
+                <div class="pay-actions">
+                  <a href="#" class="btn btn-primary btn-lg" id="btnStripe" target="_blank">Payer par carte</a>
+                  <a href="#" class="btn btn-outline btn-lg" id="btnPaypal" target="_blank">Payer par PayPal</a>
+                </div>
+                <p class="pay-note">Paiement sécurisé Stripe ou PayPal. Une fois réglé, cliquez pour m'envoyer le brief de votre projet.</p>
+                <button class="btn btn-outline" style="width:100%;margin-top:18px" onclick="confirmPay()">J'ai payé — envoyer mon brief</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#" class="logo" onclick="nav('home');return false"><strong>Malty<span class="dot">.</span></strong></a>
+          <p>Développeur web indépendant. Sites vitrine, e-commerce et landing pages — livrés clés en main.</p>
+        </div>
+        <div class="footer-col"><h4>Navigation</h4><ul>
+          <li><a href="#" onclick="nav('home','#projets');return false">Projets</a></li>
+          <li><a href="#" onclick="nav('home','#tarifs');return false">Tarifs</a></li>
+          <li><a href="#" onclick="nav('home','#faq');return false">FAQ</a></li>
+          <li><a href="#" onclick="nav('devis');return false">Devis gratuit</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Ressources</h4><ul>
+          <li><a href="../ou-acheter.html" target="_blank">Guide domaine & hébergement</a></li>
+          <li><a href="../maintenance.html">Maintenance de site</a></li>
+          <li><a href="../support.html">Support</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Contact</h4><ul>
+          <li><a href="mailto:maltyz@outlook.fr">maltyz@outlook.fr</a></li>
+          <li><a href="#" onclick="nav('devis');return false">Formulaire de devis</a></li>
+        </ul></div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 MALTY PRODUCTIONS. Tous droits réservés.</p>
+        <p style="font-family:var(--mono);font-size:.72rem">Conçu et codé à la main, avec soin.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<a href="../support.html" class="chat-fab" aria-label="Support">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</a>
+
+<div class="mobile-cta" id="mobileCta">
+  <a href="#" class="btn btn-primary" onclick="nav('devis');return false">Devis gratuit — dès 99€</a>
+</div>
+
+<script>
+  /* ===== HEADER / MENU ===== */
+  var header = document.querySelector('header');
+  var hamburger = document.getElementById('hamburger');
+  var navLinks = document.getElementById('navLinks');
+
+  hamburger.addEventListener('click', function () {
+    hamburger.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () { hamburger.classList.remove('open'); navLinks.classList.remove('open'); });
+  });
+  window.addEventListener('scroll', function () {
+    header.style.boxShadow = window.scrollY > 40 ? '0 6px 24px rgba(0,0,0,.35)' : 'none';
+  });
+
+  /* ===== REVEAL + COMPTEURS ===== */
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(function (el) { observer.observe(el); });
+
+  var countObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        var el = entry.target;
+        if (!el.dataset.animated && el.dataset.count) {
+          el.dataset.animated = '1';
+          var target = parseInt(el.dataset.count, 10);
+          var suffix = el.dataset.suffix || '';
+          var current = 0;
+          var step = Math.max(1, Math.floor(target / 40));
+          var interval = setInterval(function () {
+            current += step;
+            if (current >= target) { current = target; clearInterval(interval); }
+            el.textContent = current + suffix;
+          }, 40);
+        }
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.stat .v').forEach(function (el) {
+    if (el.dataset.count) countObserver.observe(el);
+  });
+
+  /* ===== NAV SPA ===== */
+  function nav(pageId, anchor) {
+    hamburger.classList.remove('open');
+    navLinks.classList.remove('open');
+    var mobileCta = document.getElementById('mobileCta');
+    var chatFab = document.querySelector('.chat-fab');
+    if (mobileCta) mobileCta.style.display = pageId === 'devis' ? 'none' : '';
+    if (chatFab) chatFab.style.display = pageId === 'devis' ? 'none' : '';
+    var old = document.querySelector('.page.active');
+    var next = document.getElementById('page-' + pageId);
+    if (old === next) {
+      if (anchor) { var el = document.querySelector(anchor); if (el) el.scrollIntoView({ behavior: 'smooth' }); }
+      else { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+      return;
+    }
+    if (old) { old.classList.remove('active'); old.style.display = 'none'; }
+    next.style.display = 'block';
+    next.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (anchor) { setTimeout(function () { var el = document.querySelector(anchor); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 400); }
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.remove('visible'); observer.observe(el); });
+  }
+
+  /* ===== FAQ ===== */
+  var FAQ = [
+    { q: "Combien coûte réellement un site ?", a: "Mes prix sont forfaitaires et affichés clairement : de 99€ pour une landing page à 899€ pour un site sur-mesure. Vous payez une seule fois, il n'y a aucun abonnement caché, et vous êtes propriétaire du code source." },
+    { q: "Quel est le délai de livraison ?", a: "Une landing page est livrée en 3 à 5 jours, un portfolio en 5 à 7 jours, un site vitrine en 7 à 10 jours. Un projet sur-mesure peut demander jusqu'à 3 semaines selon le contenu et les ajustements." },
+    { q: "Suis-je vraiment propriétaire de mon site ?", a: "Oui, à 100%. Vous recevez les fichiers sources et pouvez les héberger chez le prestataire de votre choix (OVH, Hostinger, Vercel...). Aucune redevance, aucun verrouillage." },
+    { q: "Le site sera-t-il bien référencé sur Google ?", a: "L'optimisation SEO fait partie du travail : structure HTML propre, pages ultra-rapides, méta-données soignées et images optimisées. C'est ce qui fait que votre site plaira aux robots comme aux visiteurs." },
+    { q: "Le site fonctionnera-t-il sur mobile ?", a: "Tous mes sites sont conçus en 'mobile-first' : ils s'adaptent parfaitement au smartphone, à la tablette et à l'ordinateur. C'est la norme, pas une option." },
+    { q: "Et si je veux modifier des choses après la livraison ?", a: "Vous bénéficiez d'une garantie de conformité de 30 jours pour corriger tout bug. Ensuite, je propose des prestations ponctuelles de modification, ou un forfait maintenance mensuel si vous préférez." },
+    { q: "Pourquoi pas WordPress ou Wix ?", a: "WordPress est souvent lent, très ciblé par les hackers, et il vous enferme dans des plugins payants à l'année. Un site codé à la main charge en moins d'une seconde, obtient un score 100 et n'a pas ces failles." },
+    { q: "Comment se déroule le paiement ?", a: "Le règlement se fait en une fois, au lancement du projet, par carte bancaire (Stripe) ou PayPal. Tous les paiements sont sécurisés." }
+  ];
+
+  var faqList = document.getElementById('faqList');
+  faqList.innerHTML = FAQ.map(function (item) {
+    return '<div class="faq-item reveal">' +
+      '<button class="faq-trigger" onclick="toggleFAQ(this)">' +
+        '<span>' + item.q + '</span><span class="plus">+</span>' +
+      '</button>' +
+      '<div class="faq-panel"><p>' + item.a + '</p></div>' +
+    '</div>';
+  }).join('');
+  faqList.querySelectorAll('.reveal').forEach(function (el) { observer.observe(el); });
+
+  function toggleFAQ(btn) {
+    var item = btn.parentElement;
+    var panel = item.querySelector('.faq-panel');
+    var isOpen = item.classList.contains('open');
+    item.classList.toggle('open');
+    if (isOpen) panel.style.maxHeight = '0';
+    else panel.style.maxHeight = panel.scrollHeight + 'px';
+  }
+
+  /* ===== DEVIS / PAIEMENT ===== */
+  var WEBHOOK = 'https://script.google.com/macros/s/AKfycbxQEV9C2XvMGJuStVEEBSP8kqCH8zFWUCvsxS1QBiVAkeY77EdxpgQN35Btjpvi20h4/exec';
+
+  var PLANS = {
+    "Landing Page": { id: 'landing', prix: 99, stripe: 'https://buy.stripe.com/14A8wJ6Jtgd17I48RS0oM05', paypal: 'https://paypal.me/Maltyzz/99' },
+    "Portfolio": { id: 'portfolio', prix: 249, stripe: 'https://buy.stripe.com/aFa00d4Bl1i78M8c440oM06', paypal: 'https://paypal.me/Maltyzz/249' },
+    "Vitrine": { id: 'vitrine', prix: 449, stripe: 'https://buy.stripe.com/dRm8wJaZJ8KzgeA4BC0oM07', paypal: 'https://paypal.me/Maltyzz/449' },
+    "Premium": { id: 'premium', prix: 899, stripe: 'https://buy.stripe.com/7sY9AN8RB8Kz0fC4BC0oM08', paypal: 'https://paypal.me/Maltyzz/899' }
+  };
+
+  function selectPlan(nom) {
+    nav('devis');
+    var sel = document.getElementById('formuleSelect');
+    var map = { "Pack Landing Page": "Landing Page", "Pack Portfolio": "Portfolio", "Pack Site Vitrine": "Vitrine", "Pack Sur-Mesure": "Premium" };
+    if (sel) sel.value = map[nom] || nom;
+  }
+
+  function directPay() {
+    var sel = document.getElementById('formuleSelect');
+    if (!sel || !sel.value || sel.value === 'Je ne sais pas encore') { alert('Sélectionnez d\'abord un type de site.'); return; }
+    var form = document.getElementById('devisForm');
+    if (form) {
+      var fd = new FormData(form);
+      var data = Object.fromEntries(fd);
+      data._subject = 'Nouvelle commande MALTY - ' + (data.nom || 'Client');
+      data._replyto = data.email;
+      fetch(WEBHOOK, { method: 'POST', headers: { Accept: 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).catch(function () {});
+    }
+    showPay(sel.value);
+  }
+
+  function showPay(nom) {
+    var p = PLANS[nom];
+    if (!p) { alert('Type de site non reconnu'); return; }
+    var amt = document.getElementById('payAmount');
+    var sBtn = document.getElementById('btnStripe');
+    var pBtn = document.getElementById('btnPaypal');
+    if (amt) amt.textContent = p.prix + '€';
+    if (sBtn) sBtn.href = p.stripe;
+    if (pBtn) pBtn.href = p.paypal;
+    document.getElementById('formStep1').classList.remove('active');
+    document.getElementById('formStep2').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function confirmPay() { window.location.href = '../merci.html'; }
+
+  var devisForm = document.getElementById('devisForm');
+  if (devisForm) {
+    devisForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var fd = new FormData(e.target);
+      var formule = fd.get('formule');
+      var data = Object.fromEntries(fd);
+      data._subject = 'Nouveau contact MALTY - ' + (data.nom || 'Anonyme');
+      data._replyto = data.email;
+      var btn = e.target.querySelector('button[type="submit"]');
+      var orig = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Envoi...';
+      if (formule === 'Je ne sais pas encore' || !formule) {
+        fetch(WEBHOOK, { method: 'POST', headers: { Accept: 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+          .then(function (r) { if (r.ok) { alert('Message envoyé ! Je vous réponds sous 24h.'); e.target.reset(); } else { alert('Erreur d\'envoi, réessayez ou écrivez-moi par email.'); } })
+          .catch(function () { alert('Erreur réseau. Envoyez-moi un email à maltyz@outlook.fr'); })
+          .finally(function () { btn.disabled = false; btn.textContent = orig; });
+      } else {
+        fetch(WEBHOOK, { method: 'POST', headers: { Accept: 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+          .catch(function () {})
+          .finally(function () { btn.disabled = false; btn.textContent = orig; showPay(formule); });
+      }
+    });
+  }
+
+  /* Clic sur les packs tarifaires */
+  document.querySelectorAll('.price-row').forEach(function (row) {
+    row.addEventListener('click', function (e) {
+      if (e.target.closest('a')) return;
+      selectPlan(row.dataset.plan);
+    });
+  });
+</script>
+</body>
+</html>
