@@ -339,6 +339,12 @@ module.exports = async (req, res) => {
         mobile: geo.mobile, proxy: geo.proxy, date: now
       });
 
+      // Index des visites récentes (la plus récente en premier)
+      const idsRaw = await redisGet('visit:ids');
+      const ids = Array.isArray(idsRaw) ? idsRaw : [];
+      ids.unshift(visitId);
+      await redisSet('visit:ids', ids.slice(0, 200));
+
       return res.status(200).json({ ok: true });
     } catch(e) {
       return res.status(200).json({ ok: true });
@@ -516,6 +522,18 @@ module.exports = async (req, res) => {
       await sendTelegram(`✅ DEMANDE ACCEPTÉE\n\nClient: ${r.nom}\nEmail: ${r.email}\nType: ${r.type}\nDate: ${r.respondedAt}`);
 
       return res.status(200).json({ success: true, message: 'Demande acceptée, email envoyé au client' });
+    }
+
+    // LIST RECENT VISITS (for dashboard "Visites" tab)
+    if (req.method === 'GET' && action === 'visits') {
+      const idsRaw = await redisGet('visit:ids');
+      const ids = Array.isArray(idsRaw) ? idsRaw : [];
+      const visits = [];
+      for (const id of ids.slice(0, 100)) {
+        const v = await redisGet(id);
+        if (v) visits.push(v);
+      }
+      return res.status(200).json({ visits: visits, total: visits.length });
     }
 
     // ACCEPT REQUEST from Telegram URL button (no auth needed)
